@@ -42,4 +42,5 @@
         app:itemIconTint="@color/color_bottom_nav"
         app:itemTextColor="@color/color_bottom_nav"
         app:itemActiveIndicatorStyle="@color/white"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

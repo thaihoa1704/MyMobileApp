@@ -4,6 +4,7 @@ package com.example.myapplication.Repositories;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.myapplication.Listener.FireStoreCartProductList;
 import com.example.myapplication.Models.CartProduct;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,7 +23,9 @@ public class CartProductRepository {
     private String userId;
     private CollectionReference collectionReference;
     private MutableLiveData<Boolean> check;
-    public CartProductRepository() {
+    private FireStoreCartProductList fireStoreCartProductList;
+    public CartProductRepository(FireStoreCartProductList fireStoreCartProductList) {
+        this.fireStoreCartProductList = fireStoreCartProductList;
         this.db = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
         this.userId = firebaseAuth.getUid();
@@ -78,5 +81,17 @@ public class CartProductRepository {
                         check.postValue(false);
                     }
                 });
+    }
+    public void getCartProductList(){
+        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    fireStoreCartProductList.onCallbackCartProductList(task.getResult().toObjects(CartProduct.class));
+                }else {
+
+                }
+            }
+        });
     }
 }

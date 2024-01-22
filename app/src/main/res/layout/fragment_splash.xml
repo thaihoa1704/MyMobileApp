@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Xin chào"
         android:textSize="40dp"
-        android:layout_marginTop="200dp"/>
+        android:layout_marginTop="200dp"
+        android:textColor="@color/black"/>
 
 </LinearLayout>

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:id="@+id/frame_layout_category"
     tools:context=".Fragments.CategoryFragment">
@@ -33,7 +34,9 @@
                     android:id="@+id/card_phone"
                     android:layout_width="match_parent"
                     android:layout_height="130dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="@color/button"
+                    android:theme="@style/Theme.MaterialComponents.Light">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -49,7 +52,9 @@
                     android:id="@+id/card_laptop"
                     android:layout_width="match_parent"
                     android:layout_height="130dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="@color/button"
+                    android:theme="@style/Theme.MaterialComponents.Light">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -65,7 +70,9 @@
                     android:id="@+id/card_headphone"
                     android:layout_width="match_parent"
                     android:layout_height="130dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="@color/button"
+                    android:theme="@style/Theme.MaterialComponents.Light">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
