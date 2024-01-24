@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.Helper.Convert;
 import com.example.myapplication.Listener.ChangeQuantityListener;
+import com.example.myapplication.Listener.ChangeSelectProductListener;
 import com.example.myapplication.Listener.ClickItemProductListener;
 import com.example.myapplication.Models.CartProduct;
 import com.example.myapplication.databinding.ItemCardProductBinding;
@@ -22,14 +23,17 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     private Context context;
     private ClickItemProductListener clickItemProductListener;
     private ChangeQuantityListener changeQuantityListener;
+    private ChangeSelectProductListener changeSelectProductListener;
     public void setData(Context context, List<CartProduct> list){
         this.context = context;
         this.list = list;
     }
     public CartProductAdapter(ClickItemProductListener clickItemProductListener,
-                              ChangeQuantityListener changeQuantityListener){
+                              ChangeQuantityListener changeQuantityListener,
+                              ChangeSelectProductListener changeSelectProductListener){
         this.clickItemProductListener = clickItemProductListener;
         this.changeQuantityListener = changeQuantityListener;
+        this.changeSelectProductListener = changeSelectProductListener;
     }
     @NonNull
     @Override
@@ -66,7 +70,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             binding.tvProductName.setText(cartProduct.getProduct().getProductName());
             binding.tvPrice.setText(Convert.DinhDangTien(cartProduct.getProduct().getPrice()) + " VND");
             binding.tvQuantity.setText(cartProduct.getQuantity() + "");
-            binding.checkBox.setChecked(false);
+            //binding.checkBox.setChecked(cartProduct.isSelect());
 
             binding.imgProduct.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -97,9 +101,9 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                 @Override
                 public void onClick(View view) {
                     if (binding.checkBox.isChecked()){
-
+                        changeSelectProductListener.onChangeSelect(cartProduct, true);
                     }else {
-
+                        changeSelectProductListener.onChangeSelect(cartProduct, false);
                     }
                 }
             });

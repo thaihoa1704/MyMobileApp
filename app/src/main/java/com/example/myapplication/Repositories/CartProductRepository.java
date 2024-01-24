@@ -118,4 +118,32 @@ public class CartProductRepository {
             }
         });
     }
+
+    public void selectProduct(CartProduct cartProduct, boolean select){
+        collectionReference.document(cartProduct.getProduct().getProductId())
+                .update("select", select)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }
+
+    public void getListSelected(){
+        collectionReference.whereEqualTo("select", true).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            fireStoreCartProductList.onCallbackListSelected(task.getResult().toObjects(CartProduct.class));
+                        }
+                    }
+                });
+    }
 }

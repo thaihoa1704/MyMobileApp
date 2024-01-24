@@ -62,7 +62,7 @@
                 android:layout_marginLeft="10dp">
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="22dp"
+                    android:layout_height="24dp"
                     android:textSize="18dp"
                     android:textColor="@color/black"
                     android:text="Tổng thanh toán:"/>
@@ -71,7 +71,9 @@
                     android:textSize="20dp"
                     android:textColor="@color/black"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:text="0 VND"
+                    android:gravity="center_vertical"/>
             </LinearLayout>
 
             <Button
@@ -80,6 +82,7 @@
                 android:layout_height="match_parent"
                 android:text="Mua hàng"
                 android:textSize="20dp"
+                android:gravity="center"
                 android:background="@drawable/btn_buy"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,7 +49,7 @@ public class DetailProductFragment extends Fragment {
         binding.tvPrice.setText(Convert.DinhDangTien(product.getPrice()) + " VND");
         binding.tvDescription.setText(product.getDescription());
 
-        CartProduct cartProduct = new CartProduct(product, 1);
+        CartProduct cartProduct = new CartProduct(product, 1, false);
 
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override

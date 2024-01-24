@@ -3,10 +3,12 @@ package com.example.myapplication.Models;
 public class CartProduct {
     private Product product;
     private int quantity;
+    private boolean select;
 
-    public CartProduct(Product product, int quantity) {
+    public CartProduct(Product product, int quantity, boolean select) {
         this.product = product;
         this.quantity = quantity;
+        this.select = select;
     }
 
     public CartProduct() {
@@ -26,5 +28,13 @@ public class CartProduct {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
     }
 }
