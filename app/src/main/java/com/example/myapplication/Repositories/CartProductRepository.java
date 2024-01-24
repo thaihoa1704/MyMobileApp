@@ -43,7 +43,7 @@ public class CartProductRepository {
                 if (task.isSuccessful()){
                     DocumentSnapshot documentSnapshot = task.getResult();
                     if (documentSnapshot.exists()){
-                        updateProductInCart(cartProduct);
+                        incrementQuantityProductInCart(cartProduct);
                     }else {
                         addProductToCart(cartProduct);
                     }
@@ -67,7 +67,7 @@ public class CartProductRepository {
                     }
                  });
     }
-    public void updateProductInCart(CartProduct cartProduct){
+    public void incrementQuantityProductInCart(CartProduct cartProduct){
         collectionReference.document(cartProduct.getProduct().getProductId())
                 .update("quantity", FieldValue.increment(1))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -79,6 +79,30 @@ public class CartProductRepository {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         check.postValue(false);
+                    }
+                });
+    }
+    public void decrementQuantityProductInCart(CartProduct cartProduct){
+        collectionReference.document(cartProduct.getProduct().getProductId())
+                .update("quantity", FieldValue.increment(-1))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        check.postValue(true);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        check.postValue(false);
+                    }
+                });
+    }
+    public void deleteProductInCart(CartProduct cartProduct){
+        collectionReference.document(cartProduct.getProduct().getProductId()).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
                     }
                 });
     }

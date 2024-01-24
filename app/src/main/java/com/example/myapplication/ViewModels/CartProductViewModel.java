@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.myapplication.Listener.FireStoreCartProductList;
 import com.example.myapplication.Models.CartProduct;
+import com.example.myapplication.Models.Product;
 import com.example.myapplication.Repositories.CartProductRepository;
 
 import java.util.List;
@@ -28,7 +29,20 @@ public class CartProductViewModel extends ViewModel implements FireStoreCartProd
     public void onCallbackCartProductList(List<CartProduct> list) {
         cartProductList.postValue(list);
     }
+    public void getList(){
+        repository.getCartProductList();
+    }
+    public void incrementQuantity(CartProduct cartProduct){
+        repository.incrementQuantityProductInCart(cartProduct);
+    }
+    public void decrementQuantity(CartProduct cartProduct){
+        repository.decrementQuantityProductInCart(cartProduct);
+    }
     public MutableLiveData<List<CartProduct>> getCartProductList() {
         return cartProductList;
+    }
+
+    public void deleteProduct(CartProduct cartProduct) {
+        repository.deleteProductInCart(cartProduct);
     }
 }

@@ -9,6 +9,9 @@ public class CartProduct {
         this.quantity = quantity;
     }
 
+    public CartProduct() {
+    }
+
     public Product getProduct() {
         return product;
     }
