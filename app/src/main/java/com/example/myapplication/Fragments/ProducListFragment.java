@@ -87,7 +87,7 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
 
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frame_layout_shopping, fragment);
+        fragmentTransaction.add(R.id.frame_layout_product_list, fragment);
         fragmentTransaction.addToBackStack(DetailProductFragment.class.getName());
         fragmentTransaction.commit();
     }

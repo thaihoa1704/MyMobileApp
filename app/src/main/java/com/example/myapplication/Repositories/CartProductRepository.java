@@ -12,10 +12,16 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.WriteBatch;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CartProductRepository {
     private FirebaseFirestore db;
@@ -145,5 +151,35 @@ public class CartProductRepository {
                         }
                     }
                 });
+    }
+    public void selectNoneAllProduct(){
+        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    List<String> list = new ArrayList<>();
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                        list.add(queryDocumentSnapshot.getId());
+                    }
+                    updateData(list);
+                }else {
+
+                }
+            }
+        });
+    }
+
+    private void updateData(List<String> list) {
+        WriteBatch batch = db.batch();
+        for (int i = 0; i < list.size(); i++){
+            DocumentReference document = collectionReference.document(list.get(i));
+            batch.update(document, "select", false);
+        }
+        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        });
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -70,7 +71,12 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             binding.tvProductName.setText(cartProduct.getProduct().getProductName());
             binding.tvPrice.setText(Convert.DinhDangTien(cartProduct.getProduct().getPrice()) + " VND");
             binding.tvQuantity.setText(cartProduct.getQuantity() + "");
-            //binding.checkBox.setChecked(cartProduct.isSelect());
+            //binding.checkBox.setOnCheckedChangeListener(null);
+            if (cartProduct.isSelect() == true){
+                binding.checkBox.setChecked(true);
+            }else {
+                //binding.checkBox.setChecked(false);
+            }
 
             binding.imgProduct.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -97,13 +103,15 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                 }
             });
 
-            binding.checkBox.setOnClickListener(new View.OnClickListener() {
+            binding.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View view) {
-                    if (binding.checkBox.isChecked()){
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isCheck) {
+                    if (isCheck){
                         changeSelectProductListener.onChangeSelect(cartProduct, true);
+                        notifyDataSetChanged();
                     }else {
                         changeSelectProductListener.onChangeSelect(cartProduct, false);
+                        notifyDataSetChanged();
                     }
                 }
             });

@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,14 +51,14 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(CartProductViewModel.class);
+        viewModel.selectNoneAllProduct();
         adapter = new CartProductAdapter(this, this, this);
+
+        setDataAdapter();
 
         binding.rcvCartProductList.setHasFixedSize(true);
         binding.rcvCartProductList.setLayoutManager(new LinearLayoutManager(requireActivity()));
         binding.rcvCartProductList.setAdapter(adapter);
-
-        setDataAdapter();
-        binding.tvTotal.setText("O VND");
     }
 
     @Override
@@ -89,6 +90,7 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
     @Override
     public void onChangeSelect(CartProduct cartProduct, boolean aBoolean) {
         viewModel.selectProduct(cartProduct, aBoolean);
+        setDataAdapter();
         setDataListSelected();
     }
 
@@ -104,11 +106,12 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
     }
     private void setDataListSelected(){
         viewModel.getListSelected();
-        viewModel.getListProductSelected().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
+        MutableLiveData<List<CartProduct>> listMutableLiveData = viewModel.getProductSelectedList();
+        listMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
             @Override
             public void onChanged(List<CartProduct> list) {
                 if (list.isEmpty()){
-
+                    binding.tvTotal.setText("0 VND");
                 }else {
                     int total = 0;
                     for (CartProduct item : list){
