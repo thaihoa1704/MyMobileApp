@@ -141,17 +141,6 @@ public class CartProductRepository {
                 });
     }
 
-    public void getListSelected(){
-        collectionReference.whereEqualTo("select", true).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            fireStoreCartProductList.onCallbackListSelected(task.getResult().toObjects(CartProduct.class));
-                        }
-                    }
-                });
-    }
     public void selectNoneAllProduct(){
         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override

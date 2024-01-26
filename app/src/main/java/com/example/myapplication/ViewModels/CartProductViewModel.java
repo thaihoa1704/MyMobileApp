@@ -14,12 +14,10 @@ public class CartProductViewModel extends ViewModel implements FireStoreCartProd
     private CartProductRepository repository;
     private MutableLiveData<Boolean> checkCartProduct;
     private MutableLiveData<List<CartProduct>> cartProductList;
-    private MutableLiveData<List<CartProduct>> productSelectedList;
 
     public CartProductViewModel(){
         this.repository = new CartProductRepository(this);
         this.cartProductList = new MutableLiveData<>();
-        this.productSelectedList = new MutableLiveData<>();
         this.checkCartProduct = repository.getCheck();
     }
     public void checkProductInCart(CartProduct cartProduct){
@@ -32,20 +30,8 @@ public class CartProductViewModel extends ViewModel implements FireStoreCartProd
     public void onCallbackCartProductList(List<CartProduct> list) {
         cartProductList.postValue(list);
     }
-    @Override
-    public void onCallbackListSelected(List<CartProduct> list) {
-        productSelectedList.postValue(list);
-    }
     public void getList(){
         repository.getCartProductList();
-    }
-
-    public void getListSelected(){
-        repository.getListSelected();
-    }
-
-    public MutableLiveData<List<CartProduct>> getProductSelectedList() {
-        return productSelectedList;
     }
 
     public void incrementQuantity(CartProduct cartProduct){

@@ -54,11 +54,10 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
         viewModel.selectNoneAllProduct();
         adapter = new CartProductAdapter(this, this, this);
 
-        setDataAdapter();
-
         binding.rcvCartProductList.setHasFixedSize(true);
         binding.rcvCartProductList.setLayoutManager(new LinearLayoutManager(requireActivity()));
         binding.rcvCartProductList.setAdapter(adapter);
+        setDataAdapter();
     }
 
     @Override
@@ -70,28 +69,24 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
     public void deleteProduct(CartProduct cartProductt) {
         viewModel.deleteProduct(cartProductt);
         setDataAdapter();
-        setDataListSelected();
     }
 
     @Override
     public void incrementQuantity(CartProduct cartProduct) {
         viewModel.incrementQuantity(cartProduct);
         setDataAdapter();
-        setDataListSelected();
     }
 
     @Override
     public void decrementQuantity(CartProduct cartProduct) {
         viewModel.decrementQuantity(cartProduct);
         setDataAdapter();
-        setDataListSelected();
     }
 
     @Override
     public void onChangeSelect(CartProduct cartProduct, boolean aBoolean) {
         viewModel.selectProduct(cartProduct, aBoolean);
         setDataAdapter();
-        setDataListSelected();
     }
 
     private void setDataAdapter(){
@@ -101,23 +96,16 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
             public void onChanged(List<CartProduct> list) {
                 adapter.setData(requireActivity(), list);
                 adapter.notifyDataSetChanged();
-            }
-        });
-    }
-    private void setDataListSelected(){
-        viewModel.getListSelected();
-        MutableLiveData<List<CartProduct>> listMutableLiveData = viewModel.getProductSelectedList();
-        listMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
-            @Override
-            public void onChanged(List<CartProduct> list) {
                 if (list.isEmpty()){
                     binding.tvTotal.setText("0 VND");
                 }else {
                     int total = 0;
                     for (CartProduct item : list){
-                        int a = item.getProduct().getPrice();
-                        int b = item.getQuantity();
-                        total += a * b;
+                        if (item.isSelect()){
+                            int b = item.getQuantity();
+                            int a = item.getProduct().getPrice();
+                            total += a * b;
+                        }
                     }
                     binding.tvTotal.setText(Convert.DinhDangTien(total) + " VND");
                 }

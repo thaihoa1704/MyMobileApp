@@ -71,12 +71,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             binding.tvProductName.setText(cartProduct.getProduct().getProductName());
             binding.tvPrice.setText(Convert.DinhDangTien(cartProduct.getProduct().getPrice()) + " VND");
             binding.tvQuantity.setText(cartProduct.getQuantity() + "");
-            //binding.checkBox.setOnCheckedChangeListener(null);
-            if (cartProduct.isSelect() == true){
-                binding.checkBox.setChecked(true);
-            }else {
-                //binding.checkBox.setChecked(false);
-            }
+            binding.checkBox.setChecked(cartProduct.isSelect());
 
             binding.imgProduct.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -103,16 +98,10 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                 }
             });
 
-            binding.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            binding.checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean isCheck) {
-                    if (isCheck){
-                        changeSelectProductListener.onChangeSelect(cartProduct, true);
-                        notifyDataSetChanged();
-                    }else {
-                        changeSelectProductListener.onChangeSelect(cartProduct, false);
-                        notifyDataSetChanged();
-                    }
+                public void onClick(View view) {
+                    changeSelectProductListener.onChangeSelect(cartProduct, binding.checkBox.isChecked());
                 }
             });
         }

@@ -27,7 +27,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="8dp"
                 android:scaleX="1.5"
-                android:scaleY="1.5" />
+                android:scaleY="1.5"
+                android:checked="false"/>
 
             <ImageView
                 android:id="@+id/img_product"
