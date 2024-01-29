@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.myapplication.Helper.Convert;
 import com.example.myapplication.Listener.ChangeQuantityListener;
 import com.example.myapplication.Listener.ChangeSelectProductListener;
+import com.example.myapplication.Listener.ClickDeleteItem;
 import com.example.myapplication.Listener.ClickItemProductListener;
 import com.example.myapplication.Models.CartProduct;
 import com.example.myapplication.databinding.ItemCardProductBinding;
@@ -25,16 +26,19 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     private ClickItemProductListener clickItemProductListener;
     private ChangeQuantityListener changeQuantityListener;
     private ChangeSelectProductListener changeSelectProductListener;
+    private ClickDeleteItem clickDeleteItem;
     public void setData(Context context, List<CartProduct> list){
         this.context = context;
         this.list = list;
     }
     public CartProductAdapter(ClickItemProductListener clickItemProductListener,
                               ChangeQuantityListener changeQuantityListener,
-                              ChangeSelectProductListener changeSelectProductListener){
+                              ChangeSelectProductListener changeSelectProductListener,
+                              ClickDeleteItem clickDeleteItem){
         this.clickItemProductListener = clickItemProductListener;
         this.changeQuantityListener = changeQuantityListener;
         this.changeSelectProductListener = changeSelectProductListener;
+        this.clickDeleteItem = clickDeleteItem;
     }
     @NonNull
     @Override
@@ -58,6 +62,10 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             return list.size();
         }
         return 0;
+    }
+
+    public void deleteItemAt(int position) {
+        clickDeleteItem.onDeleteItem(list.get(position));
     }
 
     public class CartProductViewHolder extends RecyclerView.ViewHolder {

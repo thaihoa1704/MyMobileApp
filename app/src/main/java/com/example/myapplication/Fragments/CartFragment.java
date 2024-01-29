@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,8 +23,10 @@ import android.widget.Toast;
 import com.example.myapplication.Adapters.CartProductAdapter;
 import com.example.myapplication.Helper.Convert;
 import com.example.myapplication.Helper.SwipeItem;
+import com.example.myapplication.Helper.SwipeToDeleteItem;
 import com.example.myapplication.Listener.ChangeQuantityListener;
 import com.example.myapplication.Listener.ChangeSelectProductListener;
+import com.example.myapplication.Listener.ClickDeleteItem;
 import com.example.myapplication.Listener.ClickItemProductListener;
 import com.example.myapplication.Listener.MyButtonClickListener;
 import com.example.myapplication.Models.CartProduct;
@@ -36,10 +39,11 @@ import java.util.List;
 
 
 public class CartFragment extends Fragment implements ClickItemProductListener, ChangeQuantityListener
-                                                        , ChangeSelectProductListener {
+        , ChangeSelectProductListener, ClickDeleteItem {
     private FragmentCartBinding binding;
     private CartProductAdapter adapter;
     private CartProductViewModel viewModel;
+    private SwipeToDeleteItem swipe;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,29 +61,14 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
 
         viewModel = new ViewModelProvider(this).get(CartProductViewModel.class);
         viewModel.selectNoneAllProduct();
-        adapter = new CartProductAdapter(this, this, this);
+
+        adapter = new CartProductAdapter(this, this, this, this);
 
         binding.rcvCartProductList.setHasFixedSize(true);
         binding.rcvCartProductList.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
-        SwipeItem swipeItem = new SwipeItem(requireContext(), binding.rcvCartProductList, 180){
-            @Override
-            public void instantiateMyButton(RecyclerView.ViewHolder viewHolder, List<SwipeItem.MyButton> buffer) {
-                buffer.add(new MyButton(requireContext()
-                        , " "
-                        , 2
-                        , R.drawable.trash_can_icon
-                        , Color.parseColor("#FF3C30")
-                        , new MyButtonClickListener(){
-                    @Override
-                    public void onClick(int pos) {
-                        Toast.makeText(requireContext(), "Đã xoá sản phẩm khỏi giỏ hàng!", Toast.LENGTH_SHORT).show();
-                    }
-                }));
-            }
-        };
-
         binding.rcvCartProductList.setAdapter(adapter);
+
         setDataAdapter();
     }
 
@@ -145,5 +134,11 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
         fragmentTransaction.add(R.id.frame_layout_cart, fragment);
         fragmentTransaction.addToBackStack(DetailProductFragment.class.getName());
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onDeleteItem(CartProduct cartProduct) {
+        viewModel.deleteProduct(cartProduct);
+        setDataAdapter();
     }
 }
