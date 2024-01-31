@@ -20,7 +20,6 @@ import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.UserViewModel;
 
 public class SplashFragment extends Fragment {
-
     private NavController navController;
     private UserViewModel viewModel;
     @Override

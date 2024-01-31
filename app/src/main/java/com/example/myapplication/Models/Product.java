@@ -10,7 +10,16 @@ public class Product implements Serializable {
     private String category;
     private String brand;
     private String description;
+    private int quantity;
     public Product() {
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getProductId() {

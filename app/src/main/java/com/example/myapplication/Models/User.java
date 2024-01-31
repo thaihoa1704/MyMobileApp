@@ -12,14 +12,15 @@ public class User implements Serializable {
     private String phone;
     private String password;
     private String userType;
-
-    public User(String userId, String userName, String email, String phone, String password, String userType) {
+    private String address;
+    public User(String userId, String userName, String email, String phone, String password, String userType, String address) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
         this.phone = phone;
         this.password = password;
         this.userType = userType;
+        this.address = address;
     }
 
     public User() {
@@ -71,6 +72,14 @@ public class User implements Serializable {
 
     public void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public boolean validateEmail(){

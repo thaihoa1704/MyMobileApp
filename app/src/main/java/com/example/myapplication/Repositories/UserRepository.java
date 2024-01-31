@@ -26,30 +26,19 @@ public class UserRepository {
     private MutableLiveData<Boolean> loggedOutLiveData;
     private MutableLiveData<User> userLogin;
     private FirebaseFirestore db;
-    private User userLogged;
-    public UserRepository(Application application) {
+    private FireStoreCallbackUser fireStoreCallbackUser;
+    public UserRepository(Application application, FireStoreCallbackUser fireStoreCallbackUser) {
         this.application = application;
         this.firebaseAuth = FirebaseAuth.getInstance();
         this.db = FirebaseFirestore.getInstance();
         this.userLiveData = new MutableLiveData<>();
         this.loggedOutLiveData = new MutableLiveData<>();
         this.userLogin = new MutableLiveData<>();
-        this.userLogged = new User();
+        this.fireStoreCallbackUser = fireStoreCallbackUser;
 
         if (firebaseAuth.getCurrentUser() != null) {
             userLiveData.postValue(firebaseAuth.getCurrentUser());
             loggedOutLiveData.postValue(false);
-            userLogged(new FireStoreCallbackUser() {
-                @Override
-                public void onCallback(User user) {
-                    userLogged.setUserId(user.getUserId());
-                    userLogged.setUserName(user.getUserName());
-                    userLogged.setEmail(user.getEmail());
-                    userLogged.setPhone(user.getPhone());
-                    userLogged.setPassword(user.getPassword());
-                    userLogged.setUserType(user.getUserType());
-                }
-            });
         }
     }
     public FirebaseUser getCurrentUser(){return firebaseAuth.getCurrentUser();}
@@ -59,7 +48,6 @@ public class UserRepository {
     }
     public MutableLiveData<User> getUserLogin(){return userLogin;}
 
-    public User getUser() {return userLogged;}
     public void userRegister(User user){
         firebaseAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -81,6 +69,7 @@ public class UserRepository {
 
         user.setUserId(uid);
         user.setUserType(userType);
+        user.setAddress(null);
 
         //Add info user into Cloud FireStore
         //Path: Users/uid/...
@@ -125,7 +114,7 @@ public class UserRepository {
             }
         });
     }
-    private void userLogged(FireStoreCallbackUser fireStoreCallbackUser){
+    private void userLogged(){
         String uid = firebaseAuth.getUid();
         DocumentReference documentRef = db.collection("User").document(uid);
         documentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

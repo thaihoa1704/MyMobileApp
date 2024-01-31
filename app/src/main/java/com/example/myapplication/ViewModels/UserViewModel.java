@@ -5,11 +5,13 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
+
+import com.example.myapplication.Listener.FireStoreCallbackUser;
 import com.example.myapplication.Models.User;
 import com.google.firebase.auth.FirebaseUser;
 import com.example.myapplication.Repositories.UserRepository;
 
-public class UserViewModel extends AndroidViewModel {
+public class UserViewModel extends AndroidViewModel implements FireStoreCallbackUser {
     private UserRepository repository;
     private FirebaseUser currentUser;
     private MutableLiveData<FirebaseUser> userLiveData;
@@ -18,12 +20,12 @@ public class UserViewModel extends AndroidViewModel {
     private User userLogged;
     public UserViewModel(@NonNull Application application) {
         super(application);
-        this.repository = new UserRepository(application);
+        this.repository = new UserRepository(application, this);
         this.currentUser = repository.getCurrentUser();
         this.userLiveData = repository.getUserLiveData();
         this.loggedOutLiveData = repository.getLoggedOutLiveData();
         this.userlogin = repository.getUserLogin();
-        this.userLogged = repository.getUser();
+        this.userLogged = new User();
     }
     public FirebaseUser getCurrentUser() {
         return currentUser;
@@ -44,5 +46,8 @@ public class UserViewModel extends AndroidViewModel {
     }
     public MutableLiveData<User> getUserLogin(){return userlogin;}
     public User getUserLogged(){return userLogged;}
-
+    @Override
+    public void onCallback(User user) {
+        userLogged = user;
+    }
 }

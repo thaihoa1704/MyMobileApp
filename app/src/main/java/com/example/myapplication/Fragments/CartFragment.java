@@ -31,6 +31,7 @@ import com.example.myapplication.Listener.ClickItemProductListener;
 import com.example.myapplication.Listener.MyButtonClickListener;
 import com.example.myapplication.Models.CartProduct;
 import com.example.myapplication.Models.Product;
+import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.CartProductViewModel;
 import com.example.myapplication.databinding.FragmentCartBinding;
@@ -58,6 +59,7 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        User user = (User) getArguments().getSerializable("UserLogin");
 
         viewModel = new ViewModelProvider(this).get(CartProductViewModel.class);
         viewModel.selectNoneAllProduct();
@@ -70,6 +72,17 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
         binding.rcvCartProductList.setAdapter(adapter);
 
         setDataAdapter();
+
+        binding.btnBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (binding.tvTotal.getText().equals("0 VND")){
+                    Toast.makeText(requireContext(), "Chọn sản phẩm bạn muốn thanh toán!", Toast.LENGTH_SHORT).show();
+                }else {
+                    addFragment1(new OrderFragment(), user);
+                }
+            }
+        });
     }
 
     @Override
@@ -133,6 +146,18 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.frame_layout_cart, fragment);
         fragmentTransaction.addToBackStack(DetailProductFragment.class.getName());
+        fragmentTransaction.commit();
+    }
+
+    private void addFragment1(Fragment fragment, User user){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("UserLogin", user);
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.frame_layout_cart, fragment);
+        fragmentTransaction.addToBackStack(OrderFragment.class.getName());
         fragmentTransaction.commit();
     }
 

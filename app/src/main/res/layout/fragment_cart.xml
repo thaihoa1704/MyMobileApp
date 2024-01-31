@@ -65,7 +65,7 @@
                     android:layout_height="25dp"
                     android:textSize="18dp"
                     android:textColor="@color/black"
-                    android:text="Tổng thanh toán:"/>
+                    android:text="Tổng giá trị:"/>
                 <TextView
                     android:id="@+id/tv_total"
                     android:textSize="22dp"
