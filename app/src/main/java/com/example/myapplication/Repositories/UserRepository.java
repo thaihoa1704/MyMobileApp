@@ -114,7 +114,7 @@ public class UserRepository {
             }
         });
     }
-    private void userLogged(){
+    public void userLogged(){
         String uid = firebaseAuth.getUid();
         DocumentReference documentRef = db.collection("User").document(uid);
         documentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -132,4 +132,5 @@ public class UserRepository {
         userLogin.postValue(null);
         loggedOutLiveData.postValue(true);
     }
+
 }

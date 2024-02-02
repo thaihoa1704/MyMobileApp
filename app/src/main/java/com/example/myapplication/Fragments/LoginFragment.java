@@ -9,6 +9,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +45,10 @@ public class LoginFragment extends Fragment {
 
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
         navController = Navigation.findNavController(view);
+
+        binding.btnLogin.setEnabled(false);
+        binding.textEmail.addTextChangedListener(textWatcher);
+        binding.textPass.addTextChangedListener(textWatcher);
 
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,4 +93,23 @@ public class LoginFragment extends Fragment {
             }
         });
     }
+
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String email = binding.textEmail.getText().toString().trim();
+            String pass = binding.textPass.getText().toString().trim();
+            binding.btnLogin.setEnabled(!email.isEmpty() && !pass.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
 }

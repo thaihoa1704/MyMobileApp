@@ -4,5 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#BE2528</color>
     <color name="yellow">#FFFFEB3B</color>
-    <color name="button">#12A4B6</color>
+    <color name="button">#606565</color>
+    <color name="gray">#FF606565</color>
+    <color name="main">#12A4B6</color>
 </resources>

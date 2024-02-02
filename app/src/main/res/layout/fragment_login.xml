@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="ĐĂNG NHẬP"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textColor="@color/black"/>
 
     <EditText
         android:id="@+id/text_email"

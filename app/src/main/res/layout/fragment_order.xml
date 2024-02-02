@@ -142,7 +142,7 @@
                     <TextView
                         android:id="@+id/tv_address"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="45dp"
                         android:layout_marginRight="15dp"
                         android:textColor="@color/black"
@@ -150,6 +150,39 @@
                         android:gravity="center_vertical"
                         android:text="42C Đường số 2 phố 9 Phường Bình Hưng Hoà A Quận Bình Tân TP. Hồ Chí Minh"/>
 
+                    <LinearLayout
+                        android:id="@+id/linearLayout_add_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="40dp">
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="30dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="3dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/img_add_address"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/add_icon"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Thêm địa chỉ giao hàng"
+                            android:gravity="center|left"
+                            android:textColor="@color/gray"/>
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -245,7 +278,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center|end"
-                            android:text="50.000 VND"
+                            android:text="50,000 VND"
                             android:textColor="@color/black"
                             android:textSize="20dp"
                             android:layout_marginRight="10dp"/>

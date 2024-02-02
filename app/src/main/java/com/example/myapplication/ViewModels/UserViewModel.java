@@ -45,9 +45,12 @@ public class UserViewModel extends AndroidViewModel implements FireStoreCallback
         return loggedOutLiveData;
     }
     public MutableLiveData<User> getUserLogin(){return userlogin;}
+    public void userLogged(){
+        repository.userLogged();
+    }
     public User getUserLogged(){return userLogged;}
     @Override
     public void onCallback(User user) {
-        userLogged = user;
+        userlogin.postValue(user);
     }
 }

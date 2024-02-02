@@ -11,9 +11,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.myapplication.Adapters.OrderProductAdapter;
 import com.example.myapplication.Helper.Convert;
@@ -51,7 +54,15 @@ public class OrderFragment extends Fragment {
         User user = (User) getArguments().getSerializable("UserLogin");
         binding.tvUserName.setText(user.getUserName());
         binding.tvPhone.setText(user.getPhone());
-        binding.tvAddress.setText(user.getAddress());
+        String address = user.getAddress();
+
+        if (address != ""){
+            binding.tvAddress.setText(address);
+            binding.linearLayoutAddAddress.setVisibility(View.INVISIBLE);
+        }else {
+            binding.tvAddress.setVisibility(View.INVISIBLE);
+            binding.linearLayoutAddAddress.setVisibility(View.VISIBLE);
+        }
 
         viewModel = new ViewModelProvider(this).get(CartProductViewModel.class);
         adapter = new OrderProductAdapter();
@@ -75,13 +86,24 @@ public class OrderFragment extends Fragment {
                         price += a * b;
                     }
                 }
-                binding.tvPriceProduct.setText(Convert.DinhDangTien(price) + "VND");
+                binding.tvPriceProduct.setText(Convert.DinhDangTien(price) + " VND");
                 int total = price + 50000;
-                binding.tvTotal.setText(Convert.DinhDangTien(total) + "VND");
-                binding.tvTotal1.setText(Convert.DinhDangTien(total) + "VND");
+                binding.tvTotal.setText(Convert.DinhDangTien(total) + " VND");
+                binding.tvTotal1.setText(Convert.DinhDangTien(total) + " VND");
 
                 adapter.setData(requireActivity(), orderList);
                 adapter.notifyDataSetChanged();
+            }
+        });
+
+        binding.btnOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (address == null){
+                    Toast.makeText(requireContext(), "Bạn chưa chọn địa điểm giao hàng!", Toast.LENGTH_SHORT).show();
+                }else {
+
+                }
             }
         });
 

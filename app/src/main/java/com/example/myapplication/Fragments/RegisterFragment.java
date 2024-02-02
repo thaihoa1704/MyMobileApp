@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +46,12 @@ public class RegisterFragment extends Fragment {
         navController = Navigation.findNavController(view);
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
+        binding.btnRegister.setEnabled(false);
+        binding.textName.addTextChangedListener(textWatcher);
+        binding.textEmail.addTextChangedListener(textWatcher);
+        binding.textPass.addTextChangedListener(textWatcher);
+        binding.textPhone.addTextChangedListener(textWatcher);
+
         binding.btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,5 +65,33 @@ public class RegisterFragment extends Fragment {
                 navController.navigate(R.id.action_registerFragment_to_loginFragment);
             }
         });
+
+        binding.imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.action_registerFragment_to_loginFragment);
+            }
+        });
     }
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String name = binding.textName.getText().toString().trim();
+            String email = binding.textEmail.getText().toString().trim();
+            String pass = binding.textPass.getText().toString().trim();
+            String phone = binding.textPhone.getText().toString().trim();
+
+            binding.btnRegister.setEnabled(!email.isEmpty() && !pass.isEmpty() && !name.isEmpty() && !phone.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
 }

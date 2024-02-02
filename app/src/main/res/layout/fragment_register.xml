@@ -3,68 +3,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="20dp"
     android:background="@color/white"
     tools:context=".Fragments.RegisterFragment">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="THÔNG TIN TÀI KHOẢN"
-        android:textSize="30sp" />
-
-    <EditText
-        android:id="@+id/text_name"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:hint="Họ tên"
-        android:textColor="@color/black"
-        android:textSize="23sp" />
-
-    <EditText
-        android:id="@+id/text_email"
+        android:layout_height="45dp">
+        <ImageView
+            android:layout_marginTop="8dp"
+            android:id="@+id/img_back"
+            android:layout_width="30dp"
+            android:layout_height="35dp"
+            android:src="@drawable/back_icon"
+            android:layout_marginLeft="5dp"/>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:hint="Email"
-        android:textColor="@color/black"
-        android:textSize="23sp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="center_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="THÔNG TIN TÀI KHOẢN"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
 
-    <EditText
-        android:id="@+id/text_phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:hint="Số điện thoại"
-        android:textColor="@color/black"
-        android:textSize="23sp" />
+        <EditText
+            android:id="@+id/text_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:hint="Họ tên"
+            android:textColor="@color/black"
+            android:textSize="23sp" />
 
-    <EditText
-        android:id="@+id/text_pass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:hint="Mật khẩu"
-        android:textColor="@color/black"
-        android:textSize="23sp" />
+        <EditText
+            android:id="@+id/text_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:hint="Email"
+            android:textColor="@color/black"
+            android:textSize="23sp" />
 
-    <TextView
-        android:id="@+id/edt_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_marginTop="30dp"/>
+        <EditText
+            android:id="@+id/text_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:hint="Số điện thoại"
+            android:textColor="@color/black"
+            android:textSize="23sp" />
 
-    <Button
-        android:id="@+id/btn_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Đăng ký"
-        android:textSize="21sp"/>
+        <EditText
+            android:id="@+id/text_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:hint="Mật khẩu"
+            android:textColor="@color/black"
+            android:textSize="23sp" />
+
+        <TextView
+            android:id="@+id/edt_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="30dp"/>
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Đăng ký"
+            android:textSize="21sp"/>
+    </LinearLayout>
 
 </LinearLayout>

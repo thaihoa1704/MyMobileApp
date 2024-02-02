@@ -51,7 +51,7 @@ public class DetailProductFragment extends Fragment {
 
         if (product.getQuantity() == 0){
             binding.btnAdd.setText("Hết hàng");
-            binding.btnAdd.setEnabled(true);
+            binding.btnAdd.setEnabled(false);
         }
 
         CartProduct cartProduct = new CartProduct(product, 1, false);

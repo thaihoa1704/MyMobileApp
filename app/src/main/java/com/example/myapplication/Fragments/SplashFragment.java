@@ -38,7 +38,7 @@ public class SplashFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = new ViewModelProvider(getActivity()).get(UserViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         navController = Navigation.findNavController(view);
 
         Handler handler = new Handler();
@@ -46,20 +46,27 @@ public class SplashFragment extends Fragment {
             @Override
             public void run() {
                 if(viewModel.getCurrentUser() != null){
-                    User user = viewModel.getUserLogged();
-                    String type = user.getUserType();
-                    if(type.equals("admin")){
-                        Intent intent = new Intent(requireActivity(), AdminActivity.class);
-                        //implements Serializable in class before send an object
-                        intent.putExtra("UserLogin", user);
-                        startActivity(intent);
-                        requireActivity().finish();
-                    }else {
-                        Intent intent = new Intent(requireActivity(), ShoppingActivity.class);
-                        intent.putExtra("UserLogin", user);
-                        startActivity(intent);
-                        requireActivity().finish();
-                    }
+                    viewModel.userLogged();
+                    //User user = viewModel.getUserLogged();
+                    //String type = user.getUserType();
+                    viewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
+                        @Override
+                        public void onChanged(User user) {
+                            String type = user.getUserType();
+                            if(type.equals("admin")){
+                                Intent intent = new Intent(requireActivity(), AdminActivity.class);
+                                //implements Serializable in class before send an object
+                                intent.putExtra("UserLogin", user);
+                                startActivity(intent);
+                                requireActivity().finish();
+                            }else {
+                                Intent intent = new Intent(requireActivity(), ShoppingActivity.class);
+                                intent.putExtra("UserLogin", user);
+                                startActivity(intent);
+                                requireActivity().finish();
+                            }
+                        }
+                    });
                 }else {
                     navController.navigate(R.id.action_splashFragment_to_loginFragment);
                 }
