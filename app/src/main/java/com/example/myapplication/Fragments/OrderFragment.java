@@ -1,5 +1,11 @@
 package com.example.myapplication.Fragments;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,11 +17,16 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.myapplication.Adapters.OrderProductAdapter;
@@ -25,6 +36,7 @@ import com.example.myapplication.Models.Product;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.CartProductViewModel;
+import com.example.myapplication.ViewModels.OrderViewModel;
 import com.example.myapplication.databinding.FragmentOrderBinding;
 
 import java.util.ArrayList;
@@ -32,7 +44,8 @@ import java.util.List;
 
 public class OrderFragment extends Fragment {
     private FragmentOrderBinding binding;
-    private CartProductViewModel viewModel;
+    private CartProductViewModel cartViewModel;
+    private OrderViewModel orderViewModel;
     private OrderProductAdapter adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,15 +77,18 @@ public class OrderFragment extends Fragment {
             binding.linearLayoutAddAddress.setVisibility(View.VISIBLE);
         }
 
-        viewModel = new ViewModelProvider(this).get(CartProductViewModel.class);
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
+
+        cartViewModel = new ViewModelProvider(this).get(CartProductViewModel.class);
+
         adapter = new OrderProductAdapter();
 
         binding.rcvCartProductList.setHasFixedSize(true);
         binding.rcvCartProductList.setLayoutManager(new LinearLayoutManager(requireActivity()));
         binding.rcvCartProductList.setAdapter(adapter);
 
-        viewModel.getList();
-        viewModel.getCartProductList().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
+        cartViewModel.getList();
+        cartViewModel.getCartProductList().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
             @Override
             public void onChanged(List<CartProduct> list) {
                 List<CartProduct> orderList = new ArrayList<>();
@@ -102,7 +118,7 @@ public class OrderFragment extends Fragment {
                 if (address == null){
                     Toast.makeText(requireContext(), "Bạn chưa chọn địa điểm giao hàng!", Toast.LENGTH_SHORT).show();
                 }else {
-
+                    openDialog(Gravity.CENTER);
                 }
             }
         });
@@ -117,5 +133,84 @@ public class OrderFragment extends Fragment {
     private void backToFragment() {
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentManager.popBackStack();
+    }
+    private void openDialog(int gravity){
+        final Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_order_layout);
+
+        Window window = dialog.getWindow();
+        if (window == null){
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = gravity;
+        window.setAttributes(windowAttributes);
+
+        if (Gravity.CENTER == gravity){
+            dialog.setCancelable(true);
+        }else {
+            dialog.setCancelable(false);
+        }
+
+        Button btnReturn = dialog.findViewById(R.id.btn_return);
+        Button btnOrder = dialog.findViewById(R.id.btn_order_dialog);
+
+        btnReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btnOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*orderViewModel.getProductSelected();
+                orderViewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
+                    @Override
+                    public void onChanged(List<CartProduct> list) {
+                        orderViewModel.addOrder(list);
+                        orderViewModel.deleteProductInCart(list);
+                        orderViewModel.updateQuantityProduct(list);
+
+                    }
+                });*/
+                dialog.dismiss();
+                loadingOrder();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void loadingOrder(){
+        final Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_loading_order_layout);
+
+        Window window = dialog.getWindow();
+        if (window == null){
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+
+        dialog.show();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dialog.dismiss();
+            }
+        }, 4000);
     }
 }
