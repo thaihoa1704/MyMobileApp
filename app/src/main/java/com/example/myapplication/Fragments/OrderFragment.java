@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
@@ -47,6 +49,7 @@ public class OrderFragment extends Fragment {
     private CartProductViewModel cartViewModel;
     private OrderViewModel orderViewModel;
     private OrderProductAdapter adapter;
+    private User user;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +67,7 @@ public class OrderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        User user = (User) getArguments().getSerializable("UserLogin");
+        user = (User) getArguments().getSerializable("UserLogin");
         binding.tvUserName.setText(user.getUserName());
         binding.tvPhone.setText(user.getPhone());
         String address = user.getAddress();
@@ -179,38 +182,44 @@ public class OrderFragment extends Fragment {
 
                     }
                 });*/
+
+                replaceFragment(new HandleOrderFragment(), user);
+
                 dialog.dismiss();
-                loadingOrder();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        replaceFragment1(new SHomeFragment(), user);
+
+                    }
+                }, 7000);
             }
         });
-
         dialog.show();
     }
 
-    private void loadingOrder(){
-        final Dialog dialog = new Dialog(requireContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_loading_order_layout);
+    private void replaceFragment(Fragment fragment, User user){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("UserLogin", user);
+        fragment.setArguments(bundle);
 
-        Window window = dialog.getWindow();
-        if (window == null){
-            return;
-        }
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout_cart, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
 
-        WindowManager.LayoutParams windowAttributes = window.getAttributes();
-        windowAttributes.gravity = Gravity.CENTER;
-        window.setAttributes(windowAttributes);
+    private void replaceFragment1(Fragment fragment, User user){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("UserLogin", user);
+        fragment.setArguments(bundle);
 
-        dialog.show();
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                dialog.dismiss();
-            }
-        }, 4000);
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout_shopping, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
