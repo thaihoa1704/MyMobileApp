@@ -21,7 +21,6 @@ import com.example.myapplication.databinding.FragmentHandleOrderBinding;
 
 public class HandleOrderFragment extends Fragment {
     private FragmentHandleOrderBinding binding;
-    private User user;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +37,6 @@ public class HandleOrderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        user = (User) getArguments().getSerializable("UserLogin");
         binding.constraintLayout.setVisibility(View.INVISIBLE);
 
         Handler handler = new Handler();
@@ -50,27 +48,7 @@ public class HandleOrderFragment extends Fragment {
                 AnimatedVectorDrawable drawable = (AnimatedVectorDrawable) binding.imgDone.getDrawable();
                 drawable.start();
                 binding.tvNotification.setText("Đặt hàng thành công!");
-                //replaceFragment(new SHomeFragment(), user);
             }
         }, 4000);
-
-        /*Handler handler1 = new Handler();
-        handler1.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                replaceFragment(new SHomeFragment(), user);
-            }
-        }, 8000);*/
-    }
-    private void replaceFragment(Fragment fragment, User user){
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("UserLogin", user);
-        fragment.setArguments(bundle);
-
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout_shopping, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
     }
 }

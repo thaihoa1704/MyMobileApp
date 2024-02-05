@@ -190,8 +190,7 @@ public class OrderFragment extends Fragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        replaceFragment1(new SHomeFragment(), user);
-
+                        replaceFragment1(new CartFragment(), user);
                     }
                 }, 7000);
             }
@@ -218,7 +217,7 @@ public class OrderFragment extends Fragment {
 
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout_shopping, fragment);
+        fragmentTransaction.replace(R.id.frame_layout_cart, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
