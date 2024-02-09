@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,6 +35,7 @@ import android.widget.Toast;
 import com.example.myapplication.Adapters.OrderProductAdapter;
 import com.example.myapplication.Helper.Convert;
 import com.example.myapplication.Models.CartProduct;
+import com.example.myapplication.Models.Order;
 import com.example.myapplication.Models.Product;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
@@ -90,11 +92,12 @@ public class OrderFragment extends Fragment {
         binding.rcvCartProductList.setLayoutManager(new LinearLayoutManager(requireActivity()));
         binding.rcvCartProductList.setAdapter(adapter);
 
+        List<CartProduct> orderList = new ArrayList<>();
+
         cartViewModel.getList();
         cartViewModel.getCartProductList().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
             @Override
             public void onChanged(List<CartProduct> list) {
-                List<CartProduct> orderList = new ArrayList<>();
                 int price = 0;
                 for (CartProduct item : list){
                     if (item.isSelect()){
@@ -121,7 +124,7 @@ public class OrderFragment extends Fragment {
                 if (address == null){
                     Toast.makeText(requireContext(), "Bạn chưa chọn địa điểm giao hàng!", Toast.LENGTH_SHORT).show();
                 }else {
-                    openDialog(Gravity.CENTER);
+                    openDialog(Gravity.CENTER, orderList);
                 }
             }
         });
@@ -137,7 +140,7 @@ public class OrderFragment extends Fragment {
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentManager.popBackStack();
     }
-    private void openDialog(int gravity){
+    private void openDialog(int gravity, List<CartProduct> list){
         final Dialog dialog = new Dialog(requireContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_order_layout);
@@ -172,17 +175,6 @@ public class OrderFragment extends Fragment {
         btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*orderViewModel.getProductSelected();
-                orderViewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
-                    @Override
-                    public void onChanged(List<CartProduct> list) {
-                        orderViewModel.addOrder(list);
-                        orderViewModel.deleteProductInCart(list);
-                        orderViewModel.updateQuantityProduct(list);
-
-                    }
-                });*/
-
                 replaceFragment(new HandleOrderFragment(), user);
 
                 dialog.dismiss();
@@ -190,6 +182,14 @@ public class OrderFragment extends Fragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        Order order = new Order();
+                        String address = binding.tvAddress.getText().toString().trim();
+                        int tatol = Convert.ChuyenTien(binding.tvTotal.getText().toString().trim());
+
+                        orderViewModel.addOrder(order, list, address, tatol);
+                        orderViewModel.deleteProductInCart(list);
+                        orderViewModel.updateQuantityProduct(list);
+
                         replaceFragment1(new CartFragment(), user);
                     }
                 }, 7000);

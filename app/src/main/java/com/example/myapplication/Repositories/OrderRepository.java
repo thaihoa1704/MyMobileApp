@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.myapplication.Listener.FireStoreCartProductList;
 import com.example.myapplication.Models.CartProduct;
+import com.example.myapplication.Models.Order;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,52 +24,43 @@ public class OrderRepository {
     private CollectionReference collectionReferenceOrder;
     private CollectionReference collectionReferenceCart;
     private CollectionReference collectionReferenceProduct;
-
     private String userId;
-    private FireStoreCartProductList fireStoreCartProductList;
     private MutableLiveData<Boolean> check;
 
 
-    public OrderRepository(FireStoreCartProductList fireStoreCartProductList){
+    public OrderRepository(){
         this.db = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
         this.userId = firebaseAuth.getUid();
         this.collectionReferenceOrder = db.collection("User").document(userId).collection("Order");
         this.collectionReferenceCart = db.collection("User").document(userId).collection("Cart");
         this.collectionReferenceProduct = db.collection("Product");
-        this.fireStoreCartProductList = fireStoreCartProductList;
         this.check = new MutableLiveData<>();
     }
     public MutableLiveData<Boolean> getCheck() {
         return check;
     }
 
-    public void getProductSelected(){
-        collectionReferenceCart.whereEqualTo("select", true)
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    public void addOrder(Order order, List<CartProduct> list, String address, int tatol){
+        long timestamp = System.currentTimeMillis();
+        order.setDateTime(timestamp);
+        order.setList(list);
+        order.setAddress(address);
+        order.setStatus("Chờ xác nhận");
+        order.setTotal(tatol);
+
+        collectionReferenceOrder.document(String.valueOf(timestamp)).set(order)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            fireStoreCartProductList.onCallbackCartProductList(task.getResult().toObjects(CartProduct.class));
-                        }
+                    public void onSuccess(Void unused) {
+                        check.postValue(true);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        check.postValue(false);
                     }
                 });
-    }
-    public void addOrder(List<CartProduct> list){
-        for (CartProduct item : list){
-            collectionReferenceOrder.document(item.getProduct().getProductId()).set(item)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            check.postValue(true);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            check.postValue(false);
-                        }
-                    });
-        }
     }
     public void deleteProductInCart(List<CartProduct> list){
         for (CartProduct item : list){
