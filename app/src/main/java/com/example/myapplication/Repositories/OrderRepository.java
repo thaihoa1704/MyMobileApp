@@ -16,7 +16,9 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class OrderRepository {
     private FirebaseFirestore db;
@@ -43,13 +45,21 @@ public class OrderRepository {
 
     public void addOrder(Order order, List<CartProduct> list, String address, int tatol){
         long timestamp = System.currentTimeMillis();
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("dateTime", FieldValue.serverTimestamp());
+        hashMap.put("address", address);
+        hashMap.put("listOrder", list);
+        hashMap.put("tatol", tatol);
+        hashMap.put("status", "Chờ xác nhận");
+
         order.setDateTime(timestamp);
         order.setList(list);
         order.setAddress(address);
         order.setStatus("Chờ xác nhận");
         order.setTotal(tatol);
 
-        collectionReferenceOrder.document(String.valueOf(timestamp)).set(order)
+        collectionReferenceOrder.document(String.valueOf(timestamp)).set(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {

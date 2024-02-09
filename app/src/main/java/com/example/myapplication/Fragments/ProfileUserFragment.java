@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.myapplication.Activities.MainActivity;
+import com.example.myapplication.Helper.Convert;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.UserViewModel;
 import com.example.myapplication.databinding.FragmentProfileUserBinding;
@@ -41,6 +42,7 @@ public class ProfileUserFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
         binding.btnOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
