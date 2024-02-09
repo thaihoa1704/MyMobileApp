@@ -43,7 +43,7 @@ public class OrderRepository {
         return check;
     }
 
-    public void addOrder(Order order, List<CartProduct> list, String address, int tatol){
+    public void addOrder(List<CartProduct> list, String address, int tatol){
         long timestamp = System.currentTimeMillis();
 
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -52,12 +52,6 @@ public class OrderRepository {
         hashMap.put("listOrder", list);
         hashMap.put("tatol", tatol);
         hashMap.put("status", "Chờ xác nhận");
-
-        order.setDateTime(timestamp);
-        order.setList(list);
-        order.setAddress(address);
-        order.setStatus("Chờ xác nhận");
-        order.setTotal(tatol);
 
         collectionReferenceOrder.document(String.valueOf(timestamp)).set(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

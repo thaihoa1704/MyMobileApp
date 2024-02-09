@@ -182,11 +182,10 @@ public class OrderFragment extends Fragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Order order = new Order();
                         String address = binding.tvAddress.getText().toString().trim();
                         int tatol = Convert.ChuyenTien(binding.tvTotal.getText().toString().trim());
 
-                        orderViewModel.addOrder(order, list, address, tatol);
+                        orderViewModel.addOrder(list, address, tatol);
                         orderViewModel.deleteProductInCart(list);
                         orderViewModel.updateQuantityProduct(list);
 

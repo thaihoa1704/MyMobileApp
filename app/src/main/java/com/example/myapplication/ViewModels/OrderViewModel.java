@@ -20,8 +20,8 @@ public class OrderViewModel extends ViewModel {
         this.listMutableLiveData = new MutableLiveData<>();
         this.checkOrder = repository.getCheck();
     }
-    public void addOrder(Order order, List<CartProduct> list, String address, int tatol){
-        repository.addOrder(order, list, address, tatol);
+    public void addOrder(List<CartProduct> list, String address, int tatol){
+        repository.addOrder(list, address, tatol);
     }
     public void deleteProductInCart(List<CartProduct> list){
         repository.deleteProductInCart(list);
