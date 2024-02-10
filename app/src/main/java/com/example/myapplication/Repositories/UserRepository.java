@@ -83,7 +83,7 @@ public class UserRepository {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(application.getApplicationContext(), "Registration Failure: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(application.getApplicationContext(), "Đăng ký thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -133,4 +133,14 @@ public class UserRepository {
         loggedOutLiveData.postValue(true);
     }
 
+    public void resetPassword(String email){
+        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    Toast.makeText(application.getApplicationContext(), "Liên kết đặt lại mật khẩu đã được gửi đến Email đăng ký của bạn!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 }

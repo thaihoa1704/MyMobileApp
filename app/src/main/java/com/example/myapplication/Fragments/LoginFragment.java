@@ -11,7 +11,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.text.Editable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +52,11 @@ public class LoginFragment extends Fragment {
         binding.textEmail.addTextChangedListener(textWatcher);
         binding.textPass.addTextChangedListener(textWatcher);
 
+        //Underline textView
+        SpannableString content = new SpannableString("Quên mật khẩu?");
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        binding.tvForgotPassword.setText(content);
+
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,10 +93,17 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        binding.btnRegister.setOnClickListener(new View.OnClickListener() {
+        binding.tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 navController.navigate(R.id.action_loginFragment_to_registerFragment);
+            }
+        });
+
+        binding.tvForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.action_loginFragment_to_forgotPasswordFragment);
             }
         });
     }

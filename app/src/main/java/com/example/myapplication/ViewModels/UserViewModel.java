@@ -53,4 +53,7 @@ public class UserViewModel extends AndroidViewModel implements FireStoreCallback
     public void onCallback(User user) {
         userlogin.postValue(user);
     }
+    public void resetPassword(String email){
+        repository.resetPassword(email);
+    }
 }

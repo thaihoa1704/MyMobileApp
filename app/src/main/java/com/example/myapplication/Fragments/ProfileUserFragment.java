@@ -51,7 +51,7 @@ public class ProfileUserFragment extends Fragment {
                     @Override
                     public void onChanged(Boolean loggedOut) {
                         if (loggedOut) {
-                            Toast.makeText(getContext(), "User Logged Out", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Tài khoản đã đăng xuất!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(requireActivity(), MainActivity.class);
                             startActivity(intent);
                             requireActivity().finish();
