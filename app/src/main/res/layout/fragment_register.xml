@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/white"
+    android:theme="@style/Theme"
     tools:context=".Fragments.RegisterFragment">
     <ImageView
         android:layout_marginTop="8dp"
@@ -27,41 +29,75 @@
             android:textColor="@color/black"
             android:textSize="30sp" />
 
-        <EditText
-            android:id="@+id/text_name"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            app:startIconDrawable="@drawable/person_icon"
+            android:textColor="@color/black"
             android:hint="Họ tên"
-            android:textColor="@color/black"
-            android:textSize="23sp" />
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <EditText
-            android:id="@+id/text_email"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_name"
+                android:textSize="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
+            app:startIconDrawable="@drawable/email_icon"
+            android:textColor="@color/black"
             android:hint="Email"
-            android:textColor="@color/black"
-            android:textSize="23sp" />
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <EditText
-            android:id="@+id/text_phone"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_email"
+                android:textSize="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
+            app:startIconDrawable="@drawable/call_icon"
+            android:textColor="@color/black"
             android:hint="Số điện thoại"
-            android:textColor="@color/black"
-            android:textSize="23sp" />
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <EditText
-            android:id="@+id/text_pass"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_phone"
+                android:textSize="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:hint="Mật khẩu"
+            android:layout_marginTop="20dp"
+            app:startIconDrawable="@drawable/lock_icon"
             android:textColor="@color/black"
-            android:textSize="23sp" />
+            android:hint="Mật khẩu"
+            app:endIconMode="password_toggle"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_pass"
+                android:textSize="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/edt_message"
@@ -73,7 +109,7 @@
         <Button
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginTop="30dp"
             android:text="Đăng ký"
             android:textSize="21sp"/>
