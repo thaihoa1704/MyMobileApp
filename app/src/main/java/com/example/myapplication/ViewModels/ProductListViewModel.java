@@ -19,6 +19,9 @@ public class ProductListViewModel extends ViewModel implements FireStoreCallback
     public void getProductList(String categoryName){
         repository.getProductData(categoryName);
     }
+    public void getAllProduct(){
+        repository.getAllProductData();
+    }
     @Override
     public void onProductListLoad(List<Product> list) {
         listMutableLiveData.setValue(list);

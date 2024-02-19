@@ -60,8 +60,7 @@ public class CategoryFragment extends Fragment {
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.frame_layout_category, fragment);
-        fragmentTransaction.addToBackStack(ProducListFragment.class.getName());
+        fragmentTransaction.addToBackStack(fragment.getClass().getName());
         fragmentTransaction.commit();
     }
-
 }

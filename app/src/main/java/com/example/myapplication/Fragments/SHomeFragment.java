@@ -39,6 +39,13 @@ public class SHomeFragment extends Fragment {
         User user = (User) getArguments().getSerializable("UserLogin");
         binding.txtName.setText(user.getUserName());
 
+        binding.tvSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addFragment(new SearchFragment());
+            }
+        });
+
         binding.imgPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +85,15 @@ public class SHomeFragment extends Fragment {
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.frame_layout_shome, fragment);
-        fragmentTransaction.addToBackStack(ProducListFragment.class.getName());
+        fragmentTransaction.addToBackStack(fragment.getClass().getName());
+        fragmentTransaction.commit();
+    }
+
+    private void addFragment(Fragment fragment){
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.frame_layout_shome, fragment);
+        fragmentTransaction.addToBackStack(fragment.getClass().getName());
         fragmentTransaction.commit();
     }
 }
