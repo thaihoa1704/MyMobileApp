@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,19 +15,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.myapplication.Adapters.SearchProductAdapter;
+import com.example.myapplication.Listener.ClickItemProductListener;
 import com.example.myapplication.Models.Product;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.ProductListViewModel;
 import com.example.myapplication.databinding.FragmentSearchBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements ClickItemProductListener {
     private FragmentSearchBinding binding;
     private ProductListViewModel viewModel;
     private SearchProductAdapter adapter;
+    private List<Product> productList = new ArrayList<>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +48,7 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        adapter = new SearchProductAdapter();
+        adapter = new SearchProductAdapter(this);
         binding.rvProduct.setHasFixedSize(true);
         binding.rvProduct.setLayoutManager(new LinearLayoutManager(requireActivity()));
         binding.rvProduct.setAdapter(adapter);
@@ -53,6 +58,7 @@ public class SearchFragment extends Fragment {
         viewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
             @Override
             public void onChanged(List<Product> list) {
+                productList.addAll(list);
                 adapter.setData(requireActivity(), list);
                 adapter.notifyDataSetChanged();
             }
@@ -80,12 +86,39 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    private void filterList(String newText) {
-        List<Product>
+    private void filterList(String text) {
+        List<Product> list = new ArrayList<>();
+        for (Product product : productList){
+            if (product.getProductName().toLowerCase().contains(text.toLowerCase())){
+                list.add(product);
+            }
+        }
+        if (list.isEmpty()){
+            Toast.makeText(requireActivity(), "Không có sản phẩm cần tìm!", Toast.LENGTH_SHORT).show();
+        }else {
+            adapter.setData(requireActivity(), list);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void backToFragment() {
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentManager.popBackStack();
+    }
+
+    @Override
+    public void onClickItemProduct(Product product) {
+        addFragment(new DetailProductFragment(), product);
+    }
+    private void addFragment(Fragment fragment, Product product){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("ProductModel", product);
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.frame_layout_product_search, fragment);
+        fragmentTransaction.addToBackStack(DetailProductFragment.class.getName());
+        fragmentTransaction.commit();
     }
 }
