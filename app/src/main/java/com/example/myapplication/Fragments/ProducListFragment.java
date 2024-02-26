@@ -19,7 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
+import com.example.myapplication.Adapters.OrderPriceAdapter;
 import com.example.myapplication.Adapters.ProductAdapter;
 import com.example.myapplication.Listener.ClickItemProductListener;
 import com.example.myapplication.Models.Product;
@@ -27,12 +30,14 @@ import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.ProductListViewModel;
 import com.example.myapplication.databinding.FragmentProducListBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProducListFragment extends Fragment implements ClickItemProductListener {
     private FragmentProducListBinding binding;
     private ProductListViewModel viewModel;
     private ProductAdapter adapter;
+    private OrderPriceAdapter orderPriceAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,6 +68,39 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
             }
         });
 
+        orderPriceAdapter = new OrderPriceAdapter(requireActivity(), R.layout.item_selected, getList());
+        binding.spinner.setAdapter(orderPriceAdapter);
+        binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String choice = orderPriceAdapter.getItem(i).toString();
+                if (choice == "Giá tăng dần"){
+                    viewModel.orderByPriceAscending(category);
+                    viewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
+                        @Override
+                        public void onChanged(List<Product> list) {
+                            adapter.setData(requireActivity(), list);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                }else if (choice == "Giá giảm dần"){
+                    viewModel.orderByPriceDescending(category);
+                    viewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
+                        @Override
+                        public void onChanged(List<Product> list) {
+                            adapter.setData(requireActivity(), list);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,5 +128,11 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
         fragmentTransaction.add(R.id.frame_layout_product_list, fragment);
         fragmentTransaction.addToBackStack(DetailProductFragment.class.getName());
         fragmentTransaction.commit();
+    }
+    private List<String> getList(){
+        List<String> list = new ArrayList<>();
+        list.add("Giá tăng dần");
+        list.add("Giá giảm dần");
+        return list;
     }
 }

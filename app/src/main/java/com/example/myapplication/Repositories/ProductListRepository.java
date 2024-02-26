@@ -10,7 +10,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.core.OrderBy;
 
 public class ProductListRepository {
     private Application application;
@@ -38,6 +40,34 @@ public class ProductListRepository {
     }
     public void getAllProductData(){
         collectionProduct.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            fireStoreCallbackListProduct.onProductListLoad(task.getResult().toObjects(Product.class));
+                        }else {
+                            Toast.makeText(application.getApplicationContext(), "Lỗi hiển thị dữ liệu sản phẩm", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    public void orderByPriceDescending(String category){
+        collectionProduct.whereEqualTo("category", category).orderBy("price", Query.Direction.DESCENDING)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            fireStoreCallbackListProduct.onProductListLoad(task.getResult().toObjects(Product.class));
+                        }else {
+                            Toast.makeText(application.getApplicationContext(), "Lỗi hiển thị dữ liệu sản phẩm", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    public void orderByPriceAscending(String category) {
+        collectionProduct.whereEqualTo("category", category).orderBy("price")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()){

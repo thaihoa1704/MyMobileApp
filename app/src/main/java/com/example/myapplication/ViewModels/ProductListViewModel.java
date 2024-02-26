@@ -29,4 +29,10 @@ public class ProductListViewModel extends ViewModel implements FireStoreCallback
     public MutableLiveData<List<Product>> getListMutableLiveData() {
         return listMutableLiveData;
     }
+    public void orderByPriceAscending(String category){
+        repository.orderByPriceAscending(category);
+    }
+    public void orderByPriceDescending(String category){
+        repository.orderByPriceDescending(category);
+    }
 }
