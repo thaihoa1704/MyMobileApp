@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_width="155dp"
+    android:layout_width="150dp"
     android:layout_height="wrap_content"
     android:background="@color/main">
     <TextView
         android:id="@+id/tv_selected"
-        android:layout_width="130dp"
+        android:layout_width="128dp"
         android:layout_height="wrap_content"
         android:text="Giá giảm dần"
         android:textSize="20dp"
