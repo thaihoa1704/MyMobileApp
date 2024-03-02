@@ -54,14 +54,7 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.BrandViewHol
         }
 
         public void bind(Brand brand) {
-            Glide.with(context).load(brand.getImage()).into(binding.imageBrand);
-
-            binding.imageBrand.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            });
+            Glide.with(context).load(brand.getImage()).into(binding.image);
         }
     }
 }

@@ -51,14 +51,17 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
 
         String category = getArguments().getString("category");
         binding.tvCategoryName.setText(category);
+        String brand = getArguments().getString("brand");
+        int price = getArguments().getInt("price");
 
         viewModel = new ViewModelProvider(this).get(ProductListViewModel.class);
+
         adapter = new ProductAdapter(this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(requireActivity(), 2);
         binding.rvProduct.setHasFixedSize(true);
         binding.rvProduct.setLayoutManager(gridLayoutManager);
-
         binding.rvProduct.setAdapter(adapter);
+
         viewModel.getProductList(category);
         viewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
             @Override
@@ -104,7 +107,7 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
         binding.linearLayoutFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addFragment(new FiltersFragment());
+                addFragment(new FiltersFragment(), category);
             }
         });
 
@@ -137,7 +140,11 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
         fragmentTransaction.commit();
     }
 
-    private void addFragment(Fragment fragment){
+    private void addFragment(Fragment fragment, String category){
+        Bundle bundle = new Bundle();
+        bundle.putString("Category", category);
+        fragment.setArguments(bundle);
+
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.frame_layout_product_list, fragment);
