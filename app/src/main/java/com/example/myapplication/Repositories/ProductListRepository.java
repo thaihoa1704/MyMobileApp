@@ -5,6 +5,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.myapplication.Listener.FireStoreCallbackProductList;
+import com.example.myapplication.Models.Brand;
 import com.example.myapplication.Models.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -67,6 +68,19 @@ public class ProductListRepository {
 
     public void orderByPriceAscending(String category) {
         collectionProduct.whereEqualTo("category", category).orderBy("price")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            fireStoreCallbackListProduct.onProductListLoad(task.getResult().toObjects(Product.class));
+                        }else {
+                            Toast.makeText(application.getApplicationContext(), "Lỗi hiển thị dữ liệu sản phẩm", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+    public void getProductData(String category, Brand brand){
+        collectionProduct.whereEqualTo("category", category).whereEqualTo("brand", brand.getBrandName())
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

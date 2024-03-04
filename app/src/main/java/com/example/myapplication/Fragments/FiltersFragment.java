@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.myapplication.Adapters.BrandAdapter;
+import com.example.myapplication.Listener.ClickItemBrandListener;
 import com.example.myapplication.Models.Brand;
 import com.example.myapplication.Models.Category;
 import com.example.myapplication.R;
@@ -24,10 +26,11 @@ import com.example.myapplication.databinding.FragmentFiltersBinding;
 
 import java.util.List;
 
-public class FiltersFragment extends Fragment {
+public class FiltersFragment extends Fragment implements ClickItemBrandListener {
     private FragmentFiltersBinding binding;
     private CategoryViewModel viewModel;
     private BrandAdapter adapter;
+    private Brand brand = new Brand();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,13 +47,13 @@ public class FiltersFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        adapter = new BrandAdapter();
+        adapter = new BrandAdapter(this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(requireActivity(), 3);
         binding.rcvBrand.setHasFixedSize(true);
         binding.rcvBrand.setLayoutManager(gridLayoutManager);
         binding.rcvBrand.setAdapter(adapter);
 
-        String category = getArguments().getString("Category");
+        String category = getArguments().getString("category");
 
         viewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         viewModel.getCategoryData(category);
@@ -59,6 +62,12 @@ public class FiltersFragment extends Fragment {
             public void onChanged(List<Brand> brands) {
                 adapter.setData(requireActivity(), brands);
                 adapter.notifyDataSetChanged();
+            }
+        });
+        binding.btnApplyFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new ProducListFragment(), category, brand);
             }
         });
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
@@ -72,5 +81,22 @@ public class FiltersFragment extends Fragment {
     private void setupOnBackPressed(){
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentManager.popBackStack();
+    }
+
+    @Override
+    public void onClickItemBrand(Brand brandSelect) {
+        this.brand = brandSelect;
+    }
+    private void replaceFragment(Fragment fragment, String category, Brand brand){
+        Bundle bundle = new Bundle();
+        bundle.putString("category", category);
+        bundle.putSerializable("brand", brand);
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout_product_list, fragment);
+        fragmentTransaction.addToBackStack(fragment.getClass().getName());
+        fragmentTransaction.commit();
     }
 }

@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import com.example.myapplication.Adapters.OrderPriceAdapter;
 import com.example.myapplication.Adapters.ProductAdapter;
 import com.example.myapplication.Listener.ClickItemProductListener;
+import com.example.myapplication.Models.Brand;
 import com.example.myapplication.Models.Product;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.ProductListViewModel;
@@ -51,7 +52,7 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
 
         String category = getArguments().getString("category");
         binding.tvCategoryName.setText(category);
-        String brand = getArguments().getString("brand");
+        Brand brand = (Brand) getArguments().getSerializable("brand");
         int price = getArguments().getInt("price");
 
         viewModel = new ViewModelProvider(this).get(ProductListViewModel.class);
@@ -62,14 +63,25 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
         binding.rvProduct.setLayoutManager(gridLayoutManager);
         binding.rvProduct.setAdapter(adapter);
 
-        viewModel.getProductList(category);
-        viewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
-            @Override
-            public void onChanged(List<Product> list) {
-                adapter.setData(requireActivity(), list);
-                adapter.notifyDataSetChanged();
-            }
-        });
+        if (brand == null){
+            viewModel.getProductList(category);
+            viewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
+                @Override
+                public void onChanged(List<Product> list) {
+                    adapter.setData(requireActivity(), list);
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }else {
+            viewModel.getProductList(category, brand);
+            viewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
+                @Override
+                public void onChanged(List<Product> list) {
+                    adapter.setData(requireActivity(), list);
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
 
         orderPriceAdapter = new OrderPriceAdapter(requireActivity(), R.layout.item_selected, getList());
         binding.spinner.setAdapter(orderPriceAdapter);
@@ -107,7 +119,7 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
         binding.linearLayoutFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addFragment(new FiltersFragment(), category);
+                replaceFragment(new FiltersFragment(), category);
             }
         });
 
@@ -140,14 +152,14 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
         fragmentTransaction.commit();
     }
 
-    private void addFragment(Fragment fragment, String category){
+    private void replaceFragment(Fragment fragment, String category){
         Bundle bundle = new Bundle();
-        bundle.putString("Category", category);
+        bundle.putString("category", category);
         fragment.setArguments(bundle);
 
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frame_layout_product_list, fragment);
+        fragmentTransaction.replace(R.id.frame_layout_product_list, fragment);
         fragmentTransaction.addToBackStack(fragment.getClass().getName());
         fragmentTransaction.commit();
     }

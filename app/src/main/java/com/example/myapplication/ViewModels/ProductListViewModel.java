@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.myapplication.Listener.FireStoreCallbackProductList;
+import com.example.myapplication.Models.Brand;
 import com.example.myapplication.Models.Product;
 import com.example.myapplication.Repositories.ProductListRepository;
 
@@ -18,6 +19,9 @@ public class ProductListViewModel extends ViewModel implements FireStoreCallback
     }
     public void getProductList(String categoryName){
         repository.getProductData(categoryName);
+    }
+    public void getProductList(String categoryName, Brand brand){
+        repository.getProductData(categoryName, brand);
     }
     public void getAllProduct(){
         repository.getAllProductData();

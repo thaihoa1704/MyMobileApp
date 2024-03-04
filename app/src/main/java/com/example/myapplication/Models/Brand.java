@@ -1,6 +1,8 @@
 package com.example.myapplication.Models;
 
-public class Brand {
+import java.io.Serializable;
+
+public class Brand implements Serializable {
     private String brandName;
     private String image;
 
