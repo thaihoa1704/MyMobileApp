@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.example.myapplication.Adapters.OrderPriceAdapter;
 import com.example.myapplication.Adapters.ProductAdapter;
@@ -32,6 +33,8 @@ import com.example.myapplication.ViewModels.ProductListViewModel;
 import com.example.myapplication.databinding.FragmentProducListBinding;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ProducListFragment extends Fragment implements ClickItemProductListener {
@@ -39,6 +42,7 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
     private ProductListViewModel viewModel;
     private ProductAdapter adapter;
     private OrderPriceAdapter orderPriceAdapter;
+    private List<Product> productList = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,7 +56,7 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
 
         String category = getArguments().getString("category");
         binding.tvCategoryName.setText(category);
-        Brand brand = (Brand) getArguments().getSerializable("brand");
+        ArrayList<String> selectedList = getArguments().getStringArrayList("selectedBrand");
         int price = getArguments().getInt("price");
 
         viewModel = new ViewModelProvider(this).get(ProductListViewModel.class);
@@ -63,24 +67,30 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
         binding.rvProduct.setLayoutManager(gridLayoutManager);
         binding.rvProduct.setAdapter(adapter);
 
-        if (brand == null){
+        if (selectedList == null){
             viewModel.getProductList(category);
             viewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
                 @Override
                 public void onChanged(List<Product> list) {
-                    adapter.setData(requireActivity(), list);
+                    productList.addAll(list);
+                    adapter.setData(requireActivity(), productList);
                     adapter.notifyDataSetChanged();
                 }
             });
         }else {
-            viewModel.getProductList(category, brand);
-            viewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
-                @Override
-                public void onChanged(List<Product> list) {
-                    adapter.setData(requireActivity(), list);
-                    adapter.notifyDataSetChanged();
-                }
-            });
+            Toast.makeText(requireActivity(), String.valueOf(selectedList.size()), Toast.LENGTH_SHORT).show();
+
+            for (String string : selectedList){
+                viewModel.getProductList(category, string);
+                viewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
+                    @Override
+                    public void onChanged(List<Product> list) {
+                        productList.addAll(list);
+                        adapter.setData(requireActivity(), productList);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
         }
 
         orderPriceAdapter = new OrderPriceAdapter(requireActivity(), R.layout.item_selected, getList());
@@ -90,23 +100,24 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String choice = orderPriceAdapter.getItem(i).toString();
                 if (choice == "Giá tăng dần"){
-                    viewModel.orderByPriceAscending(category);
-                    viewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
+                    Collections.sort(productList, new Comparator<Product>() {
                         @Override
-                        public void onChanged(List<Product> list) {
-                            adapter.setData(requireActivity(), list);
-                            adapter.notifyDataSetChanged();
+                        public int compare(Product o1, Product o2) {
+                            if (o1.getPrice() > o2.getPrice()) {
+                                return 1;
+                            } else if (o1.getPrice() < o2.getPrice()) {
+                                return -1;
+                            } else {
+                                return 0;
+                            }
                         }
                     });
+                    adapter.setData(requireActivity(), productList);
+                    adapter.notifyDataSetChanged();
                 }else if (choice == "Giá giảm dần"){
-                    viewModel.orderByPriceDescending(category);
-                    viewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
-                        @Override
-                        public void onChanged(List<Product> list) {
-                            adapter.setData(requireActivity(), list);
-                            adapter.notifyDataSetChanged();
-                        }
-                    });
+                    viewModel.orderByPriceDescending(productList);
+                    adapter.setData(requireActivity(), productList);
+                    adapter.notifyDataSetChanged();
                 }
             }
 

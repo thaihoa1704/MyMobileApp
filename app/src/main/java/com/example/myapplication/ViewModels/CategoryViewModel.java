@@ -24,7 +24,6 @@ public class CategoryViewModel extends ViewModel implements FireStoreCallbackBra
     public MutableLiveData<List<Brand>> getMutableLiveData() {
         return mutableLiveData;
     }
-
     @Override
     public void onBrandListLoad(List<Brand> list) {
         mutableLiveData.postValue(list);

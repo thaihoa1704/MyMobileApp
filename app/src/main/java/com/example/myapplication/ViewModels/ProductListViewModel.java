@@ -8,6 +8,8 @@ import com.example.myapplication.Models.Brand;
 import com.example.myapplication.Models.Product;
 import com.example.myapplication.Repositories.ProductListRepository;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ProductListViewModel extends ViewModel implements FireStoreCallbackProductList {
@@ -23,6 +25,9 @@ public class ProductListViewModel extends ViewModel implements FireStoreCallback
     public void getProductList(String categoryName, Brand brand){
         repository.getProductData(categoryName, brand);
     }
+    public void getProductList(String categoryName, String brandname){
+        repository.getProductData(categoryName, brandname);
+    }
     public void getAllProduct(){
         repository.getAllProductData();
     }
@@ -33,10 +38,22 @@ public class ProductListViewModel extends ViewModel implements FireStoreCallback
     public MutableLiveData<List<Product>> getListMutableLiveData() {
         return listMutableLiveData;
     }
-    public void orderByPriceAscending(String category){
-        repository.orderByPriceAscending(category);
+    public List<Product> orderByPriceAscending(List<Product> productList){
+        Collections.sort(productList, new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                if (o1.getPrice() > o2.getPrice()) {
+                    return 1;
+                } else if (o1.getPrice() < o2.getPrice()) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+        return productList;
     }
-    public void orderByPriceDescending(String category){
-        repository.orderByPriceDescending(category);
+    public void orderByPriceDescending(List<Product> productList){
+        //productList.rev
     }
 }

@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,15 +14,14 @@ import com.example.myapplication.Listener.ClickItemBrandListener;
 import com.example.myapplication.Models.Brand;
 import com.example.myapplication.databinding.ItemBrandBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.BrandViewHolder>{
     private Context context;
     private List<Brand> brandList;
     private ClickItemBrandListener clickItemBrandListener;
-    private boolean isNewRadioButtonChecked = false;
-    private int lastCheckedPosition = -1;
-    private int selectedPosition = -1;
+
     public void setData(Context context, List<Brand> brandList){
         this.context = context;
         this.brandList = brandList;
@@ -54,6 +52,15 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.BrandViewHol
         }
         return 0;
     }
+    public List<Brand> getListSelected(){
+        List<Brand> selectedList = new ArrayList<>();
+        for (Brand item : brandList){
+            if (item.isSelected()){
+                selectedList.add(item);
+            }
+        }
+        return selectedList;
+    }
 
     public class BrandViewHolder extends RecyclerView.ViewHolder{
         private ItemBrandBinding binding;
@@ -65,16 +72,23 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.BrandViewHol
 
         public void bind(Brand brand) {
             Glide.with(context).load(brand.getImage()).into(binding.image);
-            binding.btnSelect.setSelected(false);
+
+            if (brand.isSelected()){
+                binding.btnSelect.setSelected(true);
+            } else {
+                binding.btnSelect.setSelected(false);
+            }
             binding.btnSelect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (binding.btnSelect.isSelected()){
                         binding.image.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
                         binding.btnSelect.setSelected(false);
+                        brand.setSelected(false);
                     }else {
                         binding.image.setBackgroundColor(Color.parseColor("#FF968F"));
                         binding.btnSelect.setSelected(true);
+                        brand.setSelected(true);
                     }
                 }
             });

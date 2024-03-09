@@ -92,4 +92,17 @@ public class ProductListRepository {
                     }
                 });
     }
+    public void getProductData(String category, String brandName){
+        collectionProduct.whereEqualTo("category", category).whereEqualTo("brand", brandName)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            fireStoreCallbackListProduct.onProductListLoad(task.getResult().toObjects(Product.class));
+                        }else {
+                            Toast.makeText(application.getApplicationContext(), "Lỗi hiển thị dữ liệu sản phẩm", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 }

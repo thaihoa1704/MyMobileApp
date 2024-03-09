@@ -5,13 +5,14 @@ import java.io.Serializable;
 public class Brand implements Serializable {
     private String brandName;
     private String image;
-
+    private boolean selected;
     public Brand() {
     }
 
-    public Brand(String brandName, String image) {
+    public Brand(String brandName, String image, boolean selected) {
         this.brandName = brandName;
         this.image = image;
+        this.selected = selected;
     }
 
     public String getBrandName() {
@@ -28,5 +29,13 @@ public class Brand implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

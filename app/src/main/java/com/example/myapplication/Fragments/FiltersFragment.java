@@ -24,13 +24,13 @@ import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.CategoryViewModel;
 import com.example.myapplication.databinding.FragmentFiltersBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FiltersFragment extends Fragment implements ClickItemBrandListener {
     private FragmentFiltersBinding binding;
     private CategoryViewModel viewModel;
     private BrandAdapter adapter;
-    private Brand brand = new Brand();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +67,13 @@ public class FiltersFragment extends Fragment implements ClickItemBrandListener 
         binding.btnApplyFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                replaceFragment(new ProducListFragment(), category, brand);
+                List<Brand> selectedBrands = adapter.getListSelected();
+                //Toast.makeText(requireActivity(), String.valueOf(selectedBrands.size()), Toast.LENGTH_LONG).show();
+                ArrayList<String> listBrandName = new ArrayList<>();
+                for (Brand item : selectedBrands){
+                    listBrandName.add(item.getBrandName());
+                }
+                replaceFragment(new ProducListFragment(), category, listBrandName);
             }
         });
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
@@ -85,12 +91,11 @@ public class FiltersFragment extends Fragment implements ClickItemBrandListener 
 
     @Override
     public void onClickItemBrand(Brand brandSelect) {
-        this.brand = brandSelect;
     }
-    private void replaceFragment(Fragment fragment, String category, Brand brand){
+    private void replaceFragment(Fragment fragment, String category, ArrayList<String> brandList){
         Bundle bundle = new Bundle();
         bundle.putString("category", category);
-        bundle.putSerializable("brand", brand);
+        bundle.putStringArrayList("selectedBrand", brandList);
         fragment.setArguments(bundle);
 
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
