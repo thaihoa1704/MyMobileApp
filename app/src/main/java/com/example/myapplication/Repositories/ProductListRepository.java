@@ -15,6 +15,9 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.core.OrderBy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProductListRepository {
     private Application application;
     private FirebaseFirestore db;
@@ -52,46 +55,6 @@ public class ProductListRepository {
                 });
     }
 
-    public void orderByPriceDescending(String category){
-        collectionProduct.whereEqualTo("category", category).orderBy("price", Query.Direction.DESCENDING)
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            fireStoreCallbackListProduct.onProductListLoad(task.getResult().toObjects(Product.class));
-                        }else {
-                            Toast.makeText(application.getApplicationContext(), "Lỗi hiển thị dữ liệu sản phẩm", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-    public void orderByPriceAscending(String category) {
-        collectionProduct.whereEqualTo("category", category).orderBy("price")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            fireStoreCallbackListProduct.onProductListLoad(task.getResult().toObjects(Product.class));
-                        }else {
-                            Toast.makeText(application.getApplicationContext(), "Lỗi hiển thị dữ liệu sản phẩm", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-    public void getProductData(String category, Brand brand){
-        collectionProduct.whereEqualTo("category", category).whereEqualTo("brand", brand.getBrandName())
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            fireStoreCallbackListProduct.onProductListLoad(task.getResult().toObjects(Product.class));
-                        }else {
-                            Toast.makeText(application.getApplicationContext(), "Lỗi hiển thị dữ liệu sản phẩm", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
     public void getProductData(String category, String brandName){
         collectionProduct.whereEqualTo("category", category).whereEqualTo("brand", brandName)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -104,5 +67,22 @@ public class ProductListRepository {
                         }
                     }
                 });
+    }
+    public void getProductData(String category, ArrayList<String> list){
+        List<Product> productList = new ArrayList<>();
+        for (String brandName : list){
+            collectionProduct.whereEqualTo("category", category).whereEqualTo("brand", brandName)
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()){
+                                productList.addAll(task.getResult().toObjects(Product.class));
+                            }else {
+                                Toast.makeText(application.getApplicationContext(), "Lỗi hiển thị dữ liệu sản phẩm", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        }
+        fireStoreCallbackListProduct.onProductListLoad(productList);
     }
 }

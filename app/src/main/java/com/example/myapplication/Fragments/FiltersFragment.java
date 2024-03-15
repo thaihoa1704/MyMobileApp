@@ -68,7 +68,6 @@ public class FiltersFragment extends Fragment implements ClickItemBrandListener 
             @Override
             public void onClick(View view) {
                 List<Brand> selectedBrands = adapter.getListSelected();
-                //Toast.makeText(requireActivity(), String.valueOf(selectedBrands.size()), Toast.LENGTH_LONG).show();
                 ArrayList<String> listBrandName = new ArrayList<>();
                 for (Brand item : selectedBrands){
                     listBrandName.add(item.getBrandName());

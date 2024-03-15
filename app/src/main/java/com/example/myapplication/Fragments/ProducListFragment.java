@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -42,7 +43,9 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
     private ProductListViewModel viewModel;
     private ProductAdapter adapter;
     private OrderPriceAdapter orderPriceAdapter;
-    private List<Product> productList = new ArrayList<>();
+    private List<Product> productList;
+    private List<Product> productList1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,27 +70,34 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
         binding.rvProduct.setLayoutManager(gridLayoutManager);
         binding.rvProduct.setAdapter(adapter);
 
+        productList = new ArrayList<>();
+        productList1 = new ArrayList<>();
+
         if (selectedList == null){
             viewModel.getProductList(category);
             viewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
                 @Override
                 public void onChanged(List<Product> list) {
                     productList.addAll(list);
+                    productList1.addAll(list);
                     adapter.setData(requireActivity(), productList);
                     adapter.notifyDataSetChanged();
                 }
             });
         }else {
-            Toast.makeText(requireActivity(), String.valueOf(selectedList.size()), Toast.LENGTH_SHORT).show();
-
+            int n = 0;
             for (String string : selectedList){
                 viewModel.getProductList(category, string);
-                viewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
+                MutableLiveData<List<Product>> productMutableLiveData = viewModel.getListMutableLiveData();
+                productMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
                     @Override
                     public void onChanged(List<Product> list) {
                         productList.addAll(list);
+                        productList1.addAll(list);
                         adapter.setData(requireActivity(), productList);
                         adapter.notifyDataSetChanged();
+                        Toast.makeText(requireActivity(), String.valueOf(productList.size()), Toast.LENGTH_SHORT).show();
+
                     }
                 });
             }
@@ -99,19 +109,11 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String choice = orderPriceAdapter.getItem(i).toString();
-                if (choice == "Giá tăng dần"){
-                    Collections.sort(productList, new Comparator<Product>() {
-                        @Override
-                        public int compare(Product o1, Product o2) {
-                            if (o1.getPrice() > o2.getPrice()) {
-                                return 1;
-                            } else if (o1.getPrice() < o2.getPrice()) {
-                                return -1;
-                            } else {
-                                return 0;
-                            }
-                        }
-                    });
+                if (choice == "Ngẫu nhiên"){
+                    adapter.setData(requireActivity(), productList1);
+                    adapter.notifyDataSetChanged();
+                }else if (choice == "Giá tăng dần"){
+                    viewModel.orderByPriceAscending(productList);
                     adapter.setData(requireActivity(), productList);
                     adapter.notifyDataSetChanged();
                 }else if (choice == "Giá giảm dần"){
@@ -176,6 +178,7 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
     }
     private List<String> getList(){
         List<String> list = new ArrayList<>();
+        list.add("Ngẫu nhiên");
         list.add("Giá tăng dần");
         list.add("Giá giảm dần");
         return list;

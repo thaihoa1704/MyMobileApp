@@ -1,13 +1,23 @@
 package com.example.myapplication.Activities;
 
+import static androidx.navigation.ActivityKt.findNavController;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.NavHostController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.myapplication.Fragments.CartFragment;
 import com.example.myapplication.Fragments.CategoryFragment;
@@ -16,43 +26,20 @@ import com.example.myapplication.Fragments.SHomeFragment;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ActivityShoppingBinding;
-import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ShoppingActivity extends AppCompatActivity {
+    private NavController navController;
     private ActivityShoppingBinding binding;
-
+    private NavHostFragment navHostFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        User user = (User) getIntent().getSerializableExtra("UserLogin");
         binding = ActivityShoppingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        replaceFragment(new SHomeFragment(), user);
-        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.home) {
-                replaceFragment(new SHomeFragment(), user);
-            } else if (itemId == R.id.category) {
-                replaceFragment(new CategoryFragment(), user);
-            } else if (itemId == R.id.cart) {
-                replaceFragment(new CartFragment(), user);
-            } else if (itemId == R.id.profile) {
-                replaceFragment(new ProfileUserFragment(), user);
-            }
-            return true;
-        });
-    }
-    private void replaceFragment(Fragment fragment, User user){
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("UserLogin", user);
-        fragment.setArguments(bundle);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout_shopping, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerViewShopping);
+        navController = navHostFragment.getNavController();
+        NavigationUI.setupWithNavController(binding.bottomNavigationView, navController);
     }
 }

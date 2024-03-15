@@ -1,26 +1,28 @@
 package com.example.myapplication.Fragments;
 
-import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
+import com.example.myapplication.Activities.AdminActivity;
+import com.example.myapplication.Activities.ShoppingActivity;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.UserViewModel;
 import com.example.myapplication.databinding.FragmentShomeBinding;
 
 public class SHomeFragment extends Fragment {
+    private UserViewModel viewModel;
     private FragmentShomeBinding binding;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,8 +38,17 @@ public class SHomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        User user = (User) getArguments().getSerializable("UserLogin");
-        binding.txtName.setText(user.getUserName());
+        viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        if(viewModel.getCurrentUser() != null){
+            viewModel.userLogged();
+            viewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
+                @Override
+                public void onChanged(User user) {
+                    String name = user.getUserName();
+                    binding.txtName.setText(name);
+                }
+            });
+        }
 
         binding.tvSearch.setOnClickListener(new View.OnClickListener() {
             @Override

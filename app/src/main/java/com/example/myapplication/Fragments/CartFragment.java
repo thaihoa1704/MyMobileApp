@@ -34,6 +34,7 @@ import com.example.myapplication.Models.Product;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.CartProductViewModel;
+import com.example.myapplication.ViewModels.UserViewModel;
 import com.example.myapplication.databinding.FragmentCartBinding;
 
 import java.util.List;
@@ -44,7 +45,9 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
     private FragmentCartBinding binding;
     private CartProductAdapter adapter;
     private CartProductViewModel viewModel;
+    private UserViewModel userViewModel;
     private SwipeToDeleteItem swipe;
+    private User user;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +62,17 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        User user = (User) getArguments().getSerializable("UserLogin");
+
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        if(userViewModel.getCurrentUser() != null){
+            userViewModel.userLogged();
+            userViewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
+                @Override
+                public void onChanged(User userL) {
+                    user = userL;
+                }
+            });
+        }
 
         viewModel = new ViewModelProvider(this).get(CartProductViewModel.class);
         viewModel.selectNoneAllProduct();

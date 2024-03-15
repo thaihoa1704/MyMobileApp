@@ -8,6 +8,7 @@
     <style name="Theme" parent="Theme.MaterialComponents.Light.DarkActionBar"></style>
 
     <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />
+
     <style name="product_card" parent="CardView">
         <item name="strokeColor">@color/black</item>
         <item name="strokeWidth">10dp</item>
