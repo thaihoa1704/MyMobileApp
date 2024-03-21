@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -21,6 +23,7 @@ import com.example.myapplication.databinding.FragmentHandleOrderBinding;
 
 public class HandleOrderFragment extends Fragment {
     private FragmentHandleOrderBinding binding;
+    private NavController controller;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,8 @@ public class HandleOrderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        controller = Navigation.findNavController(view);
+
         binding.constraintLayout.setVisibility(View.INVISIBLE);
 
         Handler handler = new Handler();
@@ -50,5 +55,11 @@ public class HandleOrderFragment extends Fragment {
                 binding.tvNotification.setText("Đặt hàng thành công!");
             }
         }, 4000);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                controller.navigate(R.id.action_handleOrderFragment_to_cartFragment);
+            }
+        }, 7000);
     }
 }

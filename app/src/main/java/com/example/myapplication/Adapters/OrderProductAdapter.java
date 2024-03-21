@@ -56,7 +56,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
         public void bind(CartProduct cartProduct) {
             Glide.with(context).load(cartProduct.getProduct().getImage()).into(binding.imgProduct);
             binding.tvProductName.setText(cartProduct.getProduct().getProductName());
-            binding.tvPrice.setText(Convert.DinhDangTien(cartProduct.getProduct().getPrice()) + "VND");
+            binding.tvPrice.setText(Convert.DinhDangTien(cartProduct.getProduct().getPrice()) + " VND");
             binding.tvQuantity.setText(cartProduct.getQuantity() + "");
         }
     }

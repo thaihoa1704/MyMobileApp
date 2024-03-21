@@ -7,10 +7,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,12 +24,14 @@ import com.bumptech.glide.Glide;
 import com.example.myapplication.Helper.Convert;
 import com.example.myapplication.Models.CartProduct;
 import com.example.myapplication.Models.Product;
+import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.CartProductViewModel;
 import com.example.myapplication.databinding.FragmentDetailProductBinding;
 
 public class DetailProductFragment extends Fragment {
     private FragmentDetailProductBinding binding;
     private CartProductViewModel viewModel;
+    private NavController controller;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +47,11 @@ public class DetailProductFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(CartProductViewModel.class);
+        controller = Navigation.findNavController(view);
 
         Product product = (Product) getArguments().getSerializable("ProductModel");
+        String startFragment = getArguments().getString("StartFragment");
+
         Glide.with(getContext()).load(product.getImage()).into(binding.imgProduct);
         binding.tvProductName.setText(product.getProductName());
         binding.tvPrice.setText(Convert.DinhDangTien(product.getPrice()) + " VND");
@@ -79,13 +87,27 @@ public class DetailProductFragment extends Fragment {
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                backToFragment();
+                if (startFragment == "searchFragment"){
+                    controller.navigate(R.id.action_detailProductFragment_to_searchFragment);
+                }else if (startFragment == "productListFragment"){
+                    removeFragment();
+                }else {
+                    controller.navigate(R.id.action_detailProductFragment_to_cartFragment);
+                }
             }
         });
     }
-
-    private void backToFragment() {
+    private void removeFragment() {
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentManager.popBackStack();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.remove(this);
+        fragmentTransaction.commit();
+    }
+    private void safelyNavigate(NavController navController, int resid) {
+        try {
+            navController.navigate(resid);
+        } catch (Exception e) {
+
+        }
     }
 }

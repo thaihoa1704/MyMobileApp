@@ -2,7 +2,6 @@ package com.example.myapplication.Fragments;
 
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -14,42 +13,37 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.myapplication.Adapters.OrderPriceAdapter;
 import com.example.myapplication.Adapters.ProductAdapter;
 import com.example.myapplication.Listener.ClickItemProductListener;
-import com.example.myapplication.Models.Brand;
 import com.example.myapplication.Models.Product;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.ProductListViewModel;
-import com.example.myapplication.databinding.FragmentProducListBinding;
+import com.example.myapplication.databinding.FragmentProductListBinding;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-public class ProducListFragment extends Fragment implements ClickItemProductListener {
-    private FragmentProducListBinding binding;
+public class ProductListFragment extends Fragment implements ClickItemProductListener {
+    private FragmentProductListBinding binding;
     private ProductListViewModel viewModel;
     private ProductAdapter adapter;
     private OrderPriceAdapter orderPriceAdapter;
     private List<Product> productList;
     private List<Product> productList1;
+    private NavController controller;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentProducListBinding.inflate(getLayoutInflater(), container, false);
+        binding = FragmentProductListBinding.inflate(getLayoutInflater(), container, false);
         return binding.getRoot();
     }
 
@@ -57,12 +51,14 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        String startFragment = getArguments().getString("StartFragment");
         String category = getArguments().getString("category");
         binding.tvCategoryName.setText(category);
         ArrayList<String> selectedList = getArguments().getStringArrayList("selectedBrand");
         int price = getArguments().getInt("price");
 
         viewModel = new ViewModelProvider(this).get(ProductListViewModel.class);
+        controller = Navigation.findNavController(view);
 
         adapter = new ProductAdapter(this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(requireActivity(), 2);
@@ -85,7 +81,6 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
                 }
             });
         }else {
-            int n = 0;
             for (String string : selectedList){
                 viewModel.getProductList(category, string);
                 MutableLiveData<List<Product>> productMutableLiveData = viewModel.getListMutableLiveData();
@@ -132,55 +127,46 @@ public class ProducListFragment extends Fragment implements ClickItemProductList
         binding.linearLayoutFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                replaceFragment(new FiltersFragment(), category);
+
             }
         });
 
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setupOnBackPressed();
+                if (startFragment == "homeFragment"){
+                    controller.navigate(R.id.action_productListFragment_to_SHomeFragment);
+                }else if (startFragment == "categoryFragment"){
+                    controller.navigate(R.id.action_productListFragment_to_categoryFragment);
+                }
             }
         });
-    }
-    private void setupOnBackPressed(){
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentManager.popBackStack();
     }
 
     @Override
     public void onClickItemProduct(Product product) {
-        addFragment(new DetailProductFragment(), product);
+        //Creat DetailProductFragment overlaps this fragment
+        //Purpose: Don't reload view of this fragment when close DetailProductFragmen
+        addFragment(new DetailProductFragment(), product, "productListFragment");
     }
 
-    private void addFragment(Fragment fragment, Product product){
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("ProductModel", product);
-        fragment.setArguments(bundle);
-
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frame_layout_product_list, fragment);
-        fragmentTransaction.addToBackStack(fragment.getClass().getName());
-        fragmentTransaction.commit();
-    }
-
-    private void replaceFragment(Fragment fragment, String category){
-        Bundle bundle = new Bundle();
-        bundle.putString("category", category);
-        fragment.setArguments(bundle);
-
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout_product_list, fragment);
-        fragmentTransaction.addToBackStack(fragment.getClass().getName());
-        fragmentTransaction.commit();
-    }
     private List<String> getList(){
         List<String> list = new ArrayList<>();
         list.add("Ngẫu nhiên");
         list.add("Giá tăng dần");
         list.add("Giá giảm dần");
         return list;
+    }
+    private void addFragment(Fragment fragment, Product product, String nameFragment){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("ProductModel", product);
+        bundle.putString("StartFragment", nameFragment);
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.frame_layout_product_list, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

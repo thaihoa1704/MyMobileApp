@@ -10,6 +10,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -31,6 +34,7 @@ public class SearchFragment extends Fragment implements ClickItemProductListener
     private FragmentSearchBinding binding;
     private ProductListViewModel viewModel;
     private SearchProductAdapter adapter;
+    private NavController controller;
     private List<Product> productList = new ArrayList<>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,8 @@ public class SearchFragment extends Fragment implements ClickItemProductListener
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        controller = Navigation.findNavController(view);
 
         adapter = new SearchProductAdapter(this);
         binding.rvProduct.setHasFixedSize(true);
@@ -81,7 +87,7 @@ public class SearchFragment extends Fragment implements ClickItemProductListener
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                backToFragment();
+                controller.navigate(R.id.action_searchFragment_to_SHomeFragment);
             }
         });
     }
@@ -101,24 +107,14 @@ public class SearchFragment extends Fragment implements ClickItemProductListener
         }
     }
 
-    private void backToFragment() {
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentManager.popBackStack();
-    }
-
     @Override
     public void onClickItemProduct(Product product) {
-        addFragment(new DetailProductFragment(), product);
-    }
-    private void addFragment(Fragment fragment, Product product){
         Bundle bundle = new Bundle();
         bundle.putSerializable("ProductModel", product);
-        fragment.setArguments(bundle);
-
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frame_layout_product_search, fragment);
-        fragmentTransaction.addToBackStack(DetailProductFragment.class.getName());
-        fragmentTransaction.commit();
+        String nameFragment = "searchFragment";
+        bundle.putString("StartFragment", nameFragment);
+        //controller.navigate(R.id.action_searchFragment_to_detailProductFragment);
+        //NavDirections action = SearchFragmentDirections.actionSearchFragmentToDetailProductFragment();
+        Navigation.findNavController(binding.getRoot()).navigate(R.id.action_searchFragment_to_detailProductFragment, bundle);
     }
 }

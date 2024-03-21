@@ -18,6 +18,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Handler;
@@ -41,6 +43,7 @@ import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.CartProductViewModel;
 import com.example.myapplication.ViewModels.OrderViewModel;
+import com.example.myapplication.ViewModels.UserViewModel;
 import com.example.myapplication.databinding.FragmentOrderBinding;
 
 import java.util.ArrayList;
@@ -48,10 +51,11 @@ import java.util.List;
 
 public class OrderFragment extends Fragment {
     private FragmentOrderBinding binding;
+    private UserViewModel userViewModel;
     private CartProductViewModel cartViewModel;
     private OrderViewModel orderViewModel;
     private OrderProductAdapter adapter;
-    private User user;
+    private NavController controller;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,17 +73,26 @@ public class OrderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        user = (User) getArguments().getSerializable("UserLogin");
-        binding.tvUserName.setText(user.getUserName());
-        binding.tvPhone.setText(user.getPhone());
-        String address = user.getAddress();
+        controller = Navigation.findNavController(view);
 
-        if (address != ""){
-            binding.tvAddress.setText(address);
-            binding.linearLayoutAddAddress.setVisibility(View.INVISIBLE);
-        }else {
-            binding.tvAddress.setVisibility(View.INVISIBLE);
-            binding.linearLayoutAddAddress.setVisibility(View.VISIBLE);
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        if(userViewModel.getCurrentUser() != null){
+            userViewModel.userLogged();
+            userViewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
+                @Override
+                public void onChanged(User user) {
+                    binding.tvUserName.setText(user.getUserName());
+                    binding.tvPhone.setText(user.getPhone());
+                    String address = user.getAddress();
+                    if (address != ""){
+                        binding.tvAddress.setText(address);
+                        binding.linearLayoutAddAddress.setVisibility(View.INVISIBLE);
+                    }else {
+                        binding.tvAddress.setVisibility(View.INVISIBLE);
+                        binding.linearLayoutAddAddress.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
         }
 
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
@@ -121,7 +134,7 @@ public class OrderFragment extends Fragment {
         binding.btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (address == null){
+                if (binding.tvAddress.getText() == null){
                     Toast.makeText(requireContext(), "Bạn chưa chọn địa điểm giao hàng!", Toast.LENGTH_SHORT).show();
                 }else {
                     openDialog(Gravity.CENTER, orderList);
@@ -132,14 +145,11 @@ public class OrderFragment extends Fragment {
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                backToFragment();
+                controller.navigate(R.id.action_orderFragment_to_cartFragment);
             }
         });
     }
-    private void backToFragment() {
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentManager.popBackStack();
-    }
+
     private void openDialog(int gravity, List<CartProduct> list){
         final Dialog dialog = new Dialog(requireContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -175,49 +185,18 @@ public class OrderFragment extends Fragment {
         btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                replaceFragment(new HandleOrderFragment(), user);
-
                 dialog.dismiss();
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        String address = binding.tvAddress.getText().toString().trim();
-                        int tatol = Convert.ChuyenTien(binding.tvTotal.getText().toString().trim());
 
-                        orderViewModel.addOrder(list, address, tatol);
-                        orderViewModel.deleteProductInCart(list);
-                        orderViewModel.updateQuantityProduct(list);
+                controller.navigate(R.id.action_orderFragment_to_handleOrderFragment);
 
-                        replaceFragment1(new CartFragment(), user);
-                    }
-                }, 7000);
+                String address = binding.tvAddress.getText().toString().trim();
+                int tatol = Convert.ChuyenTien(binding.tvTotal.getText().toString().trim());
+
+                orderViewModel.addOrder(list, address, tatol);
+                orderViewModel.deleteProductInCart(list);
+                orderViewModel.updateQuantityProduct(list);
             }
         });
         dialog.show();
-    }
-
-    private void replaceFragment(Fragment fragment, User user){
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("UserLogin", user);
-        fragment.setArguments(bundle);
-
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout_cart, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
-
-    private void replaceFragment1(Fragment fragment, User user){
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("UserLogin", user);
-        fragment.setArguments(bundle);
-
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout_cart, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
     }
 }

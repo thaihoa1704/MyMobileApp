@@ -11,6 +11,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,9 +47,8 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
     private FragmentCartBinding binding;
     private CartProductAdapter adapter;
     private CartProductViewModel viewModel;
-    private UserViewModel userViewModel;
     private SwipeToDeleteItem swipe;
-    private User user;
+    private NavController controller;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,16 +64,7 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
-        if(userViewModel.getCurrentUser() != null){
-            userViewModel.userLogged();
-            userViewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
-                @Override
-                public void onChanged(User userL) {
-                    user = userL;
-                }
-            });
-        }
+        controller = Navigation.findNavController(view);
 
         viewModel = new ViewModelProvider(this).get(CartProductViewModel.class);
         viewModel.selectNoneAllProduct();
@@ -92,7 +84,7 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
                 if (binding.tvTotal.getText().equals("0 VND")){
                     Toast.makeText(requireContext(), "Chọn sản phẩm bạn muốn thanh toán!", Toast.LENGTH_SHORT).show();
                 }else {
-                    addFragment1(new OrderFragment(), user);
+                    controller.navigate(R.id.action_cartFragment_to_orderFragment);
                 }
             }
         });
@@ -100,7 +92,11 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
 
     @Override
     public void onClickItemProduct(Product product) {
-        addFragment(new DetailProductFragment(), product);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("ProductModel", product);
+        String nameFragment = "cartFragment";
+        bundle.putString("StartFragment", nameFragment);
+        Navigation.findNavController(binding.getRoot()).navigate(R.id.action_cartFragment_to_detailProductFragment, bundle);
     }
 
     @Override
@@ -149,29 +145,6 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
                 }
             }
         });
-    }
-    private void addFragment(Fragment fragment, Product product){
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("ProductModel", product);
-        fragment.setArguments(bundle);
-
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frame_layout_cart, fragment);
-        fragmentTransaction.addToBackStack(DetailProductFragment.class.getName());
-        fragmentTransaction.commit();
-    }
-
-    private void addFragment1(Fragment fragment, User user){
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("UserLogin", user);
-        fragment.setArguments(bundle);
-
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frame_layout_cart, fragment);
-        fragmentTransaction.addToBackStack(OrderFragment.class.getName());
-        fragmentTransaction.commit();
     }
 
     @Override

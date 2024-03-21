@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.example.myapplication.databinding.FragmentShomeBinding;
 public class SHomeFragment extends Fragment {
     private UserViewModel viewModel;
     private FragmentShomeBinding binding;
+    private NavController controller;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,8 @@ public class SHomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        controller = Navigation.findNavController(view);
 
         viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         if(viewModel.getCurrentUser() != null){
@@ -53,54 +58,54 @@ public class SHomeFragment extends Fragment {
         binding.tvSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addFragment(new SearchFragment());
+                controller.navigate(R.id.action_SHomeFragment_to_searchFragment);
             }
         });
 
         binding.imgPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addFragment(new ProducListFragment(), "Điện thoại");
+                moveToNewFragment("Điện thoại");
             }
         });
         binding.imgHeadPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addFragment(new ProducListFragment(), "Tai nghe");
+                moveToNewFragment("Tai nghe");
             }
         });
         binding.imgLaptop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addFragment(new ProducListFragment(), "Laptop");
+                moveToNewFragment("Laptop");
             }
         });
         binding.imgWatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addFragment(new ProducListFragment(), "Đồng hồ");
+                moveToNewFragment("Đồng hồ");
             }
         });
         binding.imageCable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addFragment(new ProducListFragment(), "Phụ kiện");
+                moveToNewFragment("Phụ kiện");
             }
         });
+    }
+
+    private void moveToNewFragment(String nameCategory){
+        Bundle bundle = new Bundle();
+        String nameFragment = "homeFragment";
+        bundle.putString("StartFragment", nameFragment);
+        bundle.putString("category", nameCategory);
+        controller.navigate(R.id.action_SHomeFragment_to_productListFragment, bundle);
     }
     private void addFragment(Fragment fragment, String category){
         Bundle bundle = new Bundle();
         bundle.putString("category", category);
         fragment.setArguments(bundle);
 
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frame_layout_shome, fragment);
-        fragmentTransaction.addToBackStack(fragment.getClass().getName());
-        fragmentTransaction.commit();
-    }
-
-    private void addFragment(Fragment fragment){
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.frame_layout_shome, fragment);

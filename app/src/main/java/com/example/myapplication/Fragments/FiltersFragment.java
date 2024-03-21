@@ -14,12 +14,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.myapplication.Adapters.BrandAdapter;
 import com.example.myapplication.Listener.ClickItemBrandListener;
 import com.example.myapplication.Models.Brand;
-import com.example.myapplication.Models.Category;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.CategoryViewModel;
 import com.example.myapplication.databinding.FragmentFiltersBinding;
@@ -72,7 +70,7 @@ public class FiltersFragment extends Fragment implements ClickItemBrandListener 
                 for (Brand item : selectedBrands){
                     listBrandName.add(item.getBrandName());
                 }
-                replaceFragment(new ProducListFragment(), category, listBrandName);
+                replaceFragment(new ProductListFragment(), category, listBrandName);
             }
         });
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
