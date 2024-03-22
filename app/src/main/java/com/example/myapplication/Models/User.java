@@ -6,15 +6,13 @@ import android.util.Patterns;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    private String userId;
     private String userName;
     private String email;
     private String phone;
     private String password;
     private String userType;
     private String address;
-    public User(String userId, String userName, String email, String phone, String password, String userType, String address) {
-        this.userId = userId;
+    public User(String userName, String email, String phone, String password, String userType, String address) {
         this.userName = userName;
         this.email = email;
         this.phone = phone;
@@ -24,14 +22,6 @@ public class User implements Serializable {
     }
 
     public User() {
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getUserName() {

@@ -3,7 +3,7 @@ package com.example.myapplication.Models;
 import java.io.Serializable;
 
 public class Product implements Serializable {
-    private String productId;
+    private  String productId;
     private String productName;
     private String image;
     private int price;
@@ -13,12 +13,14 @@ public class Product implements Serializable {
     private int quantity;
     public Product() {
     }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
+    public Product(String productId, String productName, String image, int price, String category, String brand, String description, int quantity) {
+        this.productId = productId;
+        this.productName = productName;
+        this.image = image;
+        this.price = price;
+        this.category = category;
+        this.brand = brand;
+        this.description = description;
         this.quantity = quantity;
     }
 
@@ -28,6 +30,14 @@ public class Product implements Serializable {
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getProductName() {

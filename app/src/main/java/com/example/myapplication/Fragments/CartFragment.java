@@ -67,7 +67,6 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
         controller = Navigation.findNavController(view);
 
         viewModel = new ViewModelProvider(this).get(CartProductViewModel.class);
-        viewModel.selectNoneAllProduct();
 
         adapter = new CartProductAdapter(this, this, this, this);
 

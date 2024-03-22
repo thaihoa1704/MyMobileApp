@@ -60,7 +60,7 @@ public class CartProductRepository {
         });
     }
     public void addProductToCart(CartProduct cartProduct){
-        collectionReference.document(cartProduct.getProduct().getProductId()).set(cartProduct)
+        collectionReference.document().set(cartProduct)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {

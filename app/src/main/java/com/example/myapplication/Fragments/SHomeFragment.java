@@ -20,11 +20,13 @@ import com.example.myapplication.Activities.AdminActivity;
 import com.example.myapplication.Activities.ShoppingActivity;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
+import com.example.myapplication.ViewModels.CartProductViewModel;
 import com.example.myapplication.ViewModels.UserViewModel;
 import com.example.myapplication.databinding.FragmentShomeBinding;
 
 public class SHomeFragment extends Fragment {
     private UserViewModel viewModel;
+    private CartProductViewModel cartProductViewModel;
     private FragmentShomeBinding binding;
     private NavController controller;
     @Override
@@ -42,6 +44,9 @@ public class SHomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         controller = Navigation.findNavController(view);
+
+        cartProductViewModel = new ViewModelProvider(this).get(CartProductViewModel.class);
+        cartProductViewModel.selectNoneAllProduct();
 
         viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         if(viewModel.getCurrentUser() != null){

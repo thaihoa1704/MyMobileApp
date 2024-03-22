@@ -29,7 +29,6 @@ public class OrderRepository {
     private String userId;
     private MutableLiveData<Boolean> check;
 
-
     public OrderRepository(){
         this.db = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();

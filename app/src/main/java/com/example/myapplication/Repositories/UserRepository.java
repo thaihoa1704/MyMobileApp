@@ -67,7 +67,6 @@ public class UserRepository {
         String uid = firebaseAuth.getUid();
         String userType = "customer";
 
-        user.setUserId(uid);
         user.setUserType(userType);
         user.setAddress(null);
 

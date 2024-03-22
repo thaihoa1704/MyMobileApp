@@ -1,30 +1,17 @@
 package com.example.myapplication.Fragments;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,19 +20,15 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.example.myapplication.Adapters.OrderProductAdapter;
 import com.example.myapplication.Helper.Convert;
 import com.example.myapplication.Models.CartProduct;
-import com.example.myapplication.Models.Order;
-import com.example.myapplication.Models.Product;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.CartProductViewModel;
 import com.example.myapplication.ViewModels.OrderViewModel;
 import com.example.myapplication.ViewModels.UserViewModel;
 import com.example.myapplication.databinding.FragmentOrderBinding;
-
 import java.util.ArrayList;
 import java.util.List;
 
