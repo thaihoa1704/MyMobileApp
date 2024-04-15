@@ -72,7 +72,7 @@ public class LoginFragment extends Fragment {
                             viewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
                                 @Override
                                 public void onChanged(User user) {
-                                    String type = user.getUserType();
+                                    String type = user.getType();
                                     if(type.equals("admin")){
                                         Intent intent = new Intent(requireActivity(), AdminActivity.class);
                                         //implements Serializable in class before send an object

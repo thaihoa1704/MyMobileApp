@@ -56,7 +56,7 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 User user = new User();
-                user.setUserName(binding.textName.getText().toString());
+                user.setName(binding.textName.getText().toString());
                 user.setEmail(binding.textEmail.getText().toString().trim());
                 user.setPhone(binding.textPhone.getText().toString().trim());
                 user.setPassword(binding.textPass.getText().toString().trim());

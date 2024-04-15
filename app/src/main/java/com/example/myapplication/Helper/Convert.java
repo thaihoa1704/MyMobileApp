@@ -9,7 +9,7 @@ import java.util.Locale;
 public class Convert {
     //Hàm đổi từ số sang chữ có định dạng
     public static String DinhDangTien(int tien) {
-        return NumberFormat.getNumberInstance().format(tien);
+        return NumberFormat.getNumberInstance().format(tien * 1000);
     }
 
     //Hàm chuyển từ chữ sang số để tính toán

@@ -1,53 +1,39 @@
 package com.example.myapplication.Fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.myapplication.Adapters.CartProductAdapter;
+import com.example.myapplication.Adapters.CartAdapter;
 import com.example.myapplication.Helper.Convert;
-import com.example.myapplication.Helper.SwipeItem;
-import com.example.myapplication.Helper.SwipeToDeleteItem;
-import com.example.myapplication.Listener.ChangeQuantityListener;
+import com.example.myapplication.Listener.ChangeQuantityCartProduct;
 import com.example.myapplication.Listener.ChangeSelectProductListener;
-import com.example.myapplication.Listener.ClickDeleteItem;
 import com.example.myapplication.Listener.ClickItemProductListener;
-import com.example.myapplication.Listener.MyButtonClickListener;
 import com.example.myapplication.Models.CartProduct;
 import com.example.myapplication.Models.Product;
-import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
-import com.example.myapplication.ViewModels.CartProductViewModel;
-import com.example.myapplication.ViewModels.UserViewModel;
+import com.example.myapplication.ViewModels.CartViewModel;
 import com.example.myapplication.databinding.FragmentCartBinding;
 
 import java.util.List;
 
 
-public class CartFragment extends Fragment implements ClickItemProductListener, ChangeQuantityListener
-        , ChangeSelectProductListener, ClickDeleteItem {
+public class CartFragment extends Fragment implements ChangeQuantityCartProduct, ChangeSelectProductListener, ClickItemProductListener {
     private FragmentCartBinding binding;
-    private CartProductAdapter adapter;
-    private CartProductViewModel viewModel;
-    private SwipeToDeleteItem swipe;
+    private CartAdapter cartAdapter;
+    private CartViewModel cartViewModel;
     private NavController controller;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,17 +51,14 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
         super.onViewCreated(view, savedInstanceState);
 
         controller = Navigation.findNavController(view);
-
-        viewModel = new ViewModelProvider(this).get(CartProductViewModel.class);
-
-        adapter = new CartProductAdapter(this, this, this, this);
+        cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
+        cartAdapter = new CartAdapter(this, this, this);
 
         binding.rcvCartProductList.setHasFixedSize(true);
         binding.rcvCartProductList.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        binding.rcvCartProductList.setAdapter(cartAdapter);
 
-        binding.rcvCartProductList.setAdapter(adapter);
-
-        setDataAdapter();
+        setCartAdapter();
 
         binding.btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,54 +72,22 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
         });
     }
 
-    @Override
-    public void onClickItemProduct(Product product) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("ProductModel", product);
-        String nameFragment = "cartFragment";
-        bundle.putString("StartFragment", nameFragment);
-        Navigation.findNavController(binding.getRoot()).navigate(R.id.action_cartFragment_to_detailProductFragment, bundle);
-    }
-
-    @Override
-    public void deleteProduct(CartProduct cartProductt) {
-        viewModel.deleteProduct(cartProductt);
-        setDataAdapter();
-    }
-
-    @Override
-    public void incrementQuantity(CartProduct cartProduct) {
-        viewModel.incrementQuantity(cartProduct);
-        setDataAdapter();
-    }
-
-    @Override
-    public void decrementQuantity(CartProduct cartProduct) {
-        viewModel.decrementQuantity(cartProduct);
-        setDataAdapter();
-    }
-
-    @Override
-    public void onChangeSelect(CartProduct cartProduct, boolean aBoolean) {
-        viewModel.selectProduct(cartProduct, aBoolean);
-        setDataAdapter();
-    }
-
-    private void setDataAdapter(){
-        viewModel.getList();
-        viewModel.getCartProductList().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
+    private void setCartAdapter() {
+        cartViewModel.getAllProductsInCart();
+        cartViewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
             @Override
-            public void onChanged(List<CartProduct> list) {
-                adapter.setData(requireActivity(), list);
-                adapter.notifyDataSetChanged();
-                if (list.isEmpty()){
+            public void onChanged(List<CartProduct> cartProducts) {
+                cartAdapter.setData(requireActivity(), cartProducts);
+                cartAdapter.notifyDataSetChanged();
+
+                if (cartProducts.isEmpty()){
                     binding.tvTotal.setText("0 VND");
                 }else {
                     int total = 0;
-                    for (CartProduct item : list){
+                    for (CartProduct item : cartProducts){
                         if (item.isSelect()){
                             int b = item.getQuantity();
-                            int a = item.getProduct().getPrice();
+                            int a = item.getVersion().getPrice();
                             total += a * b;
                         }
                     }
@@ -147,8 +98,34 @@ public class CartFragment extends Fragment implements ClickItemProductListener, 
     }
 
     @Override
-    public void onDeleteItem(CartProduct cartProduct) {
-        viewModel.deleteProduct(cartProduct);
-        setDataAdapter();
+    public void incrementQuantity(String documentId) {
+        cartViewModel.incrementQuantity(documentId);
+        setCartAdapter();
+    }
+
+    @Override
+    public void decrementQuantity(String documentId) {
+        cartViewModel.decrementQuantity(documentId);
+        setCartAdapter();
+    }
+
+    @Override
+    public void deleteProduct(String documentId) {
+        cartViewModel.deleteProductInCart(documentId);
+        setCartAdapter();
+    }
+
+    @Override
+    public void onChangeSelect(String documentId, boolean aBoolean) {
+        cartViewModel.selectProduct(documentId, aBoolean);
+        setCartAdapter();
+    }
+
+    @Override
+    public void onClickItemProduct(Product product) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("ProductModel", product);
+        bundle.putString("StartFragment", "cartFragment");
+        controller.navigate(R.id.action_cartFragment_to_detailProductFragment, bundle);
     }
 }

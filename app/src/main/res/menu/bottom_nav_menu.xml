@@ -3,17 +3,21 @@
     <item
         android:id="@+id/SHomeFragment"
         android:icon="@drawable/home_icon"
-        android:title="Trang chủ" />
+        android:title="Trang chủ"
+        android:menuCategory="secondary"/>
     <item
         android:id="@+id/categoryFragment"
         android:icon="@drawable/list_icon"
-        android:title="Danh mục" />
+        android:title="Danh mục"
+        android:menuCategory="secondary"/>
     <item
         android:id="@+id/cartFragment"
         android:icon="@drawable/cart_icon"
-        android:title="Giỏ hàng" />
+        android:title="Giỏ hàng"
+        android:menuCategory="secondary"/>
     <item
         android:id="@+id/profileUserFragment"
         android:icon="@drawable/person_icon"
-        android:title="Cá nhân" />
+        android:title="Cá nhân"
+        android:menuCategory="secondary"/>
 </menu>

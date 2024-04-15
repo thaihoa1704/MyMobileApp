@@ -1,32 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="120dp"
-    android:layout_height="50dp"
-    android:id="@+id/layout_item_brand">
+    android:layout_width="130dp"
+    android:layout_height="35dp"
+    android:id="@+id/layout_item_phone_attribute">
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
+        android:layout_width="120dp"
         android:layout_height="match_parent"
-        android:theme="@style/Theme"
-        app:cardCornerRadius="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="10dp"
+        app:strokeWidth="1dp"
         app:strokeColor="@color/black"
-        app:strokeWidth="1dp">
-
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <RadioButton
-            android:id="@+id/btn_select"
+        android:theme="@style/Theme">
+        <TextView
+            android:id="@+id/tv_memory"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:button="@color/white" />
-
+            android:text="8GB-256GB"
+            android:textSize="19dp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:background="@color/white"/>
     </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,30 +6,49 @@ import android.util.Patterns;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    private String userName;
+    private String id;
+    private String name;
     private String email;
     private String phone;
     private String password;
-    private String userType;
+    private String type;
     private String address;
-    public User(String userName, String email, String phone, String password, String userType, String address) {
-        this.userName = userName;
+
+    public User(String id, String name, String email, String phone, String password, String type, String address) {
+        this.id = id;
+        this.name = name;
         this.email = email;
         this.phone = phone;
         this.password = password;
-        this.userType = userType;
+        this.type = type;
         this.address = address;
     }
 
     public User() {
     }
 
-    public String getUserName() {
-        return userName;
+    public String getId() {
+        return id;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getEmail() {
@@ -54,14 +73,6 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
     }
 
     public String getAddress() {

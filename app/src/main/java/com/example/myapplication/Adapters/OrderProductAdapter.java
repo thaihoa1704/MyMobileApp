@@ -2,7 +2,6 @@ package com.example.myapplication.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -54,10 +53,37 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
         }
 
         public void bind(CartProduct cartProduct) {
-            Glide.with(context).load(cartProduct.getProduct().getImage()).into(binding.imgProduct);
-            binding.tvProductName.setText(cartProduct.getProduct().getProductName());
-            binding.tvPrice.setText(Convert.DinhDangTien(cartProduct.getProduct().getPrice()) + " VND");
-            binding.tvQuantity.setText(cartProduct.getQuantity() + "");
+            binding.tvProductName.setText(cartProduct.getProduct().getName());
+            Glide.with(context).load(cartProduct.getProduct().getImages().get(0)).into(binding.imgProduct);
+            binding.tvQuantity.setText(String.valueOf(cartProduct.getQuantity()));
+            String price = Convert.DinhDangTien(cartProduct.getVersion().getPrice()) + " đ";
+            binding.tvPrice.setText(price);
+
+            if (cartProduct.getProduct().getCategory().equals("Điện thoại")){
+                setPhoneVersionData(cartProduct);
+            } else if (cartProduct.getProduct().getCategory().equals("Laptop")) {
+                setLaptopVersionData(cartProduct);
+            } else if (cartProduct.getProduct().getCategory().equals("Tai nghe")) {
+                setWatchVersionData(cartProduct);
+            } else if (cartProduct.getProduct().getCategory().equals("Đồng hồ")) {
+                setHeadPhoneVersionData(cartProduct);
+            } else {
+                setAccessoryVersionData(cartProduct);
+            }
+        }
+        private void setPhoneVersionData(CartProduct cartProduct) {
+            String version = cartProduct.getVersion().getColor().toString() + " - "
+                    + cartProduct.getVersion().getRam().toString() + " - "
+                    + cartProduct.getVersion().getStorage().toString();
+            binding.tvVersion.setText(version);
+        }
+        private void setLaptopVersionData(CartProduct cartProduct) {
+        }
+        private void setWatchVersionData(CartProduct cartProduct) {
+        }
+        private void setHeadPhoneVersionData(CartProduct cartProduct) {
+        }
+        private void setAccessoryVersionData(CartProduct cartProduct) {
         }
     }
 }

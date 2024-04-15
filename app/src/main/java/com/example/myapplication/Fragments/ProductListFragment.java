@@ -91,8 +91,6 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
                         productList1.addAll(list);
                         adapter.setData(requireActivity(), productList);
                         adapter.notifyDataSetChanged();
-                        Toast.makeText(requireActivity(), String.valueOf(productList.size()), Toast.LENGTH_SHORT).show();
-
                     }
                 });
             }

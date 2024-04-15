@@ -67,7 +67,7 @@ public class UserRepository {
         String uid = firebaseAuth.getUid();
         String userType = "customer";
 
-        user.setUserType(userType);
+        user.setType(userType);
         user.setAddress(null);
 
         //Add info user into Cloud FireStore

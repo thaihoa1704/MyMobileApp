@@ -95,7 +95,7 @@ public class SearchFragment extends Fragment implements ClickItemProductListener
     private void filterList(String text) {
         List<Product> list = new ArrayList<>();
         for (Product product : productList){
-            if (product.getProductName().toLowerCase().contains(text.toLowerCase())){
+            if (product.getName().toLowerCase().contains(text.toLowerCase())){
                 list.add(product);
             }
         }

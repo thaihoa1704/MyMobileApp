@@ -4,9 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,8 +58,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             this.binding = binding;
         }
         public void bind(Product product) {
-            Glide.with(context).load(product.getImage()).into(binding.image);
-            binding.tvProductName.setText(product.getProductName());
+            String image = product.getImages().get(0).toString();
+            Glide.with(context).load(image).into(binding.image);
+            binding.tvProductName.setText(product.getName());
             binding.tvPrice.setText(" " + Convert.DinhDangTien(product.getPrice()) + "đ");
 
             binding.layoutItemProduct.setOnClickListener(new View.OnClickListener() {

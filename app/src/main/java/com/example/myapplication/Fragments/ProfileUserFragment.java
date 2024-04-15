@@ -15,13 +15,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.myapplication.Activities.MainActivity;
-import com.example.myapplication.ViewModels.CartProductViewModel;
+import com.example.myapplication.ViewModels.CartViewModel;
 import com.example.myapplication.ViewModels.UserViewModel;
 import com.example.myapplication.databinding.FragmentProfileUserBinding;
 
 public class ProfileUserFragment extends Fragment {
     private UserViewModel viewModel;
-    private CartProductViewModel cartProductViewModel;
+    private CartViewModel cartViewModel;
     private FragmentProfileUserBinding binding;
 
     @Override
@@ -41,8 +41,8 @@ public class ProfileUserFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        cartProductViewModel = new ViewModelProvider(this).get(CartProductViewModel.class);
-        cartProductViewModel.selectNoneAllProduct();
+        cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
+        cartViewModel.selectNoneAllProduct();
 
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
 

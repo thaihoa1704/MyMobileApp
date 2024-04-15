@@ -9,10 +9,11 @@
         android:id="@+id/SHomeFragment"
         android:name="com.example.myapplication.Fragments.SHomeFragment"
         android:label="fragment_shome"
-        tools:layout="@layout/fragment_shome" >
+        tools:layout="@layout/fragment_shome">
         <action
             android:id="@+id/action_SHomeFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            app:destination="@id/searchFragment"
+            />
         <action
             android:id="@+id/action_SHomeFragment_to_productListFragment"
             app:destination="@id/productListFragment" />

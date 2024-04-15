@@ -3,9 +3,7 @@ package com.example.myapplication.Repositories;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.myapplication.Listener.FireStoreCartProductList;
 import com.example.myapplication.Models.CartProduct;
-import com.example.myapplication.Models.Order;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -14,11 +12,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class OrderRepository {
     private FirebaseFirestore db;
@@ -67,7 +63,7 @@ public class OrderRepository {
     }
     public void deleteProductInCart(List<CartProduct> list){
         for (CartProduct item : list){
-            collectionReferenceCart.document(item.getProduct().getProductId())
+            collectionReferenceCart.document(item.getVersion().getId())
                     .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -79,7 +75,7 @@ public class OrderRepository {
     public void updateQuantityProduct(List<CartProduct> list){
         for (CartProduct item : list){
             int quantity = item.getQuantity();
-            collectionReferenceProduct.document(item.getProduct().getProductId())
+            collectionReferenceProduct.document(item.getVersion().getId())
                     .update("quantity", FieldValue.increment(- quantity))
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

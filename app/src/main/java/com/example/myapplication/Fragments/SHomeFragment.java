@@ -1,6 +1,5 @@
 package com.example.myapplication.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,17 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.myapplication.Activities.AdminActivity;
-import com.example.myapplication.Activities.ShoppingActivity;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
-import com.example.myapplication.ViewModels.CartProductViewModel;
+import com.example.myapplication.ViewModels.CartViewModel;
 import com.example.myapplication.ViewModels.UserViewModel;
 import com.example.myapplication.databinding.FragmentShomeBinding;
 
 public class SHomeFragment extends Fragment {
     private UserViewModel viewModel;
-    private CartProductViewModel cartProductViewModel;
+    private CartViewModel cartViewModel;
     private FragmentShomeBinding binding;
     private NavController controller;
     @Override
@@ -45,8 +42,8 @@ public class SHomeFragment extends Fragment {
 
         controller = Navigation.findNavController(view);
 
-        cartProductViewModel = new ViewModelProvider(this).get(CartProductViewModel.class);
-        cartProductViewModel.selectNoneAllProduct();
+        cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
+        cartViewModel.selectNoneAllProduct();
 
         viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         if(viewModel.getCurrentUser() != null){
@@ -54,7 +51,7 @@ public class SHomeFragment extends Fragment {
             viewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
                 @Override
                 public void onChanged(User user) {
-                    String name = user.getUserName();
+                    String name = user.getName();
                     binding.txtName.setText(name);
                 }
             });
@@ -91,7 +88,7 @@ public class SHomeFragment extends Fragment {
                 moveToNewFragment("Đồng hồ");
             }
         });
-        binding.imageCable.setOnClickListener(new View.OnClickListener() {
+        binding.imageAccessory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 moveToNewFragment("Phụ kiện");

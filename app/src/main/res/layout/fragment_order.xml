@@ -155,7 +155,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:orientation="horizontal"
-                        android:layout_marginLeft="40dp">
+                        android:layout_marginLeft="40dp"
+                        android:visibility="gone">
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="30dp"
                             android:layout_height="match_parent"
@@ -255,7 +256,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center|end"
-                            android:text="35.000.000 VND"
                             android:textColor="@color/black"
                             android:textSize="20dp"
                             android:layout_marginRight="10dp"/>
@@ -278,7 +278,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center|end"
-                            android:text="50,000 VND"
+                            android:text="50,000 đ"
                             android:textColor="@color/black"
                             android:textSize="20dp"
                             android:layout_marginRight="10dp"/>
@@ -302,7 +302,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center|end"
-                            android:text="35.050.000 VND"
                             android:textColor="@color/black"
                             android:textSize="22dp"
                             android:layout_marginRight="10dp"/>

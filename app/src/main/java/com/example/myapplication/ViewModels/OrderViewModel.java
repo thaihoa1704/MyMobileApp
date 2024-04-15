@@ -3,9 +3,7 @@ package com.example.myapplication.ViewModels;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.myapplication.Listener.FireStoreCartProductList;
 import com.example.myapplication.Models.CartProduct;
-import com.example.myapplication.Models.Order;
 import com.example.myapplication.Repositories.OrderRepository;
 
 import java.util.List;

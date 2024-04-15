@@ -2,15 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="120dp"
     android:layout_marginBottom="10dp"
     android:orientation="vertical"
     app:clickToClose="true"
-    android:id="@+id/layout_item_cart_product">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:id="@+id/layout_item_cart">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -52,36 +48,46 @@
                     android:layout_width="275dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginTop="5dp"
                     android:layout_marginRight="8dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tv_product_name"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:text="Samsung Galaxy S23 Ultra"
                         android:textColor="@color/black"
-                        android:textSize="21dp" />
+                        android:gravity="center|left"
+                        android:layout_marginTop="5dp"
+                        android:textSize="19dp" />
+                    <TextView
+                        android:id="@+id/tv_version"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Xanh Botanic - 8GB - 256GB"
+                        android:textColor="@color/black"
+                        android:gravity="center|left"
+                        android:textSize="19dp"
+                        android:layout_marginTop="3dp" />
 
                     <TextView
                         android:id="@+id/tv_price"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="3dp"
+                        android:layout_height="wrap_content"
                         android:text="35.000.000 đ"
                         android:textColor="@color/black"
-                        android:textSize="21dp" />
+                        android:gravity="center|left"
+                        android:layout_marginTop="3dp"
+                        android:textSize="19dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="3dp"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:background="@drawable/btn_categore_background">
 
@@ -101,15 +107,15 @@
                         <TextView
                             android:id="@+id/tv_quantity"
                             android:layout_width="80dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="1"
                             android:textColor="@color/black"
-                            android:textSize="23dp" />
+                            android:textSize="21dp" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:background="@drawable/btn_categore_background">
 
@@ -133,7 +139,5 @@
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

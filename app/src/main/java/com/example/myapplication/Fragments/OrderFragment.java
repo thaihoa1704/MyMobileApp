@@ -25,7 +25,7 @@ import com.example.myapplication.Helper.Convert;
 import com.example.myapplication.Models.CartProduct;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
-import com.example.myapplication.ViewModels.CartProductViewModel;
+import com.example.myapplication.ViewModels.CartViewModel;
 import com.example.myapplication.ViewModels.OrderViewModel;
 import com.example.myapplication.ViewModels.UserViewModel;
 import com.example.myapplication.databinding.FragmentOrderBinding;
@@ -35,7 +35,7 @@ import java.util.List;
 public class OrderFragment extends Fragment {
     private FragmentOrderBinding binding;
     private UserViewModel userViewModel;
-    private CartProductViewModel cartViewModel;
+    private CartViewModel cartViewModel;
     private OrderViewModel orderViewModel;
     private OrderProductAdapter adapter;
     private NavController controller;
@@ -64,12 +64,12 @@ public class OrderFragment extends Fragment {
             userViewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
                 @Override
                 public void onChanged(User user) {
-                    binding.tvUserName.setText(user.getUserName());
+                    binding.tvUserName.setText(user.getName());
                     binding.tvPhone.setText(user.getPhone());
                     String address = user.getAddress();
                     if (address != ""){
                         binding.tvAddress.setText(address);
-                        binding.linearLayoutAddAddress.setVisibility(View.INVISIBLE);
+                        binding.linearLayoutAddAddress.setVisibility(View.GONE);
                     }else {
                         binding.tvAddress.setVisibility(View.INVISIBLE);
                         binding.linearLayoutAddAddress.setVisibility(View.VISIBLE);
@@ -80,7 +80,7 @@ public class OrderFragment extends Fragment {
 
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
-        cartViewModel = new ViewModelProvider(this).get(CartProductViewModel.class);
+        cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
 
         adapter = new OrderProductAdapter();
 
@@ -88,29 +88,23 @@ public class OrderFragment extends Fragment {
         binding.rcvCartProductList.setLayoutManager(new LinearLayoutManager(requireActivity()));
         binding.rcvCartProductList.setAdapter(adapter);
 
-        List<CartProduct> orderList = new ArrayList<>();
-
-        cartViewModel.getList();
-        cartViewModel.getCartProductList().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
+        cartViewModel.getProductSelected();
+        cartViewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
             @Override
             public void onChanged(List<CartProduct> list) {
+                adapter.setData(requireActivity(), list);
+                adapter.notifyDataSetChanged();
+
                 int price = 0;
                 for (CartProduct item : list){
-                    if (item.isSelect()){
-                        orderList.add(item);
-
-                        int b = item.getQuantity();
-                        int a = item.getProduct().getPrice();
-                        price += a * b;
-                    }
+                    int b = item.getQuantity();
+                    int a = item.getVersion().getPrice();
+                    price += a * b;
                 }
-                binding.tvPriceProduct.setText(Convert.DinhDangTien(price) + " VND");
-                int total = price + 50000;
-                binding.tvTotal.setText(Convert.DinhDangTien(total) + " VND");
-                binding.tvTotal1.setText(Convert.DinhDangTien(total) + " VND");
-
-                adapter.setData(requireActivity(), orderList);
-                adapter.notifyDataSetChanged();
+                binding.tvPriceProduct.setText(Convert.DinhDangTien(price) + " đ");
+                int total = price + 50;
+                binding.tvTotal.setText(Convert.DinhDangTien(total) + " đ");
+                binding.tvTotal1.setText(Convert.DinhDangTien(total) + " đ");
             }
         });
 
@@ -120,7 +114,12 @@ public class OrderFragment extends Fragment {
                 if (binding.tvAddress.getText() == null){
                     Toast.makeText(requireContext(), "Bạn chưa chọn địa điểm giao hàng!", Toast.LENGTH_SHORT).show();
                 }else {
-                    openDialog(Gravity.CENTER, orderList);
+                    cartViewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
+                        @Override
+                        public void onChanged(List<CartProduct> list) {
+                            openDialog(Gravity.CENTER, list);
+                        }
+                    });
                 }
             }
         });
@@ -173,7 +172,7 @@ public class OrderFragment extends Fragment {
                 controller.navigate(R.id.action_orderFragment_to_handleOrderFragment);
 
                 String address = binding.tvAddress.getText().toString().trim();
-                int tatol = Convert.ChuyenTien(binding.tvTotal.getText().toString().trim());
+                int tatol = Convert.ChuyenTien(binding.tvTotal.getText().toString().trim()) / 1000;
 
                 orderViewModel.addOrder(list, address, tatol);
                 orderViewModel.deleteProductInCart(list);

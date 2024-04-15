@@ -1,21 +1,23 @@
 package com.example.myapplication.Models;
 
-public class CartProduct extends CartProductWithoutVersion{
-    private Version version;
+import com.example.myapplication.Models.ProductVersion.PhoneVersion;
 
-    public CartProduct() {
+public class CartPhone extends CartProductWithoutVersion {
+    private PhoneVersion version;
+
+    public CartPhone() {
     }
 
-    public CartProduct(Product product, Version version, int quantity, boolean select) {
+    public CartPhone(Product product, PhoneVersion version, int quantity, boolean select) {
         super(product, quantity, select);
         this.version = version;
     }
 
-    public Version getVersion() {
+    public PhoneVersion getVersion() {
         return version;
     }
 
-    public void setVersion(Version version) {
+    public void setVersion(PhoneVersion version) {
         this.version = version;
     }
 

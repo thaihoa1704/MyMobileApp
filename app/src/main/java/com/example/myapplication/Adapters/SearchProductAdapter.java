@@ -60,8 +60,8 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdap
         }
 
         public void bind(Product product) {
-            Glide.with(context).load(product.getImage()).into(binding.imgProduct);
-            binding.tvProductName.setText(product.getProductName());
+            Glide.with(context).load(product.getImages().get(0)).into(binding.imgProduct);
+            binding.tvProductName.setText(product.getName());
 
             binding.layoutItemSearchProduct.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -5,8 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -16,13 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.myapplication.R;
-import com.example.myapplication.ViewModels.CartProductViewModel;
+import com.example.myapplication.ViewModels.CartViewModel;
 import com.example.myapplication.databinding.FragmentCategoryBinding;
 
 public class CategoryFragment extends Fragment {
     private FragmentCategoryBinding binding;
     private NavController controller;
-    private CartProductViewModel cartProductViewModel;
+    private CartViewModel cartViewModel;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +37,8 @@ public class CategoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        cartProductViewModel = new ViewModelProvider(this).get(CartProductViewModel.class);
-        cartProductViewModel.selectNoneAllProduct();
+        cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
+        cartViewModel.selectNoneAllProduct();
 
         controller = Navigation.findNavController(view);
 
