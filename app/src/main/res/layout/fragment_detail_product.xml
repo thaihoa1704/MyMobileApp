@@ -165,15 +165,15 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:text="Thêm vào giỏ hàng"
-        android:textSize="18dp"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:background="@color/main"
-        android:enabled="false"
-        android:visibility="gone"></Button>
+        android:textAllCaps="false"
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,7 +3,10 @@ package com.example.myapplication.Repositories;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.myapplication.Listener.FireStoreCallbackCartProducts;
+import com.example.myapplication.Listener.FireStoreCallbackConfirmOrder;
 import com.example.myapplication.Models.CartProduct;
+import com.example.myapplication.Models.Order;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -12,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,8 +28,9 @@ public class OrderRepository {
     private CollectionReference collectionReferenceProduct;
     private String userId;
     private MutableLiveData<Boolean> check;
+    private FireStoreCallbackConfirmOrder fireStoreCallbackConfirmOrder;
 
-    public OrderRepository(){
+    public OrderRepository(FireStoreCallbackConfirmOrder fireStoreCallbackConfirmOrder){
         this.db = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
         this.userId = firebaseAuth.getUid();
@@ -33,6 +38,7 @@ public class OrderRepository {
         this.collectionReferenceCart = db.collection("User").document(userId).collection("Cart");
         this.collectionReferenceProduct = db.collection("Product");
         this.check = new MutableLiveData<>();
+        this.fireStoreCallbackConfirmOrder = fireStoreCallbackConfirmOrder;
     }
     public MutableLiveData<Boolean> getCheck() {
         return check;
@@ -42,7 +48,7 @@ public class OrderRepository {
         long timestamp = System.currentTimeMillis();
 
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("dateTime", FieldValue.serverTimestamp());
+        hashMap.put("dateTime", timestamp);
         hashMap.put("address", address);
         hashMap.put("listOrder", list);
         hashMap.put("tatol", tatol);
@@ -84,5 +90,16 @@ public class OrderRepository {
                         }
                     });
         }
+    }
+    public void getConfirmOrder(){
+        collectionReferenceOrder.whereEqualTo("status", "Chờ xác nhận")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            fireStoreCallbackConfirmOrder.onCallback(task.getResult().toObjects(Order.class));
+                        }
+                    }
+                });
     }
 }

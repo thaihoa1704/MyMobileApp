@@ -56,14 +56,12 @@ public class SHomeFragment extends Fragment {
                 }
             });
         }
-
         binding.tvSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 controller.navigate(R.id.action_SHomeFragment_to_searchFragment);
             }
         });
-
         binding.imgPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,7 +93,6 @@ public class SHomeFragment extends Fragment {
             }
         });
     }
-
     private void moveToNewFragment(String nameCategory){
         Bundle bundle = new Bundle();
         String nameFragment = "homeFragment";

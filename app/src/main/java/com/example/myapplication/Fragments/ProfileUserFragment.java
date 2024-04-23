@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +17,21 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.myapplication.Activities.MainActivity;
+import com.example.myapplication.Models.Order;
+import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.CartViewModel;
+import com.example.myapplication.ViewModels.OrderViewModel;
 import com.example.myapplication.ViewModels.UserViewModel;
 import com.example.myapplication.databinding.FragmentProfileUserBinding;
+
+import java.util.List;
 
 public class ProfileUserFragment extends Fragment {
     private UserViewModel viewModel;
     private CartViewModel cartViewModel;
+    private OrderViewModel orderViewModel;
     private FragmentProfileUserBinding binding;
+    private NavController controller;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,13 +49,35 @@ public class ProfileUserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
-        cartViewModel.selectNoneAllProduct();
+        controller = Navigation.findNavController(view);
 
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
+        cartViewModel.selectNoneAllProduct();
 
-        binding.btnOut.setOnClickListener(new View.OnClickListener() {
+        setQuantityConfirmOrder();
+
+        binding.imgConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveToNewFragment(1);
+            }
+        });
+        binding.imgShipping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveToNewFragment(2);
+            }
+        });
+        binding.imgRate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveToNewFragment(3);
+            }
+        });
+
+        binding.tvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 viewModel.userLogout();
@@ -63,5 +94,25 @@ public class ProfileUserFragment extends Fragment {
                 });
             }
         });
+    }
+
+    private void setQuantityConfirmOrder() {
+        orderViewModel.getConfirm();
+        orderViewModel.getConfirmOrder().observe(getViewLifecycleOwner(), new Observer<List<Order>>() {
+            @Override
+            public void onChanged(List<Order> list) {
+                int quantity = list.size();
+                if (quantity != 0){
+                    binding.tvQuantityConfirm.setText(String.valueOf(quantity));
+                    binding.cvConfirm.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
+    private void moveToNewFragment(int id){
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", id);
+        controller.navigate(R.id.action_profileUserFragment_to_orderProcessFragment, bundle);
     }
 }

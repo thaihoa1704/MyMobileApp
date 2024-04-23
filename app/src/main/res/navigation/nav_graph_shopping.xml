@@ -43,7 +43,11 @@
         android:id="@+id/profileUserFragment"
         android:name="com.example.myapplication.Fragments.ProfileUserFragment"
         android:label="fragment_profile_user"
-        tools:layout="@layout/fragment_profile_user" />
+        tools:layout="@layout/fragment_profile_user" >
+        <action
+            android:id="@+id/action_profileUserFragment_to_orderProcessFragment"
+            app:destination="@id/orderProcessFragment" />
+    </fragment>
     <fragment
         android:id="@+id/productListFragment"
         android:name="com.example.myapplication.Fragments.ProductListFragment"
@@ -103,5 +107,14 @@
         <action
             android:id="@+id/action_searchFragment_to_detailProductFragment"
             app:destination="@id/detailProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderProcessFragment"
+        android:name="com.example.myapplication.Fragments.OrderProcessFragment"
+        android:label="fragment_order_process"
+        tools:layout="@layout/fragment_order_process" >
+        <action
+            android:id="@+id/action_orderProcessFragment_to_profileUserFragment"
+            app:destination="@id/profileUserFragment" />
     </fragment>
 </navigation>
