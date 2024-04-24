@@ -4,13 +4,15 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.myapplication.Listener.FireStoreCallbackConfirmOrder;
+import com.example.myapplication.Listener.FireStoreCallbackRateOrder;
+import com.example.myapplication.Listener.FireStoreCallbackShippingOrder;
 import com.example.myapplication.Models.CartProduct;
 import com.example.myapplication.Models.Order;
 import com.example.myapplication.Repositories.OrderRepository;
 
 import java.util.List;
 
-public class OrderViewModel extends ViewModel implements FireStoreCallbackConfirmOrder {
+public class OrderViewModel extends ViewModel implements FireStoreCallbackConfirmOrder, FireStoreCallbackShippingOrder, FireStoreCallbackRateOrder {
     private OrderRepository repository;
     private MutableLiveData<List<CartProduct>> listMutableLiveData;
     private MutableLiveData<Boolean> checkOrder;
@@ -19,7 +21,7 @@ public class OrderViewModel extends ViewModel implements FireStoreCallbackConfir
     private MutableLiveData<List<Order>> rateOrder;
 
     public OrderViewModel(){
-        this.repository = new OrderRepository(this);
+        this.repository = new OrderRepository(this, this, this);
         this.listMutableLiveData = new MutableLiveData<>();
         this.checkOrder = repository.getCheck();
         this.confirmOrder = new MutableLiveData<>();
@@ -39,13 +41,34 @@ public class OrderViewModel extends ViewModel implements FireStoreCallbackConfir
     public void getConfirm(){
         repository.getConfirmOrder();
     }
-
+    @Override
+    public void onCallbackC(List<Order> list) {
+        confirmOrder.postValue(list);
+    }
     public MutableLiveData<List<Order>> getConfirmOrder() {
         return confirmOrder;
     }
 
+
+    public void getShipping(){
+        repository.getShippingOrder();
+    }
     @Override
-    public void onCallback(List<Order> list) {
-        confirmOrder.postValue(list);
+    public void onCallbackS(List<Order> list) {
+        shippingOrder.postValue(list);
+    }
+    public MutableLiveData<List<Order>> getShippingOrder() {
+        return shippingOrder;
+    }
+
+    public void getRate(){
+        repository.getRateOrder();
+    }
+    @Override
+    public void onCallbackR(List<Order> list) {
+        rateOrder.postValue(list);
+    }
+    public MutableLiveData<List<Order>> getRateOrder() {
+        return rateOrder;
     }
 }

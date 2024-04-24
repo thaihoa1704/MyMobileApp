@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.myapplication.Listener.FireStoreCallbackCartProducts;
 import com.example.myapplication.Listener.FireStoreCallbackConfirmOrder;
+import com.example.myapplication.Listener.FireStoreCallbackRateOrder;
+import com.example.myapplication.Listener.FireStoreCallbackShippingOrder;
 import com.example.myapplication.Models.CartProduct;
 import com.example.myapplication.Models.Order;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,8 +31,12 @@ public class OrderRepository {
     private String userId;
     private MutableLiveData<Boolean> check;
     private FireStoreCallbackConfirmOrder fireStoreCallbackConfirmOrder;
+    private FireStoreCallbackShippingOrder fireStoreCallbackShippingOrder;
+    private FireStoreCallbackRateOrder fireStoreCallbackRateOrder;
 
-    public OrderRepository(FireStoreCallbackConfirmOrder fireStoreCallbackConfirmOrder){
+    public OrderRepository(FireStoreCallbackConfirmOrder fireStoreCallbackConfirmOrder,
+                           FireStoreCallbackShippingOrder fireStoreCallbackShippingOrder,
+                           FireStoreCallbackRateOrder fireStoreCallbackRateOrder){
         this.db = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
         this.userId = firebaseAuth.getUid();
@@ -39,19 +45,21 @@ public class OrderRepository {
         this.collectionReferenceProduct = db.collection("Product");
         this.check = new MutableLiveData<>();
         this.fireStoreCallbackConfirmOrder = fireStoreCallbackConfirmOrder;
+        this.fireStoreCallbackShippingOrder = fireStoreCallbackShippingOrder;
+        this.fireStoreCallbackRateOrder = fireStoreCallbackRateOrder;
     }
     public MutableLiveData<Boolean> getCheck() {
         return check;
     }
 
-    public void addOrder(List<CartProduct> list, String address, int tatol){
+    public void addOrder(List<CartProduct> list, String address, int total){
         long timestamp = System.currentTimeMillis();
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("dateTime", timestamp);
         hashMap.put("address", address);
-        hashMap.put("listOrder", list);
-        hashMap.put("tatol", tatol);
+        hashMap.put("listProduct", list);
+        hashMap.put("total", total);
         hashMap.put("status", "Chờ xác nhận");
 
         collectionReferenceOrder.document(String.valueOf(timestamp)).set(hashMap)
@@ -97,7 +105,29 @@ public class OrderRepository {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()){
-                            fireStoreCallbackConfirmOrder.onCallback(task.getResult().toObjects(Order.class));
+                            fireStoreCallbackConfirmOrder.onCallbackC(task.getResult().toObjects(Order.class));
+                        }
+                    }
+                });
+    }
+    public void getShippingOrder(){
+        collectionReferenceOrder.whereEqualTo("status", "")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            fireStoreCallbackShippingOrder.onCallbackS(task.getResult().toObjects(Order.class));
+                        }
+                    }
+                });
+    }
+    public void getRateOrder(){
+        collectionReferenceOrder.whereEqualTo("status", "")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            fireStoreCallbackRateOrder.onCallbackR(task.getResult().toObjects(Order.class));
                         }
                     }
                 });

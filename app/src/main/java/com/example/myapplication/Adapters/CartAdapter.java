@@ -77,13 +77,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
             documentId = cartProduct.getVersion().getId();
 
-            if (cartProduct.getProduct().getCategory().equals("Điện thoại")){
+            String category = cartProduct.getProduct().getCategory().toString();
+            if (category.equals("Điện thoại")){
                 setPhoneVersionData(cartProduct);
-            } else if (cartProduct.getProduct().getCategory().equals("Laptop")) {
+            } else if (category.equals("Laptop")) {
                 setLaptopVersionData(cartProduct);
-            } else if (cartProduct.getProduct().getCategory().equals("Tai nghe")) {
+            } else if (category.equals("Tai nghe")) {
                 setWatchVersionData(cartProduct);
-            } else if (cartProduct.getProduct().getCategory().equals("Đồng hồ")) {
+            } else if (category.equals("Đồng hồ")) {
                 setHeadPhoneVersionData(cartProduct);
             } else {
                 setAccessoryVersionData(cartProduct);

@@ -3,27 +3,27 @@ package com.example.myapplication.Models;
 import java.util.List;
 
 public class Order {
-    private List<CartProduct> list;
+    private List<CartProduct> listProduct;
     private long dateTime;
     private String address;
     private String status;
     private int total;
     public Order() {
     }
-    public Order(List<CartProduct> list, long dateTime, String address, String status, int total) {
-        this.list = list;
+    public Order(List<CartProduct> listProduct, long dateTime, String address, String status, int total) {
+        this.listProduct = listProduct;
         this.dateTime = dateTime;
         this.address = address;
         this.status = status;
         this.total = total;
     }
 
-    public List<CartProduct> getList() {
-        return list;
+    public List<CartProduct> getListProduct() {
+        return listProduct;
     }
 
-    public void setList(List<CartProduct> list) {
-        this.list = list;
+    public void setListProduct(List<CartProduct> listProduct) {
+        this.listProduct = listProduct;
     }
 
     public long getDateTime() {

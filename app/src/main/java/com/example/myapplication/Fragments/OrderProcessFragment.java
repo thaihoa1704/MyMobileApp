@@ -6,21 +6,31 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.myapplication.Adapters.OrderAdapter;
+import com.example.myapplication.Models.Order;
 import com.example.myapplication.R;
+import com.example.myapplication.ViewModels.OrderViewModel;
 import com.example.myapplication.databinding.FragmentOrderBinding;
 import com.example.myapplication.databinding.FragmentOrderProcessBinding;
+
+import java.util.List;
 
 public class OrderProcessFragment extends Fragment {
     private FragmentOrderProcessBinding binding;
     private NavController controller;
-
+    private OrderAdapter orderAdapter;
+    private OrderViewModel orderViewModel;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +49,7 @@ public class OrderProcessFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         controller = Navigation.findNavController(view);
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
         int id = getArguments().getInt("id");
         if (id == 1){
@@ -73,6 +84,12 @@ public class OrderProcessFragment extends Fragment {
                 controller.navigate(R.id.action_orderProcessFragment_to_profileUserFragment);
             }
         });
+
+        orderAdapter = new OrderAdapter();
+
+        binding.rcvOrder.setHasFixedSize(true);
+        binding.rcvOrder.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        binding.rcvOrder.setAdapter(orderAdapter);
     }
     private void confirm(){
         binding.tvConfirm.setTextColor(Color.parseColor("#FF5722"));
@@ -81,7 +98,10 @@ public class OrderProcessFragment extends Fragment {
         binding.lineShipping.setVisibility(View.GONE);
         binding.tvRate.setTextColor(Color.parseColor("#FF000000"));
         binding.lineRate.setVisibility(View.GONE);
+
+        setConfirmOrderAdapter();
     }
+
     private void shipping(){
         binding.tvShipping.setTextColor(Color.parseColor("#FF5722"));
         binding.lineShipping.setVisibility(View.VISIBLE);
@@ -89,6 +109,8 @@ public class OrderProcessFragment extends Fragment {
         binding.lineConfirm.setVisibility(View.GONE);
         binding.tvRate.setTextColor(Color.parseColor("#FF000000"));
         binding.lineRate.setVisibility(View.GONE);
+
+        setShippingOrderAdapter();
     }
     private void rate(){
         binding.tvRate.setTextColor(Color.parseColor("#FF5722"));
@@ -97,5 +119,52 @@ public class OrderProcessFragment extends Fragment {
         binding.lineConfirm.setVisibility(View.GONE);
         binding.tvShipping.setTextColor(Color.parseColor("#FF000000"));
         binding.lineShipping.setVisibility(View.GONE);
+
+        setRateOrderAdapter();
+    }
+    private void setConfirmOrderAdapter() {
+        orderViewModel.getConfirm();
+        MutableLiveData<List<Order>> listMutableLiveData = orderViewModel.getConfirmOrder();
+        listMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<Order>>() {
+            @Override
+            public void onChanged(List<Order> list) {
+                if (list != null){
+                    orderAdapter.setData(requireActivity(), list);
+                    orderAdapter.notifyDataSetChanged();
+
+                    listMutableLiveData.removeObserver(this);
+                }
+            }
+        });
+    }
+    private void setShippingOrderAdapter() {
+        orderViewModel.getShipping();
+        MutableLiveData<List<Order>> listMutableLiveData = orderViewModel.getShippingOrder();
+        listMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<Order>>() {
+            @Override
+            public void onChanged(List<Order> list) {
+                if (list != null){
+                    orderAdapter.setData(requireActivity(), list);
+                    orderAdapter.notifyDataSetChanged();
+
+                    listMutableLiveData.removeObserver(this);
+                }
+            }
+        });
+    }
+    private void setRateOrderAdapter() {
+        orderViewModel.getRate();
+        MutableLiveData<List<Order>> listMutableLiveData = orderViewModel.getRateOrder();
+        listMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<Order>>() {
+            @Override
+            public void onChanged(List<Order> list) {
+                if (list != null){
+                    orderAdapter.setData(requireActivity(), list);
+                    orderAdapter.notifyDataSetChanged();
+
+                    listMutableLiveData.removeObserver(this);
+                }
+            }
+        });
     }
 }

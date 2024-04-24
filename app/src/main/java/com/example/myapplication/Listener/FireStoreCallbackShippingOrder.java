@@ -4,6 +4,6 @@ import com.example.myapplication.Models.Order;
 
 import java.util.List;
 
-public interface FireStoreCallbackConfirmOrder {
-    void onCallbackC(List<Order> list);
+public interface FireStoreCallbackShippingOrder {
+    void onCallbackS(List<Order> list);
 }
