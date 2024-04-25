@@ -116,5 +116,17 @@
         <action
             android:id="@+id/action_orderProcessFragment_to_profileUserFragment"
             app:destination="@id/profileUserFragment" />
+        <action
+            android:id="@+id/action_orderProcessFragment_to_detailOrderFragment"
+            app:destination="@id/detailOrderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailOrderFragment"
+        android:name="com.example.myapplication.Fragments.DetailOrderFragment"
+        android:label="fragment_detail_order"
+        tools:layout="@layout/fragment_detail_order" >
+        <action
+            android:id="@+id/action_detailOrderFragment_to_orderProcessFragment"
+            app:destination="@id/orderProcessFragment" />
     </fragment>
 </navigation>

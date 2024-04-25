@@ -25,6 +25,8 @@ public class OrderViewModel extends ViewModel implements FireStoreCallbackConfir
         this.listMutableLiveData = new MutableLiveData<>();
         this.checkOrder = repository.getCheck();
         this.confirmOrder = new MutableLiveData<>();
+        this.shippingOrder = new MutableLiveData<>();
+        this.rateOrder = new MutableLiveData<>();
     }
     public void addOrder(List<CartProduct> list, String address, int tatol){
         repository.addOrder(list, address, tatol);

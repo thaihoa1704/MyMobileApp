@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,7 +20,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.myapplication.Adapters.OrderAdapter;
+import com.example.myapplication.Listener.ClickItemOrderListener;
 import com.example.myapplication.Models.Order;
+import com.example.myapplication.Models.Product;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.OrderViewModel;
 import com.example.myapplication.databinding.FragmentOrderBinding;
@@ -26,7 +30,7 @@ import com.example.myapplication.databinding.FragmentOrderProcessBinding;
 
 import java.util.List;
 
-public class OrderProcessFragment extends Fragment {
+public class OrderProcessFragment extends Fragment implements ClickItemOrderListener {
     private FragmentOrderProcessBinding binding;
     private NavController controller;
     private OrderAdapter orderAdapter;
@@ -85,7 +89,7 @@ public class OrderProcessFragment extends Fragment {
             }
         });
 
-        orderAdapter = new OrderAdapter();
+        orderAdapter = new OrderAdapter(this);
 
         binding.rcvOrder.setHasFixedSize(true);
         binding.rcvOrder.setLayoutManager(new LinearLayoutManager(requireActivity()));
@@ -166,5 +170,20 @@ public class OrderProcessFragment extends Fragment {
                 }
             }
         });
+    }
+    private void addFragment(Fragment fragment, Order order){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Order", order);
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.frame_layout_order, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+    @Override
+    public void onClick(Order order) {
+        addFragment(new DetailOrderFragment(), order);
     }
 }

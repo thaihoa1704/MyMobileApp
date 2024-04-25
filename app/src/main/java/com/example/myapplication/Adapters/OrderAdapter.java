@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.Helper.Convert;
+import com.example.myapplication.Listener.ClickItemOrderListener;
 import com.example.myapplication.Models.CartProduct;
 import com.example.myapplication.Models.Order;
 import com.example.myapplication.Models.Product;
@@ -20,6 +21,11 @@ import java.util.List;
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder>{
     private Context context;
     private List<Order> list;
+    private ClickItemOrderListener clickItemOrderListener;
+
+    public OrderAdapter(ClickItemOrderListener clickItemOrderListener) {
+        this.clickItemOrderListener = clickItemOrderListener;
+    }
 
     public void setData(Context context, List<Order> list) {
         this.context = context;
@@ -102,6 +108,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             if (process.equals("Chờ xác nhận")){
                 binding.btnProcess.setText("Đang xử lý");
             }
+
+            binding.layoutItemOrder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickItemOrderListener.onClick(order);
+                }
+            });
         }
         private void setPhoneVersionData(CartProduct cartProduct) {
             String version = cartProduct.getVersion().getColor().toString() + " - "
