@@ -57,6 +57,8 @@ public class ProfileUserFragment extends Fragment {
         cartViewModel.selectNoneAllProduct();
 
         setQuantityConfirmOrder();
+        setQuantityShippingOrder();
+        setQuantityRateOrder();
 
         binding.imgConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +107,32 @@ public class ProfileUserFragment extends Fragment {
                 if (quantity != 0){
                     binding.tvQuantityConfirm.setText(String.valueOf(quantity));
                     binding.cvConfirm.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+    private void setQuantityShippingOrder() {
+        orderViewModel.getShipping();
+        orderViewModel.getShippingOrder().observe(getViewLifecycleOwner(), new Observer<List<Order>>() {
+            @Override
+            public void onChanged(List<Order> list) {
+                int quantity = list.size();
+                if (quantity != 0){
+                    binding.tvQuantityShipping.setText(String.valueOf(quantity));
+                    binding.cvShipping.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+    private void setQuantityRateOrder() {
+        orderViewModel.getRate();
+        orderViewModel.getRateOrder().observe(getViewLifecycleOwner(), new Observer<List<Order>>() {
+            @Override
+            public void onChanged(List<Order> list) {
+                int quantity = list.size();
+                if (quantity != 0){
+                    binding.tvQuantityRate.setText(String.valueOf(quantity));
+                    binding.cvRate.setVisibility(View.VISIBLE);
                 }
             }
         });

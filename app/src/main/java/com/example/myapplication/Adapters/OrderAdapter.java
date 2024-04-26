@@ -1,6 +1,7 @@
 package com.example.myapplication.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,6 +108,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             String process = order.getStatus().toString();
             if (process.equals("Chờ xác nhận")){
                 binding.btnProcess.setText("Đang xử lý");
+            }else if (process.equals("Đơn hàng đang trên đường giao đến bạn")){
+                binding.tvStatus.setText(process);
+                binding.tvStatus.setVisibility(View.VISIBLE);
+                binding.btnProcess.setText("Đã nhận được hàng");
+                binding.btnProcess.setBackgroundColor(Color.parseColor("#49d7c8"));
             }
 
             binding.layoutItemOrder.setOnClickListener(new View.OnClickListener() {

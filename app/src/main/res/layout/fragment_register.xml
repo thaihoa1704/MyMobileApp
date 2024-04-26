@@ -26,8 +26,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="THÔNG TIN TÀI KHOẢN"
+            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="30sp" />
+            android:textSize="30dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -103,7 +104,7 @@
             android:id="@+id/edt_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="20dp"
             android:layout_marginTop="30dp"/>
 
         <Button
@@ -112,7 +113,8 @@
             android:layout_height="60dp"
             android:layout_marginTop="30dp"
             android:text="Đăng ký"
-            android:textSize="21sp"/>
+            android:textAllCaps="false"
+            android:textSize="23dp"/>
     </LinearLayout>
 
 </LinearLayout>

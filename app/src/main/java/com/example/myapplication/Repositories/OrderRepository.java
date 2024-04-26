@@ -111,7 +111,7 @@ public class OrderRepository {
                 });
     }
     public void getShippingOrder(){
-        collectionReferenceOrder.whereEqualTo("status", "")
+        collectionReferenceOrder.whereEqualTo("status", "Đơn hàng đang trên đường giao đến bạn")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -122,7 +122,7 @@ public class OrderRepository {
                 });
     }
     public void getRateOrder(){
-        collectionReferenceOrder.whereEqualTo("status", "")
+        collectionReferenceOrder.whereEqualTo("status", "Chưa đánh giá")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

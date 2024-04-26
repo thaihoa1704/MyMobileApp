@@ -52,6 +52,7 @@ public class OrderProcessFragment extends Fragment implements ClickItemOrderList
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         controller = Navigation.findNavController(view);
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
@@ -135,8 +136,6 @@ public class OrderProcessFragment extends Fragment implements ClickItemOrderList
                 if (list != null){
                     orderAdapter.setData(requireActivity(), list);
                     orderAdapter.notifyDataSetChanged();
-
-                    listMutableLiveData.removeObserver(this);
                 }
             }
         });
@@ -150,8 +149,6 @@ public class OrderProcessFragment extends Fragment implements ClickItemOrderList
                 if (list != null){
                     orderAdapter.setData(requireActivity(), list);
                     orderAdapter.notifyDataSetChanged();
-
-                    listMutableLiveData.removeObserver(this);
                 }
             }
         });
@@ -165,8 +162,6 @@ public class OrderProcessFragment extends Fragment implements ClickItemOrderList
                 if (list != null){
                     orderAdapter.setData(requireActivity(), list);
                     orderAdapter.notifyDataSetChanged();
-
-                    listMutableLiveData.removeObserver(this);
                 }
             }
         });
