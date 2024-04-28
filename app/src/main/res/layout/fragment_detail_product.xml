@@ -163,17 +163,18 @@
     <Button
         android:id="@+id/btn_add"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="50dp"
         android:text="Thêm vào giỏ hàng"
         android:textSize="20dp"
+        android:textColor="#333333"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="12dp"
         android:background="@color/main"
         android:textAllCaps="false"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

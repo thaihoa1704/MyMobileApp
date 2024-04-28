@@ -1,6 +1,7 @@
 package com.example.myapplication.Fragments;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -98,10 +99,13 @@ public class OrderProcessFragment extends Fragment implements ClickItemOrderList
     }
     private void confirm(){
         binding.tvConfirm.setTextColor(Color.parseColor("#FF5722"));
+        binding.tvConfirm.setTypeface(Typeface.DEFAULT_BOLD);
         binding.lineConfirm.setVisibility(View.VISIBLE);
         binding.tvShipping.setTextColor(Color.parseColor("#FF000000"));
+        binding.tvShipping.setTypeface(Typeface.DEFAULT);
         binding.lineShipping.setVisibility(View.GONE);
         binding.tvRate.setTextColor(Color.parseColor("#FF000000"));
+        binding.tvRate.setTypeface(Typeface.DEFAULT);
         binding.lineRate.setVisibility(View.GONE);
 
         setConfirmOrderAdapter();
@@ -109,20 +113,26 @@ public class OrderProcessFragment extends Fragment implements ClickItemOrderList
 
     private void shipping(){
         binding.tvShipping.setTextColor(Color.parseColor("#FF5722"));
+        binding.tvShipping.setTypeface(Typeface.DEFAULT_BOLD);
         binding.lineShipping.setVisibility(View.VISIBLE);
         binding.tvConfirm.setTextColor(Color.parseColor("#FF000000"));
+        binding.tvConfirm.setTypeface(Typeface.DEFAULT);
         binding.lineConfirm.setVisibility(View.GONE);
         binding.tvRate.setTextColor(Color.parseColor("#FF000000"));
+        binding.tvRate.setTypeface(Typeface.DEFAULT);
         binding.lineRate.setVisibility(View.GONE);
 
         setShippingOrderAdapter();
     }
     private void rate(){
         binding.tvRate.setTextColor(Color.parseColor("#FF5722"));
+        binding.tvRate.setTypeface(Typeface.DEFAULT_BOLD);
         binding.lineRate.setVisibility(View.VISIBLE);
         binding.tvConfirm.setTextColor(Color.parseColor("#FF000000"));
+        binding.tvConfirm.setTypeface(Typeface.DEFAULT);
         binding.lineConfirm.setVisibility(View.GONE);
         binding.tvShipping.setTextColor(Color.parseColor("#FF000000"));
+        binding.tvShipping.setTypeface(Typeface.DEFAULT);
         binding.lineShipping.setVisibility(View.GONE);
 
         setRateOrderAdapter();

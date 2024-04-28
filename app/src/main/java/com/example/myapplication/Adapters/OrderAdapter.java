@@ -94,6 +94,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             if (order.getListProduct().size() > 1){
                 binding.tvAnother.setVisibility(View.VISIBLE);
                 binding.line1.setVisibility(View.VISIBLE);
+            }else {
+                binding.tvAnother.setVisibility(View.GONE);
+                binding.line1.setVisibility(View.GONE);
             }
 
             int tatolQuantity = 0;
@@ -108,10 +111,17 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             String process = order.getStatus().toString();
             if (process.equals("Chờ xác nhận")){
                 binding.btnProcess.setText("Đang xử lý");
+                binding.tvStatus.setVisibility(View.GONE);
+                binding.btnProcess.setBackgroundColor(Color.parseColor("#CECFCF"));
             }else if (process.equals("Đơn hàng đang trên đường giao đến bạn")){
                 binding.tvStatus.setText(process);
                 binding.tvStatus.setVisibility(View.VISIBLE);
                 binding.btnProcess.setText("Đã nhận được hàng");
+                binding.btnProcess.setBackgroundColor(Color.parseColor("#49d7c8"));
+            } else if (process.equals("Chưa đánh giá")) {
+                binding.tvStatus.setText(process);
+                binding.tvStatus.setVisibility(View.VISIBLE);
+                binding.btnProcess.setText("Đánh giá");
                 binding.btnProcess.setBackgroundColor(Color.parseColor("#49d7c8"));
             }
 

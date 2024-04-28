@@ -85,6 +85,15 @@ public class DetailOrderFragment extends Fragment {
             }
         });
 
+        String status = order.getStatus().toString();
+        if (status.equals("Chờ xác nhận")){
+            
+        } else if (status.equals("Đơn hàng đang trên đường giao đến bạn")) {
+            binding.btnProcess.setText("Đã nhận được đơn hàng");
+        } else if (status.equals("Chưa đánh giá")){
+            binding.btnProcess.setText("Đánh giá");
+        }
+
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

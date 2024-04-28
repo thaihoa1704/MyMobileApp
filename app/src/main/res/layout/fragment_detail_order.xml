@@ -295,4 +295,19 @@
 
     </ScrollView>
 
+    <Button
+        android:id="@+id/btn_process"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="12dp"
+        android:text="Đã nhận được đơn hàng"
+        android:textAllCaps="false"
+        android:textSize="18dp"
+        android:background="@color/main"
+        android:textColor="#333333"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
