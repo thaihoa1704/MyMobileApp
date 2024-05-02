@@ -113,16 +113,17 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 binding.btnProcess.setText("Đang xử lý");
                 binding.tvStatus.setVisibility(View.GONE);
                 binding.btnProcess.setBackgroundColor(Color.parseColor("#CECFCF"));
-            }else if (process.equals("Đơn hàng đang trên đường giao đến bạn")){
+            } else if (process.equals("Đơn hàng đang trên đường giao đến bạn")){
                 binding.tvStatus.setText(process);
                 binding.tvStatus.setVisibility(View.VISIBLE);
                 binding.btnProcess.setText("Đã nhận được hàng");
                 binding.btnProcess.setBackgroundColor(Color.parseColor("#49d7c8"));
             } else if (process.equals("Chưa đánh giá")) {
-                binding.tvStatus.setText(process);
-                binding.tvStatus.setVisibility(View.VISIBLE);
+                binding.tvStatus.setVisibility(View.GONE);
                 binding.btnProcess.setText("Đánh giá");
                 binding.btnProcess.setBackgroundColor(Color.parseColor("#49d7c8"));
+            } else if (process.equals("Đã đánh giá")){
+
             }
 
             binding.layoutItemOrder.setOnClickListener(new View.OnClickListener() {

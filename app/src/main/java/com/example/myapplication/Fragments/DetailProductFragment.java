@@ -195,6 +195,9 @@ public class DetailProductFragment extends Fragment implements ClickItemColorLis
                     }
                 }
             });
+        }else if (productColorSelected == null || phoneVersionSelected == null){
+            binding.tvPrice.setText(null);
+            binding.btnAdd.setVisibility(View.GONE);
         }else {
             binding.tvPrice.setText(null);
             setAddButtonOff();

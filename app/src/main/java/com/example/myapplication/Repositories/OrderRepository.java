@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.myapplication.Listener.FireStoreCallbackCartProducts;
 import com.example.myapplication.Listener.FireStoreCallbackConfirmOrder;
+import com.example.myapplication.Listener.FireStoreCallbackPurchaseHistory;
 import com.example.myapplication.Listener.FireStoreCallbackRateOrder;
 import com.example.myapplication.Listener.FireStoreCallbackShippingOrder;
 import com.example.myapplication.Models.CartProduct;
@@ -33,10 +34,12 @@ public class OrderRepository {
     private FireStoreCallbackConfirmOrder fireStoreCallbackConfirmOrder;
     private FireStoreCallbackShippingOrder fireStoreCallbackShippingOrder;
     private FireStoreCallbackRateOrder fireStoreCallbackRateOrder;
+    private FireStoreCallbackPurchaseHistory fireStoreCallbackPurchaseHistory;
 
     public OrderRepository(FireStoreCallbackConfirmOrder fireStoreCallbackConfirmOrder,
                            FireStoreCallbackShippingOrder fireStoreCallbackShippingOrder,
-                           FireStoreCallbackRateOrder fireStoreCallbackRateOrder){
+                           FireStoreCallbackRateOrder fireStoreCallbackRateOrder,
+                           FireStoreCallbackPurchaseHistory fireStoreCallbackPurchaseHistory){
         this.db = FirebaseFirestore.getInstance();
         this.firebaseAuth = FirebaseAuth.getInstance();
         this.userId = firebaseAuth.getUid();
@@ -47,6 +50,7 @@ public class OrderRepository {
         this.fireStoreCallbackConfirmOrder = fireStoreCallbackConfirmOrder;
         this.fireStoreCallbackShippingOrder = fireStoreCallbackShippingOrder;
         this.fireStoreCallbackRateOrder = fireStoreCallbackRateOrder;
+        this.fireStoreCallbackPurchaseHistory = fireStoreCallbackPurchaseHistory;
     }
     public MutableLiveData<Boolean> getCheck() {
         return check;
@@ -61,6 +65,7 @@ public class OrderRepository {
         hashMap.put("listProduct", list);
         hashMap.put("total", total);
         hashMap.put("status", "Chờ xác nhận");
+        hashMap.put("note", "");
 
         collectionReferenceOrder.document(String.valueOf(timestamp)).set(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -129,6 +134,28 @@ public class OrderRepository {
                         if (task.isSuccessful()){
                             fireStoreCallbackRateOrder.onCallbackR(task.getResult().toObjects(Order.class));
                         }
+                    }
+                });
+    }
+    public void getPurchaseHistory(){
+        collectionReferenceOrder.whereEqualTo("status", "Chưa đánh giá")
+                                .whereEqualTo("status", "Đã đánh giá")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            fireStoreCallbackPurchaseHistory.onCallback(task.getResult().toObjects(Order.class));
+                        }
+                    }
+                });
+    }
+    public void updateReceiveOrder(Order order){
+        collectionReferenceOrder.document(String.valueOf(order.getDateTime()))
+                .update("status", "Chưa đánh giá")
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
                     }
                 });
     }

@@ -40,13 +40,16 @@
             app:destination="@id/detailProductFragment" />
     </fragment>
     <fragment
-        android:id="@+id/profileUserFragment"
-        android:name="com.example.myapplication.Fragments.ProfileUserFragment"
-        android:label="fragment_profile_user"
-        tools:layout="@layout/fragment_profile_user" >
+        android:id="@+id/informationUserFragment"
+        android:name="com.example.myapplication.Fragments.InformationUserFragment"
+        android:label="fragment_information_user"
+        tools:layout="@layout/fragment_information_user" >
         <action
-            android:id="@+id/action_profileUserFragment_to_orderProcessFragment"
+            android:id="@+id/action_informationUserFragment_to_orderProcessFragment"
             app:destination="@id/orderProcessFragment" />
+        <action
+            android:id="@+id/action_informationUserFragment_to_purchaseHistoryFragment"
+            app:destination="@id/purchaseHistoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/productListFragment"
@@ -114,8 +117,8 @@
         android:label="fragment_order_process"
         tools:layout="@layout/fragment_order_process" >
         <action
-            android:id="@+id/action_orderProcessFragment_to_profileUserFragment"
-            app:destination="@id/profileUserFragment" />
+            android:id="@+id/action_orderProcessFragment_to_informationUserFragment"
+            app:destination="@id/informationUserFragment" />
         <action
             android:id="@+id/action_orderProcessFragment_to_detailOrderFragment"
             app:destination="@id/detailOrderFragment" />
@@ -128,5 +131,14 @@
         <action
             android:id="@+id/action_detailOrderFragment_to_orderProcessFragment"
             app:destination="@id/orderProcessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/purchaseHistoryFragment"
+        android:name="com.example.myapplication.Fragments.PurchaseHistoryFragment"
+        android:label="fragment_purchase_history"
+        tools:layout="@layout/fragment_purchase_history" >
+        <action
+            android:id="@+id/action_purchaseHistoryFragment_to_informationUserFragment"
+            app:destination="@id/informationUserFragment" />
     </fragment>
 </navigation>

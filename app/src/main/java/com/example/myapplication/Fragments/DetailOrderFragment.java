@@ -20,6 +20,7 @@ import com.example.myapplication.Helper.Convert;
 import com.example.myapplication.Models.CartProduct;
 import com.example.myapplication.Models.Order;
 import com.example.myapplication.Models.User;
+import com.example.myapplication.ViewModels.OrderViewModel;
 import com.example.myapplication.ViewModels.UserViewModel;
 import com.example.myapplication.databinding.FragmentDetailOrderBinding;
 
@@ -27,6 +28,7 @@ public class DetailOrderFragment extends Fragment {
     private FragmentDetailOrderBinding binding;
     private OrderProductAdapter adapter;
     private UserViewModel userViewModel;
+    private OrderViewModel orderViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,8 @@ public class DetailOrderFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
+
         userViewModel.userLogged();
         userViewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
@@ -89,10 +93,19 @@ public class DetailOrderFragment extends Fragment {
         if (status.equals("Chờ xác nhận")){
             
         } else if (status.equals("Đơn hàng đang trên đường giao đến bạn")) {
-            binding.btnProcess.setText("Đã nhận được đơn hàng");
+            binding.btnProcess.setText("Đã nhận được hàng");
         } else if (status.equals("Chưa đánh giá")){
             binding.btnProcess.setText("Đánh giá");
         }
+
+        binding.btnProcess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (status.equals("Đơn hàng đang trên đường giao đến bạn")){
+                    orderViewModel.updateReceiveOrder(order);
+                }
+            }
+        });
 
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override

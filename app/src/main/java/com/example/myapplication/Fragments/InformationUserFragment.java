@@ -22,15 +22,15 @@ import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.CartViewModel;
 import com.example.myapplication.ViewModels.OrderViewModel;
 import com.example.myapplication.ViewModels.UserViewModel;
-import com.example.myapplication.databinding.FragmentProfileUserBinding;
+import com.example.myapplication.databinding.FragmentInformationUserBinding;
 
 import java.util.List;
 
-public class ProfileUserFragment extends Fragment {
+public class InformationUserFragment extends Fragment {
     private UserViewModel viewModel;
     private CartViewModel cartViewModel;
     private OrderViewModel orderViewModel;
-    private FragmentProfileUserBinding binding;
+    private FragmentInformationUserBinding binding;
     private NavController controller;
 
     @Override
@@ -42,7 +42,7 @@ public class ProfileUserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentProfileUserBinding.inflate(getLayoutInflater(), container, false);
+        binding = FragmentInformationUserBinding.inflate(getLayoutInflater(), container, false);
         return binding.getRoot();
     }
 
@@ -76,6 +76,13 @@ public class ProfileUserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 moveToNewFragment(3);
+            }
+        });
+
+        binding.tvOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.navigate(R.id.action_informationUserFragment_to_purchaseHistoryFragment);
             }
         });
 
@@ -141,6 +148,6 @@ public class ProfileUserFragment extends Fragment {
     private void moveToNewFragment(int id){
         Bundle bundle = new Bundle();
         bundle.putInt("id", id);
-        controller.navigate(R.id.action_profileUserFragment_to_orderProcessFragment, bundle);
+        controller.navigate(R.id.action_informationUserFragment_to_orderProcessFragment, bundle);
     }
 }

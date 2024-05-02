@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.myapplication.Listener.FireStoreCallbackConfirmOrder;
+import com.example.myapplication.Listener.FireStoreCallbackPurchaseHistory;
 import com.example.myapplication.Listener.FireStoreCallbackRateOrder;
 import com.example.myapplication.Listener.FireStoreCallbackShippingOrder;
 import com.example.myapplication.Models.CartProduct;
@@ -12,21 +13,23 @@ import com.example.myapplication.Repositories.OrderRepository;
 
 import java.util.List;
 
-public class OrderViewModel extends ViewModel implements FireStoreCallbackConfirmOrder, FireStoreCallbackShippingOrder, FireStoreCallbackRateOrder {
+public class OrderViewModel extends ViewModel implements FireStoreCallbackConfirmOrder, FireStoreCallbackShippingOrder, FireStoreCallbackRateOrder, FireStoreCallbackPurchaseHistory {
     private OrderRepository repository;
     private MutableLiveData<List<CartProduct>> listMutableLiveData;
     private MutableLiveData<Boolean> checkOrder;
     private MutableLiveData<List<Order>> confirmOrder;
     private MutableLiveData<List<Order>> shippingOrder;
     private MutableLiveData<List<Order>> rateOrder;
+    private MutableLiveData<List<Order>> purchaseHistory;
 
     public OrderViewModel(){
-        this.repository = new OrderRepository(this, this, this);
+        this.repository = new OrderRepository(this, this, this, this);
         this.listMutableLiveData = new MutableLiveData<>();
         this.checkOrder = repository.getCheck();
         this.confirmOrder = new MutableLiveData<>();
         this.shippingOrder = new MutableLiveData<>();
         this.rateOrder = new MutableLiveData<>();
+        this.purchaseHistory = new MutableLiveData<>();
     }
     public void addOrder(List<CartProduct> list, String address, int tatol){
         repository.addOrder(list, address, tatol);
@@ -51,7 +54,6 @@ public class OrderViewModel extends ViewModel implements FireStoreCallbackConfir
         return confirmOrder;
     }
 
-
     public void getShipping(){
         repository.getShippingOrder();
     }
@@ -73,4 +75,20 @@ public class OrderViewModel extends ViewModel implements FireStoreCallbackConfir
     public MutableLiveData<List<Order>> getRateOrder() {
         return rateOrder;
     }
+
+    public void getPurchaseHistory(){
+        repository.getPurchaseHistory();
+    }
+    @Override
+    public void onCallback(List<Order> list) {
+        purchaseHistory.postValue(list);
+    }
+    public MutableLiveData<List<Order>> getPurchaseHistoryLiveData() {
+        return purchaseHistory;
+    }
+
+    public void updateReceiveOrder(Order order){
+        repository.updateReceiveOrder(order);
+    }
+
 }
