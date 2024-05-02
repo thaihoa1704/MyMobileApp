@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -138,8 +139,7 @@ public class OrderRepository {
                 });
     }
     public void getPurchaseHistory(){
-        collectionReferenceOrder.whereEqualTo("status", "Chưa đánh giá")
-                                .whereEqualTo("status", "Đã đánh giá")
+        collectionReferenceOrder.whereIn("status", Arrays.asList("Chưa đánh giá", "Đã đánh giá"))
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
