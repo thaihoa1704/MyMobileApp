@@ -182,7 +182,7 @@ public class DetailProductFragment extends Fragment implements ClickItemColorLis
                     if (phoneVersion != null){
                         int price = phoneVersion.getPrice();
                         int quantity = phoneVersion.getQuantity();
-                        binding.tvPrice.setText(Convert.DinhDangTien(price) + " VND");
+                        binding.tvPrice.setText(Convert.DinhDangTien(price) + " đ");
 
                         if (quantity == 0){
                             setAddButtonOff();

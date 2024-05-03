@@ -63,7 +63,7 @@ public class CartFragment extends Fragment implements ChangeQuantityCartProduct,
         binding.btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (binding.tvTotal.getText().equals("0 VND")){
+                if (binding.tvTotal.getText().equals("0 đ")){
                     Toast.makeText(requireContext(), "Chọn sản phẩm bạn muốn thanh toán!", Toast.LENGTH_SHORT).show();
                 }else {
                     controller.navigate(R.id.action_cartFragment_to_orderFragment);
@@ -81,7 +81,7 @@ public class CartFragment extends Fragment implements ChangeQuantityCartProduct,
                 cartAdapter.notifyDataSetChanged();
 
                 if (cartProducts.isEmpty()){
-                    binding.tvTotal.setText("0 VND");
+                    binding.tvTotal.setText("0 đ");
                 }else {
                     int total = 0;
                     for (CartProduct item : cartProducts){
@@ -91,7 +91,7 @@ public class CartFragment extends Fragment implements ChangeQuantityCartProduct,
                             total += a * b;
                         }
                     }
-                    binding.tvTotal.setText(Convert.DinhDangTien(total) + " VND");
+                    binding.tvTotal.setText(Convert.DinhDangTien(total) + " đ");
                 }
             }
         });

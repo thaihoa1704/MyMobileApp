@@ -95,10 +95,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="Địa chỉ giao hàng:"
-                            android:textColor="@color/red"
+                            android:textColor="@android:color/holo_red_dark"
                             android:textSize="20dp"
                             android:gravity="center_vertical"
-                            android:layout_marginLeft="5dp"/>
+                            android:layout_marginLeft="10dp"
+                            android:textStyle="bold"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -227,7 +228,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:layout_marginLeft="5dp">
 
                                 <ImageView
                                     android:layout_width="match_parent"
@@ -243,10 +245,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:text="Chi tiết đơn hàng:"
-                                android:textColor="@color/red"
+                                android:textColor="@android:color/holo_red_dark"
                                 android:textSize="20dp"
                                 android:gravity="center_vertical"
-                                android:layout_marginLeft="10dp"/>
+                                android:layout_marginLeft="10dp"
+                                android:textStyle="bold"/>
                         </LinearLayout>
 
                     </LinearLayout>
@@ -349,11 +352,12 @@
         <TextView
             android:id="@+id/tv_total1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:gravity="center_vertical"
-            android:text="0 VND"
+            android:text="0 đ"
             android:textColor="@color/orange"
             android:textSize="22dp"
+            android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@+id/label"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

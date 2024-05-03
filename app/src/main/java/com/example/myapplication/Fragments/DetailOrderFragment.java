@@ -20,6 +20,7 @@ import com.example.myapplication.Helper.Convert;
 import com.example.myapplication.Models.CartProduct;
 import com.example.myapplication.Models.Order;
 import com.example.myapplication.Models.User;
+import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.OrderViewModel;
 import com.example.myapplication.ViewModels.UserViewModel;
 import com.example.myapplication.databinding.FragmentDetailOrderBinding;
@@ -103,6 +104,8 @@ public class DetailOrderFragment extends Fragment {
             public void onClick(View v) {
                 if (status.equals("Đơn hàng đang trên đường giao đến bạn")){
                     orderViewModel.updateReceiveOrder(order);
+                } else if (status.equals("Chưa đánh giá")) {
+                    addFragment(new RateOrderFragment(), order);
                 }
             }
         });
@@ -118,6 +121,17 @@ public class DetailOrderFragment extends Fragment {
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.remove(this);
+        fragmentTransaction.commit();
+    }
+    private void addFragment(Fragment fragment, Order order){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Order", order);
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.frame_layout_order, fragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 }

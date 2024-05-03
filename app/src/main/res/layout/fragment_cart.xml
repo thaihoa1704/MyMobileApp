@@ -21,7 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/linearLayout2">
+            app:layout_constraintBottom_toTopOf="@id/constraint_layout">
 
             <TextView
                 android:layout_width="match_parent"
@@ -49,46 +49,54 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linearLayout2"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp">
 
-            <LinearLayout
-                android:layout_width="240dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginLeft="20dp">
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:textSize="18dp"
+                    android:id="@+id/label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
                     android:textColor="@color/black"
-                    android:text="Tổng giá trị:"/>
+                    android:text="Tổng giá trị:"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_buy"/>
                 <TextView
                     android:id="@+id/tv_total"
                     android:textSize="22dp"
-                    android:textColor="@color/black"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="0 VND"
-                    android:gravity="center_vertical"/>
-            </LinearLayout>
+                    android:textColor="@color/orange"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="0 đ"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    app:layout_constraintTop_toBottomOf="@+id/label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_buy"/>
 
             <Button
                 android:id="@+id/btn_buy"
-                android:layout_width="match_parent"
+                android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:text="Mua hàng"
                 android:textSize="20dp"
+                android:textAllCaps="false"
                 android:gravity="center"
-                android:background="@drawable/btn_buy"/>
-        </LinearLayout>
+                android:background="@drawable/btn_buy"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -67,7 +67,7 @@
                         android:text="Xanh Botanic - 8GB - 256GB"
                         android:textColor="@color/black"
                         android:gravity="center|left"
-                        android:textSize="19dp"
+                        android:textSize="16dp"
                         android:layout_marginTop="3dp" />
 
                     <TextView
@@ -75,7 +75,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="35.000.000 đ"
-                        android:textColor="@color/black"
+                        android:textColor="@color/orange"
                         android:gravity="center|left"
                         android:layout_marginTop="3dp"
                         android:textSize="19dp" />
@@ -83,7 +83,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginTop="3dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="22dp"

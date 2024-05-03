@@ -278,7 +278,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:textSize="19dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/orange"
                     android:textStyle="bold"
                     android:text="35,000,000 đ" />
 
@@ -307,7 +307,7 @@
         android:layout_marginBottom="12dp"
         android:text="Đã nhận được hàng"
         android:textAllCaps="false"
-        android:textSize="18dp"
+        android:textSize="20dp"
         android:background="@color/main"
         android:textColor="#333333"/>
 
