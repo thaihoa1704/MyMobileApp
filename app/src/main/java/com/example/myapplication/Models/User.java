@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Patterns;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class User implements Serializable {
     private String id;
@@ -12,9 +13,9 @@ public class User implements Serializable {
     private String phone;
     private String password;
     private String type;
-    private String address;
+    private List<Address> address;
 
-    public User(String id, String name, String email, String phone, String password, String type, String address) {
+    public User(String id, String name, String email, String phone, String password, String type, List<Address> address) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -75,11 +76,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getAddress() {
+    public List<Address> getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(List<Address> address) {
         this.address = address;
     }
 

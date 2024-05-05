@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import com.example.myapplication.Adapters.OrderProductAdapter;
 import com.example.myapplication.Helper.Convert;
+import com.example.myapplication.Models.Address;
 import com.example.myapplication.Models.CartProduct;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
@@ -66,7 +67,12 @@ public class OrderFragment extends Fragment {
                 public void onChanged(User user) {
                     binding.tvUserName.setText(user.getName());
                     binding.tvPhone.setText(user.getPhone());
-                    String address = user.getAddress();
+                    String address = "";
+                    for (Address item : user.getAddress()){
+                        if (item.isSelect() == true){
+                            address = item.getString();
+                        }
+                    }
                     if (address != ""){
                         binding.tvAddress.setText(address);
                         binding.linearLayoutAddAddress.setVisibility(View.GONE);
@@ -105,6 +111,16 @@ public class OrderFragment extends Fragment {
                 int total = price + 50;
                 binding.tvTotal.setText(Convert.DinhDangTien(total) + " đ");
                 binding.tvTotal1.setText(Convert.DinhDangTien(total) + " đ");
+            }
+        });
+
+        binding.imgChangeAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                String fragmentName = "OrderFragment";
+                bundle.putString("fragmentName", fragmentName);
+                controller.navigate(R.id.action_orderFragment_to_addressFragment, bundle);
             }
         });
 
