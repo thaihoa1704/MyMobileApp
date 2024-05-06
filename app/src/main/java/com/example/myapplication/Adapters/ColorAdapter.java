@@ -78,8 +78,9 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorViewHol
         }
     }
     private void setSingleSelection(int bindingAdapterPosition) {
-        if (bindingAdapterPosition == RecyclerView.NO_POSITION) return;
+        if (bindingAdapterPosition == selectedPosition) return;
 
+        //notifyItemChanged(position): Update item at position
         notifyItemChanged(selectedPosition);
         selectedPosition = bindingAdapterPosition;
         notifyItemChanged(selectedPosition);

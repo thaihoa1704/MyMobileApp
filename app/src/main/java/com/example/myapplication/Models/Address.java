@@ -1,6 +1,8 @@
 package com.example.myapplication.Models;
 
-public class Address {
+import java.io.Serializable;
+
+public class Address implements Serializable {
     private String string;
     private boolean select;
 
