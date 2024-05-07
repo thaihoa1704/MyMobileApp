@@ -6,7 +6,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.myapplication.Listener.FireStoreCallbackAddress;
 import com.example.myapplication.Listener.FireStoreCallbackUser;
+import com.example.myapplication.Models.Address;
 import com.example.myapplication.Models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -15,9 +17,20 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.WriteBatch;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class UserRepository {
     private Application application;
@@ -27,7 +40,10 @@ public class UserRepository {
     private MutableLiveData<User> userLogin;
     private FirebaseFirestore db;
     private FireStoreCallbackUser fireStoreCallbackUser;
-    public UserRepository(Application application, FireStoreCallbackUser fireStoreCallbackUser) {
+    private String userId;
+    private CollectionReference collectionReference;
+    private FireStoreCallbackAddress fireStoreCallbackAddress;
+    public UserRepository(Application application, FireStoreCallbackUser fireStoreCallbackUser, FireStoreCallbackAddress fireStoreCallbackAddress) {
         this.application = application;
         this.firebaseAuth = FirebaseAuth.getInstance();
         this.db = FirebaseFirestore.getInstance();
@@ -35,6 +51,9 @@ public class UserRepository {
         this.loggedOutLiveData = new MutableLiveData<>();
         this.userLogin = new MutableLiveData<>();
         this.fireStoreCallbackUser = fireStoreCallbackUser;
+        this.fireStoreCallbackAddress = fireStoreCallbackAddress;
+        this.userId = FirebaseAuth.getInstance().getUid();
+        this.collectionReference = db.collection("User").document(userId).collection("Address");
 
         if (firebaseAuth.getCurrentUser() != null) {
             userLiveData.postValue(firebaseAuth.getCurrentUser());
@@ -68,7 +87,6 @@ public class UserRepository {
         String userType = "customer";
 
         user.setType(userType);
-        user.setAddress(null);
 
         //Add info user into Cloud FireStore
         //Path: Users/uid/...
@@ -142,7 +160,52 @@ public class UserRepository {
             }
         });
     }
+    public void getAddress(){
+        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    fireStoreCallbackAddress.onCallback(task.getResult().toObjects(Address.class));
+                }
+            }
+        });
+    }
     public void addAddress(String address){
 
+    }
+    public void setAddressSelected(Address address){
+        collectionReference.document(address.getId()).update("select", true)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
+        collectionReference.whereNotEqualTo("id", address.getId()).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            List<String> list = new ArrayList<>();
+                            for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                                list.add(queryDocumentSnapshot.getId());
+                            }
+                            updateData(list);
+                        }
+                    }
+                });
+    }
+    private void updateData(List<String> list) {
+        WriteBatch batch = db.batch();
+        for (int i = 0; i < list.size(); i++){
+            DocumentReference document = collectionReference.document(list.get(i));
+            batch.update(document, "select", false);
+        }
+        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        });
     }
 }

@@ -111,8 +111,6 @@ public class CartRepository {
                         list.add(queryDocumentSnapshot.getId());
                     }
                     updateData(list);
-                }else {
-
                 }
             }
         });

@@ -67,18 +67,25 @@ public class OrderFragment extends Fragment {
                 public void onChanged(User user) {
                     binding.tvUserName.setText(user.getName());
                     binding.tvPhone.setText(user.getPhone());
-                    String address = "";
-                    for (Address item : user.getAddress()){
-                        if (item.isSelect() == true){
-                            address = item.getString();
+
+                }
+            });
+
+            userViewModel.getAddress();
+            userViewModel.getAddressMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Address>>() {
+                @Override
+                public void onChanged(List<Address> addressList) {
+                    for (Address item : addressList){
+                        if (item.isSelect()){
+                            String string = item.getString();
+                            if (string != ""){
+                                binding.tvAddress.setText(string);
+                                binding.linearLayoutAddAddress.setVisibility(View.GONE);
+                            }else {
+                                binding.tvAddress.setVisibility(View.INVISIBLE);
+                                binding.linearLayoutAddAddress.setVisibility(View.VISIBLE);
+                            }
                         }
-                    }
-                    if (address != ""){
-                        binding.tvAddress.setText(address);
-                        binding.linearLayoutAddAddress.setVisibility(View.GONE);
-                    }else {
-                        binding.tvAddress.setVisibility(View.INVISIBLE);
-                        binding.linearLayoutAddAddress.setVisibility(View.VISIBLE);
                     }
                 }
             });

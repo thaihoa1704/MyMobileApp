@@ -43,22 +43,13 @@
         android:id="@+id/rcv_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line"/>
-    <View
-        android:id="@+id/line1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray1"
-        android:layout_marginTop="13dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rcv_address"/>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginTop="13dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rcv_address">
@@ -87,7 +78,7 @@
         android:id="@+id/line2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray1"
+        android:background="@color/gray2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraint_layout"/>
 

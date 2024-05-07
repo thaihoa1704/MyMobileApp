@@ -1,17 +1,25 @@
 package com.example.myapplication.Models;
 
-import java.io.Serializable;
-
-public class Address implements Serializable {
+public class Address{
+    private String id;
     private String string;
     private boolean select;
 
     public Address() {
     }
 
-    public Address(String string, boolean select) {
+    public Address(String id, String string, boolean select) {
+        this.id = id;
         this.string = string;
         this.select = select;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getString() {

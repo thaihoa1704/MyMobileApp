@@ -4,7 +4,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -14,13 +17,18 @@ import android.view.ViewGroup;
 import com.example.myapplication.Adapters.AddressAdapter;
 import com.example.myapplication.Listener.ClickItemAddressListener;
 import com.example.myapplication.Models.Address;
+import com.example.myapplication.Models.User;
+import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.UserViewModel;
 import com.example.myapplication.databinding.FragmentAddressBinding;
+
+import java.util.List;
 
 public class AddressFragment extends Fragment implements ClickItemAddressListener {
     private FragmentAddressBinding binding;
     private AddressAdapter adapter;
     private UserViewModel viewModel;
+    private NavController controller;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +47,7 @@ public class AddressFragment extends Fragment implements ClickItemAddressListene
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        controller = Navigation.findNavController(view);
 
         adapter = new AddressAdapter(this);
         binding.rcvAddress.setHasFixedSize(true);
@@ -46,14 +55,28 @@ public class AddressFragment extends Fragment implements ClickItemAddressListene
         binding.rcvAddress.setAdapter(adapter);
 
         setAddressAdapter();
+
+        binding.imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.navigate(R.id.action_addressFragment_to_orderFragment);
+            }
+        });
     }
 
     private void setAddressAdapter() {
-
+        viewModel.getAddress();
+        viewModel.getAddressMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Address>>() {
+            @Override
+            public void onChanged(List<Address> addressList) {
+                adapter.setData(addressList, requireActivity());
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
     public void onClick(Address address) {
-
+        viewModel.setAddressSelected(address);
     }
 }
