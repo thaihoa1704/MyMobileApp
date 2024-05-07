@@ -86,8 +86,8 @@ public class CartFragment extends Fragment implements ChangeQuantityCartProduct,
                     int total = 0;
                     for (CartProduct item : cartProducts){
                         if (item.isSelect()){
-                            int b = item.getQuantity();
-                            int a = item.getVersion().getPrice();
+                            int a = item.getQuantity();
+                            int b = item.getVersion().getPrice();
                             total += a * b;
                         }
                     }

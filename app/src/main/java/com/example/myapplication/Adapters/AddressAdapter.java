@@ -17,12 +17,13 @@ import java.util.List;
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressViewHolder>{
     private List<Address> list;
     private Context context;
-    private int selectedPosition = -1;
+    private int selectedPosition;
     private ClickItemAddressListener clickItemAddressListener;
 
-    public void setData(List<Address> list, Context context) {
+    public void setData(List<Address> list, Context context, int position) {
         this.list = list;
         this.context = context;
+        this.selectedPosition = position;
     }
 
     public AddressAdapter(ClickItemAddressListener clickItemAddressListener) {
@@ -67,7 +68,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
 
             if (selectedPosition == position){
                 binding.radioButton.setChecked(true);
-            }else {
+            } else {
                 binding.radioButton.setChecked(false);
             }
             binding.radioButton.setOnClickListener(new View.OnClickListener() {

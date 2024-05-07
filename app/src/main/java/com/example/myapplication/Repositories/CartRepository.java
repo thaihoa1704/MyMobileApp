@@ -130,8 +130,8 @@ public class CartRepository {
     }
 
     public void getProductSelected() {
-        collectionReferenceCart.whereEqualTo("select", true)
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        collectionReferenceCart.whereEqualTo("select", true).get()
+                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){

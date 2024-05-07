@@ -69,7 +69,13 @@ public class AddressFragment extends Fragment implements ClickItemAddressListene
         viewModel.getAddressMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Address>>() {
             @Override
             public void onChanged(List<Address> addressList) {
-                adapter.setData(addressList, requireActivity());
+                int position = 0;
+                for (int i = 0; i < addressList.size(); i++){
+                    if (addressList.get(i).isSelect()){
+                        position = i;
+                    }
+                }
+                adapter.setData(addressList, requireActivity(), position);
                 adapter.notifyDataSetChanged();
             }
         });

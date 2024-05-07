@@ -59,67 +59,12 @@ public class OrderFragment extends Fragment {
 
         controller = Navigation.findNavController(view);
 
-        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
-        if(userViewModel.getCurrentUser() != null){
-            userViewModel.userLogged();
-            userViewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
-                @Override
-                public void onChanged(User user) {
-                    binding.tvUserName.setText(user.getName());
-                    binding.tvPhone.setText(user.getPhone());
-
-                }
-            });
-
-            userViewModel.getAddress();
-            userViewModel.getAddressMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Address>>() {
-                @Override
-                public void onChanged(List<Address> addressList) {
-                    for (Address item : addressList){
-                        if (item.isSelect()){
-                            String string = item.getString();
-                            if (string != ""){
-                                binding.tvAddress.setText(string);
-                                binding.linearLayoutAddAddress.setVisibility(View.GONE);
-                            }else {
-                                binding.tvAddress.setVisibility(View.INVISIBLE);
-                                binding.linearLayoutAddAddress.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
-
         cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
 
-        adapter = new OrderProductAdapter();
-
-        binding.rcvCartProductList.setHasFixedSize(true);
-        binding.rcvCartProductList.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        binding.rcvCartProductList.setAdapter(adapter);
-
-        cartViewModel.getProductSelected();
-        cartViewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
-            @Override
-            public void onChanged(List<CartProduct> list) {
-                adapter.setData(requireActivity(), list);
-                adapter.notifyDataSetChanged();
-
-                int price = 0;
-                for (CartProduct item : list){
-                    int b = item.getQuantity();
-                    int a = item.getVersion().getPrice();
-                    price += a * b;
-                }
-                binding.tvPriceProduct.setText(Convert.DinhDangTien(price) + " đ");
-                int total = price + 50;
-                binding.tvTotal.setText(Convert.DinhDangTien(total) + " đ");
-                binding.tvTotal1.setText(Convert.DinhDangTien(total) + " đ");
-            }
-        });
+        setUserInfo();
+        setCartProductAdapter();
 
         binding.imgChangeAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +96,64 @@ public class OrderFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 controller.navigate(R.id.action_orderFragment_to_cartFragment);
+            }
+        });
+    }
+
+    private void setUserInfo() {
+        userViewModel.userLogged();
+        userViewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                binding.tvUserName.setText(user.getName());
+                binding.tvPhone.setText(user.getPhone());
+            }
+        });
+
+        userViewModel.getAddress();
+        userViewModel.getAddressMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Address>>() {
+            @Override
+            public void onChanged(List<Address> addressList) {
+                for (Address item : addressList){
+                    if (item.isSelect()){
+                        String string = item.getString();
+                        if (string != ""){
+                            binding.tvAddress.setText(string);
+                            binding.linearLayoutAddAddress.setVisibility(View.GONE);
+                        }else {
+                            binding.tvAddress.setVisibility(View.INVISIBLE);
+                            binding.linearLayoutAddAddress.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private void setCartProductAdapter() {
+        adapter = new OrderProductAdapter();
+
+        binding.rcvCartProductList.setHasFixedSize(true);
+        binding.rcvCartProductList.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        binding.rcvCartProductList.setAdapter(adapter);
+
+        cartViewModel.getProductSelected();
+        cartViewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
+            @Override
+            public void onChanged(List<CartProduct> list) {
+                adapter.setData(requireActivity(), list);
+                adapter.notifyDataSetChanged();
+
+                int price = 0;
+                for (CartProduct item : list){
+                    int a = item.getQuantity();
+                    int b = item.getVersion().getPrice();
+                    price += a * b;
+                }
+                binding.tvPriceProduct.setText(Convert.DinhDangTien(price) + " đ");
+                int total = price + 50;
+                binding.tvTotal.setText(Convert.DinhDangTien(total) + " đ");
+                binding.tvTotal1.setText(Convert.DinhDangTien(total) + " đ");
             }
         });
     }

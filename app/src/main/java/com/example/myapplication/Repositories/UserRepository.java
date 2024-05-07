@@ -52,12 +52,12 @@ public class UserRepository {
         this.userLogin = new MutableLiveData<>();
         this.fireStoreCallbackUser = fireStoreCallbackUser;
         this.fireStoreCallbackAddress = fireStoreCallbackAddress;
-        this.userId = FirebaseAuth.getInstance().getUid();
-        this.collectionReference = db.collection("User").document(userId).collection("Address");
 
         if (firebaseAuth.getCurrentUser() != null) {
             userLiveData.postValue(firebaseAuth.getCurrentUser());
             loggedOutLiveData.postValue(false);
+            this.userId = firebaseAuth.getUid();
+            this.collectionReference = db.collection("User").document(userId).collection("Address");
         }
     }
     public FirebaseUser getCurrentUser(){return firebaseAuth.getCurrentUser();}
