@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -17,6 +18,8 @@ import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.example.myapplication.Activities.AdminActivity;
 import com.example.myapplication.Activities.ShoppingActivity;
 import com.example.myapplication.Models.User;
@@ -65,28 +68,20 @@ public class LoginFragment extends Fragment {
                 user.setPassword(binding.textPass.getText().toString().trim());
 
                 viewModel.userLogin(user);
-                viewModel.getUserLiveData().observe(getViewLifecycleOwner(), new Observer<FirebaseUser>() {
+                viewModel.getCheck().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
                     @Override
-                    public void onChanged(FirebaseUser firebaseUser) {
-                        if(firebaseUser != null){
-                            viewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
+                    public void onChanged(Boolean aBoolean) {
+                        if (aBoolean){
+                            Toast.makeText(requireContext(), "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
                                 @Override
-                                public void onChanged(User user) {
-                                    String type = user.getType();
-                                    if(type.equals("admin")){
-                                        Intent intent = new Intent(requireActivity(), AdminActivity.class);
-                                        //implements Serializable in class before send an object
-                                        intent.putExtra("UserLogin", user);
-                                        startActivity(intent);
-                                        requireActivity().finish();
-                                    }else {
-                                        Intent intent = new Intent(requireActivity(), ShoppingActivity.class);
-                                        intent.putExtra("UserLogin", user);
-                                        startActivity(intent);
-                                        requireActivity().finish();
-                                    }
+                                public void run() {
+                                    changeActivity();
                                 }
-                            });
+                            }, 1500);
+                        }else {
+                            Toast.makeText(requireContext(), "Email hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -104,6 +99,34 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 navController.navigate(R.id.action_loginFragment_to_forgotPasswordFragment);
+            }
+        });
+    }
+
+    private void changeActivity() {
+        viewModel.getUserLiveData().observe(getViewLifecycleOwner(), new Observer<FirebaseUser>() {
+            @Override
+            public void onChanged(FirebaseUser firebaseUser) {
+                if(firebaseUser != null){
+                    viewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
+                        @Override
+                        public void onChanged(User user) {
+                            String type = user.getType();
+                            if(type.equals("admin")){
+                                Intent intent = new Intent(requireActivity(), AdminActivity.class);
+                                //implements Serializable in class before send an object
+                                intent.putExtra("UserLogin", user);
+                                startActivity(intent);
+                                requireActivity().finish();
+                            }else {
+                                Intent intent = new Intent(requireActivity(), ShoppingActivity.class);
+                                intent.putExtra("UserLogin", user);
+                                startActivity(intent);
+                                requireActivity().finish();
+                            }
+                        }
+                    });
+                }
             }
         });
     }

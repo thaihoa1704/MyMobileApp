@@ -46,16 +46,14 @@ public class SHomeFragment extends Fragment {
         cartViewModel.selectNoneAllProduct();
 
         viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
-        if(viewModel.getCurrentUser() != null){
-            viewModel.userLogged();
-            viewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
-                @Override
-                public void onChanged(User user) {
-                    String name = user.getName();
-                    binding.txtName.setText(name);
-                }
-            });
-        }
+        viewModel.userLogged();
+        viewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                String name = user.getName();
+                binding.txtName.setText(name);
+            }
+        });
         binding.tvSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

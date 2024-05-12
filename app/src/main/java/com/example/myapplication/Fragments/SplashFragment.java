@@ -47,8 +47,6 @@ public class SplashFragment extends Fragment {
             public void run() {
                 if(viewModel.getCurrentUser() != null){
                     viewModel.userLogged();
-                    //User user = viewModel.getUserLogged();
-                    //String type = user.getUserType();
                     viewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
                         @Override
                         public void onChanged(User user) {

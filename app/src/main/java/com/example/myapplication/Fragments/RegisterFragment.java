@@ -5,15 +5,18 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
@@ -34,7 +37,6 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_blank2, container, false);
         binding = FragmentRegisterBinding.inflate(getLayoutInflater(), container, false);
         return binding.getRoot();
     }
@@ -62,7 +64,23 @@ public class RegisterFragment extends Fragment {
                 user.setPassword(binding.textPass.getText().toString().trim());
 
                 viewModel.userRegister(user);
-                navController.navigate(R.id.action_registerFragment_to_loginFragment);
+                viewModel.getCheck().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(Boolean aBoolean) {
+                        if (aBoolean){
+                            Toast.makeText(requireContext(), "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    navController.navigate(R.id.action_registerFragment_to_loginFragment);
+                                }
+                            }, 1500);
+                        } else {
+                            Toast.makeText(requireContext(), "Đăng ký thất bại!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
 

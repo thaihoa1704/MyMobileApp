@@ -81,8 +81,12 @@ public class CartFragment extends Fragment implements ChangeQuantityCartProduct,
                 cartAdapter.notifyDataSetChanged();
 
                 if (cartProducts.isEmpty()){
+                    binding.scrollView.setVisibility(View.GONE);
+                    binding.tvEmpty.setVisibility(View.VISIBLE);
                     binding.tvTotal.setText("0 đ");
                 }else {
+                    binding.tvEmpty.setVisibility(View.GONE);
+                    binding.scrollView.setVisibility(View.VISIBLE);
                     int total = 0;
                     for (CartProduct item : cartProducts){
                         if (item.isSelect()){

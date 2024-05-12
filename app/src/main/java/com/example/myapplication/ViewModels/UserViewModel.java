@@ -1,10 +1,7 @@
 package com.example.myapplication.ViewModels;
 
-
-import android.app.Application;
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.example.myapplication.Listener.FireStoreCallbackAddress;
 import com.example.myapplication.Listener.FireStoreCallbackUser;
@@ -15,27 +12,32 @@ import com.example.myapplication.Repositories.UserRepository;
 
 import java.util.List;
 
-public class UserViewModel extends AndroidViewModel implements FireStoreCallbackUser, FireStoreCallbackAddress {
+public class UserViewModel extends ViewModel implements FireStoreCallbackUser, FireStoreCallbackAddress {
     private UserRepository repository;
     private FirebaseUser currentUser;
     private MutableLiveData<FirebaseUser> userLiveData;
     private MutableLiveData<Boolean> loggedOutLiveData;
     private MutableLiveData<User> userlogin;
     private MutableLiveData<List<Address>> addressMutableLiveData;
+    private MutableLiveData<Boolean> check;
     private User userLogged;
-    public UserViewModel(@NonNull Application application) {
-        super(application);
-        this.repository = new UserRepository(application, this, this);
+    public UserViewModel() {
+        this.repository = new UserRepository(this, this);
         this.currentUser = repository.getCurrentUser();
         this.userLiveData = repository.getUserLiveData();
         this.loggedOutLiveData = repository.getLoggedOutLiveData();
         this.userlogin = repository.getUserLogin();
         this.userLogged = new User();
         this.addressMutableLiveData = new MutableLiveData<>();
+        this.check = repository.getCheck();
     }
     public FirebaseUser getCurrentUser() {
         return currentUser;
     }
+    public MutableLiveData<Boolean> getCheck() {
+        return check;
+    }
+
     public void userLogin(User user){
         repository.userLogin(user);}
     public void userRegister(User user){
@@ -76,5 +78,8 @@ public class UserViewModel extends AndroidViewModel implements FireStoreCallback
 
     public MutableLiveData<List<Address>> getAddressMutableLiveData() {
         return addressMutableLiveData;
+    }
+    public void addAddress(String string){
+        repository.addAddress(string);
     }
 }

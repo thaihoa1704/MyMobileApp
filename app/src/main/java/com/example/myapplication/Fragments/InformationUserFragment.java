@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.Activities.MainActivity;
 import com.example.myapplication.Models.Order;
+import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.CartViewModel;
 import com.example.myapplication.ViewModels.OrderViewModel;
@@ -27,7 +28,7 @@ import com.example.myapplication.databinding.FragmentInformationUserBinding;
 import java.util.List;
 
 public class InformationUserFragment extends Fragment {
-    private UserViewModel viewModel;
+    private UserViewModel userViewModel;
     private CartViewModel cartViewModel;
     private OrderViewModel orderViewModel;
     private FragmentInformationUserBinding binding;
@@ -51,10 +52,22 @@ public class InformationUserFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         controller = Navigation.findNavController(view);
 
-        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
         cartViewModel.selectNoneAllProduct();
+
+        if (userViewModel.getCurrentUser() != null){
+            userViewModel.userLogged();
+            userViewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
+                @Override
+                public void onChanged(User user) {
+                    if (user != null){
+                        binding.tvUserName.setText(user.getName());
+                    }
+                }
+            });
+        }
 
         setQuantityConfirmOrder();
         setQuantityShippingOrder();
@@ -89,12 +102,12 @@ public class InformationUserFragment extends Fragment {
         binding.tvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.userLogout();
-                viewModel.getLoggedOutLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+                userViewModel.userLogout();
+                userViewModel.getLoggedOutLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
                     @Override
                     public void onChanged(Boolean loggedOut) {
                         if (loggedOut) {
-                            Toast.makeText(getContext(), "Tài khoản đã đăng xuất!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireContext(), "Tài khoản đã đăng xuất!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(requireActivity(), MainActivity.class);
                             startActivity(intent);
                             requireActivity().finish();

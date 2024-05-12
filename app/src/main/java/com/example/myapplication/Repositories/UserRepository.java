@@ -1,6 +1,5 @@
 package com.example.myapplication.Repositories;
 
-import android.app.Application;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,36 +19,32 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class UserRepository {
-    private Application application;
     private FirebaseAuth firebaseAuth;
     private MutableLiveData<FirebaseUser> userLiveData;
     private MutableLiveData<Boolean> loggedOutLiveData;
     private MutableLiveData<User> userLogin;
+    private MutableLiveData<Boolean> check;
     private FirebaseFirestore db;
     private FireStoreCallbackUser fireStoreCallbackUser;
     private String userId;
     private CollectionReference collectionReference;
     private FireStoreCallbackAddress fireStoreCallbackAddress;
-    public UserRepository(Application application, FireStoreCallbackUser fireStoreCallbackUser, FireStoreCallbackAddress fireStoreCallbackAddress) {
-        this.application = application;
+    public UserRepository(FireStoreCallbackUser fireStoreCallbackUser, FireStoreCallbackAddress fireStoreCallbackAddress) {
         this.firebaseAuth = FirebaseAuth.getInstance();
         this.db = FirebaseFirestore.getInstance();
         this.userLiveData = new MutableLiveData<>();
         this.loggedOutLiveData = new MutableLiveData<>();
         this.userLogin = new MutableLiveData<>();
+        this.check = new MutableLiveData<>();
         this.fireStoreCallbackUser = fireStoreCallbackUser;
         this.fireStoreCallbackAddress = fireStoreCallbackAddress;
 
@@ -66,6 +61,9 @@ public class UserRepository {
         return loggedOutLiveData;
     }
     public MutableLiveData<User> getUserLogin(){return userLogin;}
+    public MutableLiveData<Boolean> getCheck() {
+        return check;
+    }
 
     public void userRegister(User user){
         firebaseAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
@@ -74,9 +72,9 @@ public class UserRepository {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             updateUserInfo(user);
-                            Toast.makeText(application.getApplicationContext(), "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+                            check.postValue(true);
                         }else {
-                            Toast.makeText(application.getApplicationContext(), "Đăng ký thất bại! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            check.postValue(false);
                         }
                     }
                 });
@@ -86,6 +84,7 @@ public class UserRepository {
         String uid = firebaseAuth.getUid();
         String userType = "customer";
 
+        user.setId(uid);
         user.setType(userType);
 
         //Add info user into Cloud FireStore
@@ -94,13 +93,13 @@ public class UserRepository {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-
+                        check.postValue(true);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(application.getApplicationContext(), "Đăng ký thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        check.postValue(false);
                     }
                 });
     }
@@ -113,9 +112,9 @@ public class UserRepository {
                         if (task.isSuccessful()){
                             userLiveData.postValue(firebaseAuth.getCurrentUser());
                             postUserLiveData();
-                            Toast.makeText(application.getApplicationContext(), "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                            check.postValue(true);
                         }else {
-                            Toast.makeText(application.getApplicationContext(), "Email hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
+                            check.postValue(false);
                         }
                     }
                 });
@@ -155,7 +154,9 @@ public class UserRepository {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    Toast.makeText(application.getApplicationContext(), "Liên kết đặt lại mật khẩu đã được gửi đến Email đăng ký của bạn!", Toast.LENGTH_SHORT).show();
+                    check.postValue(true);
+                }else {
+                    check.postValue(false);
                 }
             }
         });
@@ -169,9 +170,6 @@ public class UserRepository {
                 }
             }
         });
-    }
-    public void addAddress(String address){
-
     }
     public void setAddressSelected(Address address){
         collectionReference.document(address.getId()).update("select", true)
@@ -205,6 +203,43 @@ public class UserRepository {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
+            }
+        });
+    }
+    public void addAddress(String string){
+        String id = collectionReference.document().getId();
+        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    if (task.getResult() == null){
+                        Address address = new Address(id, string, true);
+                        collectionReference.document(id).set(address).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                check.postValue(true);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                check.postValue(false);
+                            }
+                        });
+                    }else {
+                        Address address = new Address(id, string, false);
+                        collectionReference.document(id).set(address).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                check.postValue(true);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                check.postValue(false);
+                            }
+                        });
+                    }
+                }
             }
         });
     }

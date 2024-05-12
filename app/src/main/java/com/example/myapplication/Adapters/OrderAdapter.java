@@ -132,6 +132,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                     clickItemOrderListener.onClick(order);
                 }
             });
+            binding.btnProcess.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickItemOrderListener.onClick(order);
+                }
+            });
         }
         private void setPhoneVersionData(CartProduct cartProduct) {
             String version = cartProduct.getVersion().getColor().toString() + " - "

@@ -56,6 +56,13 @@ public class AddressFragment extends Fragment implements ClickItemAddressListene
 
         setAddressAdapter();
 
+        binding.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.navigate(R.id.action_addressFragment_to_addAddressFragment);
+            }
+        });
+
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +80,7 @@ public class AddressFragment extends Fragment implements ClickItemAddressListene
                 for (int i = 0; i < addressList.size(); i++){
                     if (addressList.get(i).isSelect()){
                         position = i;
+                        break;
                     }
                 }
                 adapter.setData(addressList, requireActivity(), position);
