@@ -38,22 +38,21 @@
         app:layout_constraintTop_toBottomOf="@+id/img_back"/>
     <TextView
         android:id="@+id/label"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line"
-        android:text="Chất lượng sản phẩm"
+        android:text="Chất lượng sản phẩm:"
         android:textColor="@color/black"
         android:textSize="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
-        android:gravity="center"/>
+        android:gravity="center|left"/>
     <RatingBar
         android:id="@+id/rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/label"
         android:layout_marginTop="10dp"
         android:numStars="5"
@@ -65,6 +64,16 @@
         android:scaleX="0.8"
         android:scaleY="0.8"/>
     <TextView
+        android:id="@+id/tv_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/rating_bar"
+        app:layout_constraintTop_toBottomOf="@+id/label"
+        android:text="Tuyệt vời"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_marginTop="22dp"/>
+    <TextView
         android:id="@+id/label1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,8 +83,9 @@
         android:textSize="20dp"
         android:textColor="@color/black"
         android:layout_marginLeft="10dp"/>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout"
+
+    <EditText
+        android:id="@+id/edt_note"
         android:layout_width="match_parent"
         android:layout_height="220dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,56 +94,49 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="8dp"
-        android:background="@color/gray1">
-        <TextView
-            android:id="@+id/label2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:hint="Hãy chia sẻ nhận xét"
-            android:gravity="center"
-            android:textColor="@color/gray1"
-            android:textSize="18dp"
-            android:layout_marginTop="80dp"/>
-        <TextView
-            android:id="@+id/label3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label2"
-            android:hint="cho sản phẩm này bạn nhé!"
-            android:gravity="center"
-            android:textColor="@color/gray1"
-            android:textSize="18dp" />
+        android:background="@color/gray1"
+        android:textSize="18dp"
+        android:gravity="left|top"
+        android:textColor="@color/black"/>
 
-        <ScrollView
-            android:id="@+id/scroll_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone">
+    <TextView
+        android:id="@+id/tv_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="90dp"
+        android:textSize="18dp"
+        android:textColor="@color/gray"
+        android:gravity="center|bottom"
+        android:text="Hãy chia sẻ nhận xét"
+        android:enabled="false"/>
 
-            <EditText
-                android:id="@+id/tv_note"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="text"
-                android:textSize="18dp"
-                android:background="@null"
-                android:textColor="@color/black" />
+    <TextView
+        android:id="@+id/tv_note1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_note"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="18dp"
+        android:textColor="@color/gray"
+        android:gravity="center"
+        android:text="cho sản phẩm này bạn nhé!"
+        android:enabled="false"/>
 
-        </ScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
     <Button
         android:id="@+id/btn_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/constraint_layout"
+        app:layout_constraintTop_toBottomOf="@id/edt_note"
         android:text="Gửi"
         android:textAllCaps="false"
         android:layout_marginTop="10dp"

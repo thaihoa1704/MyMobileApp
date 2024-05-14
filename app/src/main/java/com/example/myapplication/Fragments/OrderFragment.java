@@ -70,7 +70,7 @@ public class OrderFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                String fragmentName = "OrderFragment";
+                String fragmentName = "orderFragment";
                 bundle.putString("fragmentName", fragmentName);
                 controller.navigate(R.id.action_orderFragment_to_addressFragment, bundle);
             }

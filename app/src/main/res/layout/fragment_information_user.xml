@@ -293,7 +293,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="Thiết lập tài khoản"
+        android:text="Tài khoản và bảo mật"
         android:textColor="@color/black"
         android:textSize="22dp"
         android:layout_marginLeft="15dp"
@@ -317,6 +317,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_profile_user"/>
     <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="Địa chỉ"
+        android:textColor="@color/black"
+        android:textSize="22dp"
+        android:layout_marginLeft="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line2"/>
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/baseline_arrow_forward_ios_24"
+        android:layout_marginRight="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line2"/>
+    <View
+        android:id="@+id/line3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_address"/>
+    <TextView
         android:id="@+id/tv_logout"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
@@ -326,6 +354,6 @@
         android:textSize="22dp"
         android:layout_marginLeft="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line2"/>
+        app:layout_constraintTop_toBottomOf="@+id/line3"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

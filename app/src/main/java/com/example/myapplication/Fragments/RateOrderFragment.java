@@ -8,9 +8,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.FragmentRateOrderBinding;
@@ -35,14 +38,35 @@ public class RateOrderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.constraintLayout.setOnClickListener(new View.OnClickListener() {
+        binding.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
-            public void onClick(View v) {
-                binding.label2.setVisibility(View.GONE);
-                binding.label3.setVisibility(View.GONE);
-                binding.scrollView.setVisibility(View.VISIBLE);
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                binding.tvRate.setText(String.valueOf(rating));
+                switch ((int) ratingBar.getRating()){
+                    case 1:
+                        binding.tvRate.setText("Tệ");
+                        break;
+                    case 2:
+                        binding.tvRate.setText("Không hài lòng");
+                        break;
+                    case 3:
+                        binding.tvRate.setText("Bình thường");
+                        break;
+                    case 4:
+                        binding.tvRate.setText("Hài lòng");
+                        break;
+                    case 5:
+                        binding.tvRate.setText("Tuyệt vời");
+                        break;
+                    default:
+                        binding.tvRate.setText(" ");
+                        break;
+                }
             }
         });
+
+
+        binding.edtNote.addTextChangedListener(textWatcher);
 
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,4 +81,24 @@ public class RateOrderFragment extends Fragment {
         fragmentTransaction.remove(this);
         fragmentTransaction.commit();
     }
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String note = binding.edtNote.getText().toString().trim();
+            if (!note.isEmpty()){
+                binding.tvNote.setVisibility(View.GONE);
+                binding.tvNote1.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
 }

@@ -49,6 +49,13 @@ public class AddressFragment extends Fragment implements ClickItemAddressListene
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
         controller = Navigation.findNavController(view);
 
+        String fragmentName = getArguments().getString("fragmentName");
+        if (fragmentName.equals("informationUser")){
+            binding.label.setText("Địa chỉ của bạn");
+        }else if (fragmentName.equals("orderFragment")){
+            binding.label.setText("Chọn địa chỉ nhận hàng");
+        }
+
         adapter = new AddressAdapter(this);
         binding.rcvAddress.setHasFixedSize(true);
         binding.rcvAddress.setLayoutManager(new LinearLayoutManager(requireActivity()));
@@ -59,14 +66,20 @@ public class AddressFragment extends Fragment implements ClickItemAddressListene
         binding.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.navigate(R.id.action_addressFragment_to_addAddressFragment);
+                Bundle bundle = new Bundle();
+                bundle.putString("fragmentName", fragmentName);
+                controller.navigate(R.id.action_addressFragment_to_addAddressFragment, bundle);
             }
         });
 
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.navigate(R.id.action_addressFragment_to_orderFragment);
+                if (fragmentName.equals("informationUser")){
+                    controller.navigate(R.id.action_addressFragment_to_informationUserFragment);
+                }else {
+                    controller.navigate(R.id.action_addressFragment_to_orderFragment);
+                }
             }
         });
     }

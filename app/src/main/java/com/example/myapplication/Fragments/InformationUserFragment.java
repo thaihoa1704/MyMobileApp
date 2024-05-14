@@ -99,6 +99,15 @@ public class InformationUserFragment extends Fragment {
             }
         });
 
+        binding.tvAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("fragmentName", "informationUser");
+                controller.navigate(R.id.action_informationUserFragment_to_addressFragment, bundle);
+            }
+        });
+
         binding.tvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
