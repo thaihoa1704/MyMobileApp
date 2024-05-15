@@ -90,5 +90,7 @@ public class OrderViewModel extends ViewModel implements FireStoreCallbackConfir
     public void updateReceiveOrder(Order order){
         repository.updateReceiveOrder(order);
     }
-
+    public void updateRateOrder(Order order, int star, String note){
+        repository.updateRateOrder(order, star, note);
+    }
 }

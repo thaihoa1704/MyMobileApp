@@ -9,15 +9,17 @@ public class Order implements Serializable {
     private String address;
     private String status;
     private int total;
+    private int rateStar;
     private String note;
     public Order() {
     }
-    public Order(List<CartProduct> listProduct, long dateTime, String address, String status, int total, String note) {
+    public Order(List<CartProduct> listProduct, long dateTime, String address, String status, int total, int rateStar, String note) {
         this.listProduct = listProduct;
         this.dateTime = dateTime;
         this.address = address;
         this.status = status;
         this.total = total;
+        this.rateStar = rateStar;
         this.note = note;
     }
 
@@ -59,6 +61,14 @@ public class Order implements Serializable {
 
     public void setTotal(int total) {
         this.total = total;
+    }
+
+    public int getRateStar() {
+        return rateStar;
+    }
+
+    public void setRateStar(int rateStar) {
+        this.rateStar = rateStar;
     }
 
     public String getNote() {

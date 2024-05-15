@@ -97,12 +97,15 @@ public class DetailOrderFragment extends Fragment {
             binding.btnProcess.setText("Đã nhận được hàng");
         } else if (status.equals("Chưa đánh giá")){
             binding.btnProcess.setText("Đánh giá");
+        } else if (status.equals("Đã đánh giá")){
+            binding.btnProcess.setText(status);
         }
 
         binding.btnProcess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (status.equals("Đơn hàng đang trên đường giao đến bạn")){
+
                     orderViewModel.updateReceiveOrder(order);
                 } else if (status.equals("Chưa đánh giá")) {
                     addFragment(new RateOrderFragment(), order);

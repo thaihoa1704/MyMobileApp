@@ -7,19 +7,26 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
+import com.example.myapplication.Models.Order;
 import com.example.myapplication.R;
+import com.example.myapplication.ViewModels.OrderViewModel;
 import com.example.myapplication.databinding.FragmentRateOrderBinding;
 
 public class RateOrderFragment extends Fragment {
     private FragmentRateOrderBinding binding;
+    private OrderViewModel orderViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +44,10 @@ public class RateOrderFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Order order = (Order) getArguments().getSerializable("Order");
+
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
         binding.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -65,8 +76,33 @@ public class RateOrderFragment extends Fragment {
             }
         });
 
-
         binding.edtNote.addTextChangedListener(textWatcher);
+
+        binding.btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int star = (int) binding.ratingBar.getRating();
+                String note = binding.edtNote.getText().toString().trim();
+                orderViewModel.updateRateOrder(order, star, note);
+                orderViewModel.getCheckOrder().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(Boolean aBoolean) {
+                        if (aBoolean){
+                            Toast.makeText(getContext(), "Gửi đánh giá thành công", Toast.LENGTH_SHORT).show();
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    removeFragment();
+                                }
+                            }, 2000);
+                        } else {
+                            Toast.makeText(getContext(), "Gửi đánh giá thất bại", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
 
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override

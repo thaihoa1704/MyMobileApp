@@ -66,6 +66,7 @@ public class OrderRepository {
         hashMap.put("listProduct", list);
         hashMap.put("total", total);
         hashMap.put("status", "Chờ xác nhận");
+        hashMap.put("rateStar", 0);
         hashMap.put("note", "");
 
         collectionReferenceOrder.document(String.valueOf(timestamp)).set(hashMap)
@@ -156,6 +157,23 @@ public class OrderRepository {
                     @Override
                     public void onSuccess(Void unused) {
 
+                    }
+                });
+    }
+    public void updateRateOrder(Order order, int star, String note){
+        collectionReferenceOrder.document(String.valueOf(order.getDateTime()))
+                .update("rateStar", star
+                        , "note", note
+                        , "status", "Đã đánh giá")
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        check.postValue(true);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        check.postValue(false);
                     }
                 });
     }
