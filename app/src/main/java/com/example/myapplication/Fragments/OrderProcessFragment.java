@@ -176,7 +176,6 @@ public class OrderProcessFragment extends Fragment implements ClickItemOrderList
             }
         });
     }
-
     @Override
     public void onClick(Order order) {
         Bundle bundle = new Bundle();

@@ -99,6 +99,7 @@ public class RateOrderFragment extends Fragment {
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
+                                    order.setStatus("Đã đánh giá");
                                     removeFragment(order, from);
                                 }
                             }, 2000);

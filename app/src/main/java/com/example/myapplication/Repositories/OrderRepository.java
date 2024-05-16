@@ -167,9 +167,9 @@ public class OrderRepository {
     }
     public void updateRateOrder(Order order, int star, String note){
         collectionReferenceOrder.document(String.valueOf(order.getDateTime()))
-                .update("rateStar", star
-                        , "note", note
-                        , "status", "Đã đánh giá")
+                .update("status", "Đã đánh giá"
+                        , "rateStar", star
+                        , "note", note)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
