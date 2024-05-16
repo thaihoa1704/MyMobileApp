@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -30,6 +32,8 @@ public class DetailOrderFragment extends Fragment {
     private OrderProductAdapter adapter;
     private UserViewModel userViewModel;
     private OrderViewModel orderViewModel;
+    private NavController controller;
+    private int id;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,7 @@ public class DetailOrderFragment extends Fragment {
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
+        controller = Navigation.findNavController(view);
 
         userViewModel.userLogged();
         userViewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
@@ -61,6 +66,7 @@ public class DetailOrderFragment extends Fragment {
         });
 
         Order order = (Order) getArguments().getSerializable("Order");
+        String from = getArguments().getString("From");
 
         binding.tvUserName.setText("");
         binding.tvAddress.setText(order.getAddress().toString());
@@ -92,10 +98,13 @@ public class DetailOrderFragment extends Fragment {
 
         String status = order.getStatus().toString();
         if (status.equals("Chờ xác nhận")){
-            
+            this.id = 1;
+            binding.btnProcess.setText("Đơn hàng đang được xử lý");
         } else if (status.equals("Đơn hàng đang trên đường giao đến bạn")) {
+            this.id = 2;
             binding.btnProcess.setText("Đã nhận được hàng");
         } else if (status.equals("Chưa đánh giá")){
+            this.id = 3;
             binding.btnProcess.setText("Đánh giá");
         } else if (status.equals("Đã đánh giá")){
             binding.btnProcess.setText(status);
@@ -108,7 +117,10 @@ public class DetailOrderFragment extends Fragment {
 
                     orderViewModel.updateReceiveOrder(order);
                 } else if (status.equals("Chưa đánh giá")) {
-                    addFragment(new RateOrderFragment(), order);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("Order", order);
+                    bundle.putString("From", from);
+                    controller.navigate(R.id.action_detailOrderFragment_to_rateOrderFragment, bundle);
                 }
             }
         });
@@ -116,25 +128,14 @@ public class DetailOrderFragment extends Fragment {
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeFragment();
+                if (from.equals("OrderProcessFragment")){
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("id", id);
+                    controller.navigate(R.id.action_detailOrderFragment_to_orderProcessFragment, bundle);
+                } else if (from.equals("PurchaseHistoryFragment")){
+                    controller.navigate(R.id.action_detailOrderFragment_to_purchaseHistoryFragment);
+                }
             }
         });
-    }
-    private void removeFragment() {
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.remove(this);
-        fragmentTransaction.commit();
-    }
-    private void addFragment(Fragment fragment, Order order){
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("Order", order);
-        fragment.setArguments(bundle);
-
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frame_layout_order, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
     }
 }

@@ -70,7 +70,10 @@ public class PurchaseHistoryFragment extends Fragment implements ClickItemOrderL
 
     @Override
     public void onClick(Order order) {
-        addFragment(new DetailOrderFragment(), order);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Order", order);
+        bundle.putString("From", "PurchaseHistoryFragment");
+        controller.navigate(R.id.action_purchaseHistoryFragment_to_detailOrderFragment, bundle);
     }
     private void setOrderAdapter() {
         orderViewModel.getPurchaseHistory();
@@ -83,16 +86,5 @@ public class PurchaseHistoryFragment extends Fragment implements ClickItemOrderL
                 }
             }
         });
-    }
-    private void addFragment(Fragment fragment, Order order){
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("Order", order);
-        fragment.setArguments(bundle);
-
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frame_layout_purchase_history, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
     }
 }

@@ -62,7 +62,7 @@ public class OrderProcessFragment extends Fragment implements ClickItemOrderList
             confirm();
         } else if (id == 2) {
             shipping();
-        } else {
+        } else if (id == 3){
             rate();
         }
         binding.tvConfirm.setOnClickListener(new View.OnClickListener() {
@@ -176,19 +176,12 @@ public class OrderProcessFragment extends Fragment implements ClickItemOrderList
             }
         });
     }
-    private void addFragment(Fragment fragment, Order order){
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("Order", order);
-        fragment.setArguments(bundle);
 
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frame_layout_order, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
     @Override
     public void onClick(Order order) {
-        addFragment(new DetailOrderFragment(), order);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Order", order);
+        bundle.putString("From", "OrderProcessFragment");
+        controller.navigate(R.id.action_orderProcessFragment_to_detailOrderFragment, bundle);
     }
 }

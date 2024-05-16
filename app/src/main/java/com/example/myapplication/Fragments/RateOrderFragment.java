@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.os.Handler;
 import android.text.Editable;
@@ -27,6 +29,7 @@ import com.example.myapplication.databinding.FragmentRateOrderBinding;
 public class RateOrderFragment extends Fragment {
     private FragmentRateOrderBinding binding;
     private OrderViewModel orderViewModel;
+    private NavController controller;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,8 +49,11 @@ public class RateOrderFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Order order = (Order) getArguments().getSerializable("Order");
+        String from = getArguments().getString("From");
 
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
+
+        controller = Navigation.findNavController(view);
 
         binding.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -93,7 +99,7 @@ public class RateOrderFragment extends Fragment {
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    removeFragment();
+                                    removeFragment(order, from);
                                 }
                             }, 2000);
                         } else {
@@ -107,15 +113,15 @@ public class RateOrderFragment extends Fragment {
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeFragment();
+                removeFragment(order, from);
             }
         });
     }
-    private void removeFragment() {
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.remove(this);
-        fragmentTransaction.commit();
+    private void removeFragment(Order order, String from) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Order", order);
+        bundle.putString("From", from);
+        controller.navigate(R.id.action_rateOrderFragment_to_detailOrderFragment, bundle);
     }
     private TextWatcher textWatcher = new TextWatcher() {
         @Override

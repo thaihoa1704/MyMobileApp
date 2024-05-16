@@ -137,6 +137,12 @@
         <action
             android:id="@+id/action_detailOrderFragment_to_orderProcessFragment"
             app:destination="@id/orderProcessFragment" />
+        <action
+            android:id="@+id/action_detailOrderFragment_to_purchaseHistoryFragment"
+            app:destination="@id/purchaseHistoryFragment" />
+        <action
+            android:id="@+id/action_detailOrderFragment_to_rateOrderFragment"
+            app:destination="@id/rateOrderFragment" />
     </fragment>
     <fragment
         android:id="@+id/purchaseHistoryFragment"
@@ -146,6 +152,9 @@
         <action
             android:id="@+id/action_purchaseHistoryFragment_to_informationUserFragment"
             app:destination="@id/informationUserFragment" />
+        <action
+            android:id="@+id/action_purchaseHistoryFragment_to_detailOrderFragment"
+            app:destination="@id/detailOrderFragment" />
     </fragment>
     <fragment
         android:id="@+id/addressFragment"
@@ -170,5 +179,14 @@
         <action
             android:id="@+id/action_addAddressFragment_to_addressFragment"
             app:destination="@id/addressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rateOrderFragment"
+        android:name="com.example.myapplication.Fragments.RateOrderFragment"
+        android:label="fragment_rate_order"
+        tools:layout="@layout/fragment_rate_order" >
+        <action
+            android:id="@+id/action_rateOrderFragment_to_detailOrderFragment"
+            app:destination="@id/detailOrderFragment" />
     </fragment>
 </navigation>

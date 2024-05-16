@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Arrays;
@@ -108,6 +109,7 @@ public class OrderRepository {
     }
     public void getConfirmOrder(){
         collectionReferenceOrder.whereEqualTo("status", "Chờ xác nhận")
+                .orderBy("dateTime", Query.Direction.DESCENDING)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -119,6 +121,7 @@ public class OrderRepository {
     }
     public void getShippingOrder(){
         collectionReferenceOrder.whereEqualTo("status", "Đơn hàng đang trên đường giao đến bạn")
+                .orderBy("dateTime", Query.Direction.DESCENDING)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -130,6 +133,7 @@ public class OrderRepository {
     }
     public void getRateOrder(){
         collectionReferenceOrder.whereEqualTo("status", "Chưa đánh giá")
+                .orderBy("dateTime", Query.Direction.DESCENDING)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -141,6 +145,7 @@ public class OrderRepository {
     }
     public void getPurchaseHistory(){
         collectionReferenceOrder.whereIn("status", Arrays.asList("Chưa đánh giá", "Đã đánh giá"))
+                .orderBy("dateTime", Query.Direction.DESCENDING)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
