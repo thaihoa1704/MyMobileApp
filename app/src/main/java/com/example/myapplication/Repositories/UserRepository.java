@@ -37,6 +37,7 @@ public class UserRepository {
     private FireStoreCallbackUser fireStoreCallbackUser;
     private String userId;
     private CollectionReference collectionReference;
+    private DocumentReference documentReference;
     private FireStoreCallbackAddress fireStoreCallbackAddress;
     public UserRepository(FireStoreCallbackUser fireStoreCallbackUser, FireStoreCallbackAddress fireStoreCallbackAddress) {
         this.firebaseAuth = FirebaseAuth.getInstance();
@@ -52,6 +53,7 @@ public class UserRepository {
             userLiveData.postValue(firebaseAuth.getCurrentUser());
             loggedOutLiveData.postValue(false);
             this.userId = firebaseAuth.getUid();
+            this.documentReference = db.collection("User").document(userId);
             this.collectionReference = db.collection("User").document(userId).collection("Address");
         }
     }
@@ -161,6 +163,21 @@ public class UserRepository {
             }
         });
     }
+
+    public void changePassword(String password){
+        firebaseAuth.getCurrentUser().updatePassword(password)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            check.postValue(true);
+                        }else {
+                            check.postValue(false);
+                        }
+                    }
+                });
+    }
+
     public void getAddress(){
         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -242,5 +259,20 @@ public class UserRepository {
                 }
             }
         });
+    }
+    public void checkPassword(String password){
+        db.collection("User").whereEqualTo("id", userId).whereEqualTo("password", password)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            if (task.getResult() != null){
+                                check.postValue(true);
+                            } else {
+                                check.postValue(false);
+                            }
+                        }
+                    }
+                });
     }
 }

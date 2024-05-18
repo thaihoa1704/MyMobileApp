@@ -82,4 +82,7 @@ public class UserViewModel extends ViewModel implements FireStoreCallbackUser, F
     public void addAddress(String string){
         repository.addAddress(string);
     }
+    public void checkPassword(String password){
+        repository.checkPassword(password);
+    }
 }
