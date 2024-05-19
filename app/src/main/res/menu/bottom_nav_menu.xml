@@ -16,7 +16,7 @@
         android:title="Giỏ hàng"
         android:menuCategory="secondary"/>
     <item
-        android:id="@+id/informationUserFragment"
+        android:id="@+id/userFragment"
         android:icon="@drawable/person_icon"
         android:title="Cá nhân"
         android:menuCategory="secondary"/>

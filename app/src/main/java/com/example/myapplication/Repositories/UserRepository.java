@@ -9,11 +9,14 @@ import com.example.myapplication.Listener.FireStoreCallbackAddress;
 import com.example.myapplication.Listener.FireStoreCallbackUser;
 import com.example.myapplication.Models.Address;
 import com.example.myapplication.Models.User;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -164,18 +167,49 @@ public class UserRepository {
         });
     }
 
-    public void changePassword(String password){
-        firebaseAuth.getCurrentUser().updatePassword(password)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            check.postValue(true);
-                        }else {
-                            check.postValue(false);
-                        }
-                    }
-                });
+    public void changePassword(String oldPass, String newPass){
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), oldPass);
+        user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    firebaseAuth.getCurrentUser().updatePassword(newPass)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()){
+                                        updatePassword(newPass);
+                                    }else {
+                                        check.postValue(false);
+                                    }
+                                }
+                            }).addOnCanceledListener(new OnCanceledListener() {
+                                @Override
+                                public void onCanceled() {
+                                    check.postValue(false);
+                                }
+                            });
+                }
+            }
+        }).addOnCanceledListener(new OnCanceledListener() {
+            @Override
+            public void onCanceled() {
+                check.postValue(false);
+            }
+        });
+    }
+    private void updatePassword(String newPass){
+        documentReference.update("password", newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    check.postValue(true);
+                } else {
+                    check.postValue(false);
+                }
+            }
+        });
     }
 
     public void getAddress(){

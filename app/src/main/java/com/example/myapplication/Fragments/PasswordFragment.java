@@ -52,6 +52,13 @@ public class PasswordFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String oldPass = binding.edtOldPass.getText().toString().trim();
+                String newPass1 = binding.edtNewPass1.getText().toString().trim();
+                String newPass2 = binding.edtNewPass2.getText().toString().trim();
+                if (!newPass1.equals(newPass2)) {
+                    Toast.makeText(getContext(), "Mật khẩu mới không khớp", Toast.LENGTH_SHORT).show();
+                } else {
+
+                }
                 userViewModel.checkPassword(oldPass);
                 userViewModel.getCheck().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
                     @Override

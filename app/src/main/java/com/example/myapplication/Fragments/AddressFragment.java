@@ -76,7 +76,7 @@ public class AddressFragment extends Fragment implements ClickItemAddressListene
             @Override
             public void onClick(View v) {
                 if (fragmentName.equals("informationUser")){
-                    controller.navigate(R.id.action_addressFragment_to_informationUserFragment);
+                    controller.navigate(R.id.action_addressFragment_to_userFragment);
                 }else {
                     controller.navigate(R.id.action_addressFragment_to_orderFragment);
                 }

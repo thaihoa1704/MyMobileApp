@@ -23,15 +23,15 @@ import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.CartViewModel;
 import com.example.myapplication.ViewModels.OrderViewModel;
 import com.example.myapplication.ViewModels.UserViewModel;
-import com.example.myapplication.databinding.FragmentInformationUserBinding;
+import com.example.myapplication.databinding.FragmentUserBinding;
 
 import java.util.List;
 
-public class InformationUserFragment extends Fragment {
+public class UserFragment extends Fragment {
     private UserViewModel userViewModel;
     private CartViewModel cartViewModel;
     private OrderViewModel orderViewModel;
-    private FragmentInformationUserBinding binding;
+    private FragmentUserBinding binding;
     private NavController controller;
 
     @Override
@@ -43,7 +43,7 @@ public class InformationUserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentInformationUserBinding.inflate(getLayoutInflater(), container, false);
+        binding = FragmentUserBinding.inflate(getLayoutInflater(), container, false);
         return binding.getRoot();
     }
 
@@ -170,6 +170,6 @@ public class InformationUserFragment extends Fragment {
     private void moveToNewFragment(int id){
         Bundle bundle = new Bundle();
         bundle.putInt("id", id);
-        controller.navigate(R.id.action_informationUserFragment_to_orderProcessFragment, bundle);
+        controller.navigate(R.id.action_userFragment_to_orderProcessFragment, bundle);
     }
 }

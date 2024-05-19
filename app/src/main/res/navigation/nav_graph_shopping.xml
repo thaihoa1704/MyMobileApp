@@ -40,12 +40,12 @@
             app:destination="@id/detailProductFragment" />
     </fragment>
     <fragment
-        android:id="@+id/informationUserFragment"
-        android:name="com.example.myapplication.Fragments.InformationUserFragment"
-        android:label="fragment_information_user"
-        tools:layout="@layout/fragment_information_user" >
+        android:id="@+id/userFragment"
+        android:name="com.example.myapplication.Fragments.UserFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user" >
         <action
-            android:id="@+id/action_informationUserFragment_to_orderProcessFragment"
+            android:id="@+id/action_userFragment_to_orderProcessFragment"
             app:destination="@id/orderProcessFragment" />
         <action
             android:id="@+id/action_informationUserFragment_to_purchaseHistoryFragment"
@@ -123,8 +123,8 @@
         android:label="fragment_order_process"
         tools:layout="@layout/fragment_order_process" >
         <action
-            android:id="@+id/action_orderProcessFragment_to_informationUserFragment"
-            app:destination="@id/informationUserFragment" />
+            android:id="@+id/action_orderProcessFragment_to_userFragment"
+            app:destination="@id/userFragment" />
         <action
             android:id="@+id/action_orderProcessFragment_to_detailOrderFragment"
             app:destination="@id/detailOrderFragment" />
@@ -150,8 +150,8 @@
         android:label="fragment_purchase_history"
         tools:layout="@layout/fragment_purchase_history" >
         <action
-            android:id="@+id/action_purchaseHistoryFragment_to_informationUserFragment"
-            app:destination="@id/informationUserFragment" />
+            android:id="@+id/action_purchaseHistoryFragment_to_userFragment"
+            app:destination="@id/userFragment" />
         <action
             android:id="@+id/action_purchaseHistoryFragment_to_detailOrderFragment"
             app:destination="@id/detailOrderFragment" />
@@ -165,8 +165,8 @@
             android:id="@+id/action_addressFragment_to_orderFragment"
             app:destination="@id/orderFragment" />
         <action
-            android:id="@+id/action_addressFragment_to_informationUserFragment"
-            app:destination="@id/informationUserFragment" />
+            android:id="@+id/action_addressFragment_to_userFragment"
+            app:destination="@id/userFragment" />
         <action
             android:id="@+id/action_addressFragment_to_addAddressFragment"
             app:destination="@id/addAddressFragment" />
