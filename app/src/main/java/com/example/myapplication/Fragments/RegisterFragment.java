@@ -51,36 +51,41 @@ public class RegisterFragment extends Fragment {
         binding.btnRegister.setEnabled(false);
         binding.textName.addTextChangedListener(textWatcher);
         binding.textEmail.addTextChangedListener(textWatcher);
-        binding.textPass.addTextChangedListener(textWatcher);
         binding.textPhone.addTextChangedListener(textWatcher);
+        binding.textPass.addTextChangedListener(textWatcher);
+        binding.textPass1.addTextChangedListener(textWatcher);
 
         binding.btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                User user = new User();
-                user.setName(binding.textName.getText().toString());
-                user.setEmail(binding.textEmail.getText().toString().trim());
-                user.setPhone(binding.textPhone.getText().toString().trim());
-                user.setPassword(binding.textPass.getText().toString().trim());
+                if (!binding.textPass.getText().toString().trim().equals(binding.textPass1.getText().toString().trim())){
+                    Toast.makeText(requireContext(), "Mật khẩu không trùng khớp!", Toast.LENGTH_SHORT).show();
+                }else {
+                    User user = new User();
+                    user.setName(binding.textName.getText().toString());
+                    user.setEmail(binding.textEmail.getText().toString().trim());
+                    user.setPhone(binding.textPhone.getText().toString().trim());
+                    user.setPassword(binding.textPass.getText().toString().trim());
 
-                viewModel.userRegister(user);
-                viewModel.getCheck().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-                    @Override
-                    public void onChanged(Boolean aBoolean) {
-                        if (aBoolean){
-                            Toast.makeText(requireContext(), "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    navController.navigate(R.id.action_registerFragment_to_loginFragment);
-                                }
-                            }, 1500);
-                        } else {
-                            Toast.makeText(requireContext(), "Đăng ký thất bại!", Toast.LENGTH_SHORT).show();
+                    viewModel.userRegister(user);
+                    viewModel.getCheck().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+                        @Override
+                        public void onChanged(Boolean aBoolean) {
+                            if (aBoolean){
+                                Toast.makeText(requireContext(), "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        navController.navigate(R.id.action_registerFragment_to_loginFragment);
+                                    }
+                                }, 1500);
+                            } else {
+                                Toast.makeText(requireContext(), "Đăng ký thất bại!", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
 
@@ -101,10 +106,11 @@ public class RegisterFragment extends Fragment {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String name = binding.textName.getText().toString().trim();
             String email = binding.textEmail.getText().toString().trim();
-            String pass = binding.textPass.getText().toString().trim();
             String phone = binding.textPhone.getText().toString().trim();
+            String pass = binding.textPass.getText().toString().trim();
+            String pass1 = binding.textPass1.getText().toString().trim();
 
-            binding.btnRegister.setEnabled(!email.isEmpty() && !pass.isEmpty() && !name.isEmpty() && !phone.isEmpty());
+            binding.btnRegister.setEnabled(!email.isEmpty() && !pass.isEmpty() && !pass1.isEmpty() && !name.isEmpty() && !phone.isEmpty());
         }
 
         @Override

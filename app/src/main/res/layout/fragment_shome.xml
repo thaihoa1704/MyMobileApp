@@ -19,13 +19,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="15dp">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp">
                     <TextView
                         android:id="@+id/textView4"
                         android:layout_width="wrap_content"
@@ -57,24 +59,29 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_height="160dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp">
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Danh mục"
-                    android:textSize="24dp"
+                    android:textSize="25dp"
                     android:textAlignment="center"
-                    android:textColor="@color/black">
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp">
                 </TextView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -83,8 +90,8 @@
                         android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="55dp"
-                            android:layout_height="55dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_gravity="center"
                             android:background="@drawable/btn_categore_background">
 
@@ -103,9 +110,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Điện thoại"
-                            android:textAlignment="center"
+                            android:gravity="center"
                             android:textColor="@color/black"
-                            android:textSize="16dp"/>
+                            android:textSize="17dp"
+                            android:layout_marginTop="5dp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -115,8 +123,8 @@
                         android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="55dp"
-                            android:layout_height="55dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_gravity="center"
                             android:background="@drawable/btn_categore_background">
 
@@ -135,9 +143,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Laptop"
-                            android:textAlignment="center"
+                            android:gravity="center"
                             android:textColor="@color/black"
-                            android:textSize="17dp"></TextView>
+                            android:textSize="17dp"
+                            android:layout_marginTop="5dp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -147,8 +156,8 @@
                         android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="55dp"
-                            android:layout_height="55dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_gravity="center"
                             android:background="@drawable/btn_categore_background">
 
@@ -160,16 +169,17 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"></ImageView>
+                                app:layout_constraintTop_toTopOf="parent"/>
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Tai nghe"
-                            android:textAlignment="center"
+                            android:gravity="center"
                             android:textColor="@color/black"
-                            android:textSize="17dp"></TextView>
+                            android:textSize="17dp"
+                            android:layout_marginTop="5dp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -179,8 +189,8 @@
                         android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="55dp"
-                            android:layout_height="55dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_gravity="center"
                             android:background="@drawable/btn_categore_background">
 
@@ -199,9 +209,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Đồng hồ"
-                            android:textAlignment="center"
+                            android:gravity="center"
                             android:textColor="@color/black"
-                            android:textSize="17dp"></TextView>
+                            android:textSize="17dp"
+                            android:layout_marginTop="5dp"></TextView>
                     </LinearLayout>
 
                     <LinearLayout
@@ -211,8 +222,8 @@
                         android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="55dp"
-                            android:layout_height="55dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_gravity="center"
                             android:background="@drawable/btn_categore_background">
 
@@ -231,9 +242,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Phụ kiện"
-                            android:textAlignment="center"
+                            android:gravity="center"
                             android:textColor="@color/black"
-                            android:textSize="17dp"></TextView>
+                            android:textSize="17dp"
+                            android:layout_marginTop="5dp"></TextView>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

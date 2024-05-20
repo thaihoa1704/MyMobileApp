@@ -10,23 +10,23 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:background="@color/main"
+        android:layout_height="250dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/bg_user" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/avatar_user"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        app:cardCornerRadius="50dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        app:cardCornerRadius="100dp"
         app:strokeColor="@color/black"
         app:strokeWidth="3dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:theme="@style/Theme"/>
 
     <TextView
@@ -36,10 +36,10 @@
         android:textSize="25dp"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintStart_toEndOf="@+id/avatar_user"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/avatar_user"/>
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -48,7 +48,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="20dp">
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
@@ -254,7 +254,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -263,7 +263,7 @@
     <TextView
         android:id="@+id/tv_order"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:gravity="center"
         android:text="Xem lịch sử mua hàng"
         android:textColor="@color/black"
@@ -274,11 +274,11 @@
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="15dp"
         android:src="@drawable/baseline_arrow_forward_ios_24"
         android:layout_marginRight="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line"/>
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        app:layout_constraintBottom_toTopOf="@+id/line1"/>
     <View
         android:id="@+id/line1"
         android:layout_width="match_parent"
@@ -291,7 +291,7 @@
     <TextView
         android:id="@+id/tv_profile_user"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:gravity="center"
         android:text="Tài khoản và bảo mật"
         android:textColor="@color/black"
@@ -302,11 +302,11 @@
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="15dp"
         android:src="@drawable/baseline_arrow_forward_ios_24"
         android:layout_marginRight="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line1"/>
+        app:layout_constraintTop_toBottomOf="@+id/line1"
+        app:layout_constraintBottom_toTopOf="@+id/line2"/>
     <View
         android:id="@+id/line2"
         android:layout_width="match_parent"
@@ -319,7 +319,7 @@
     <TextView
         android:id="@+id/tv_address"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:gravity="center"
         android:text="Địa chỉ"
         android:textColor="@color/black"
@@ -330,11 +330,11 @@
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="15dp"
         android:src="@drawable/baseline_arrow_forward_ios_24"
         android:layout_marginRight="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line2"/>
+        app:layout_constraintTop_toBottomOf="@+id/line2"
+        app:layout_constraintBottom_toTopOf="@+id/line3"/>
     <View
         android:id="@+id/line3"
         android:layout_width="match_parent"
@@ -347,7 +347,7 @@
     <TextView
         android:id="@+id/tv_logout"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:gravity="center"
         android:text="Đăng xuất"
         android:textColor="@color/black"
