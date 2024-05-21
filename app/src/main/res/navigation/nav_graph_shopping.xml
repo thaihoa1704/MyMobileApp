@@ -48,11 +48,14 @@
             android:id="@+id/action_userFragment_to_orderProcessFragment"
             app:destination="@id/orderProcessFragment" />
         <action
-            android:id="@+id/action_informationUserFragment_to_purchaseHistoryFragment"
+            android:id="@+id/action_userFragment_to_purchaseHistoryFragment"
             app:destination="@id/purchaseHistoryFragment" />
         <action
-            android:id="@+id/action_informationUserFragment_to_addressFragment"
+            android:id="@+id/action_userFragment_to_addressFragment"
             app:destination="@id/addressFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/productListFragment"
@@ -188,5 +191,26 @@
         <action
             android:id="@+id/action_rateOrderFragment_to_detailOrderFragment"
             app:destination="@id/detailOrderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.myapplication.Fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_passwordFragment"
+            app:destination="@id/passwordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordFragment"
+        android:name="com.example.myapplication.Fragments.PasswordFragment"
+        android:label="fragment_password"
+        tools:layout="@layout/fragment_password" >
+        <action
+            android:id="@+id/action_passwordFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 </navigation>

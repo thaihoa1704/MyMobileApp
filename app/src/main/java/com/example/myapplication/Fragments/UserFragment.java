@@ -95,7 +95,14 @@ public class UserFragment extends Fragment {
         binding.tvOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.navigate(R.id.action_informationUserFragment_to_purchaseHistoryFragment);
+                controller.navigate(R.id.action_userFragment_to_purchaseHistoryFragment);
+            }
+        });
+
+        binding.tvProfileUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.navigate(R.id.action_userFragment_to_profileFragment);
             }
         });
 
@@ -104,7 +111,7 @@ public class UserFragment extends Fragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("fragmentName", "informationUser");
-                controller.navigate(R.id.action_informationUserFragment_to_addressFragment, bundle);
+                controller.navigate(R.id.action_userFragment_to_addressFragment, bundle);
             }
         });
 

@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,6 +25,7 @@ import com.example.myapplication.databinding.FragmentPasswordBinding;
 public class PasswordFragment extends Fragment {
     private FragmentPasswordBinding binding;
     private UserViewModel userViewModel;
+    private NavController controller;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,11 +45,19 @@ public class PasswordFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        controller = Navigation.findNavController(view);
 
         binding.btnChange.setEnabled(false);
         binding.edtOldPass.addTextChangedListener(textWatcher);
         binding.edtNewPass1.addTextChangedListener(textWatcher);
         binding.edtNewPass2.addTextChangedListener(textWatcher);
+
+        binding.imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.navigate(R.id.action_passwordFragment_to_profileFragment);
+            }
+        });
 
         binding.btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,19 +68,18 @@ public class PasswordFragment extends Fragment {
                 if (!newPass1.equals(newPass2)) {
                     Toast.makeText(getContext(), "Mật khẩu mới không khớp", Toast.LENGTH_SHORT).show();
                 } else {
-
-                }
-                userViewModel.checkPassword(oldPass);
-                userViewModel.getCheck().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-                    @Override
-                    public void onChanged(Boolean aBoolean) {
-                        if (aBoolean) {
-
-                        } else {
-                            Toast.makeText(getContext(), "Mật khẩu cũ không đúng", Toast.LENGTH_SHORT).show();
+                    userViewModel.changePassword(oldPass, newPass1);
+                    userViewModel.getCheck().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+                        @Override
+                        public void onChanged(Boolean aBoolean) {
+                            if (aBoolean) {
+                                Toast.makeText(getContext(), "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(), "Mật khẩu cũ không đúng", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
 

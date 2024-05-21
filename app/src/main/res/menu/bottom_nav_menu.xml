@@ -17,7 +17,7 @@
         android:menuCategory="secondary"/>
     <item
         android:id="@+id/userFragment"
-        android:icon="@drawable/person_icon"
+        android:icon="@drawable/person_icon1"
         android:title="Cá nhân"
         android:menuCategory="secondary"/>
 </menu>
