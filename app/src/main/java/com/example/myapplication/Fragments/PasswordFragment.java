@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -66,16 +67,26 @@ public class PasswordFragment extends Fragment {
                 String newPass1 = binding.edtNewPass1.getText().toString().trim();
                 String newPass2 = binding.edtNewPass2.getText().toString().trim();
                 if (!newPass1.equals(newPass2)) {
-                    Toast.makeText(getContext(), "Mật khẩu mới không khớp", Toast.LENGTH_SHORT).show();
+                    binding.tvMessage.setText("Mật khẩu mới không khớp!");
+                    binding.tvMessage.setVisibility(View.VISIBLE);
                 } else {
                     userViewModel.changePassword(oldPass, newPass1);
                     userViewModel.getCheck().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
                         @Override
                         public void onChanged(Boolean aBoolean) {
                             if (aBoolean) {
-                                Toast.makeText(getContext(), "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                                binding.tvMessage.setText("Đổi mật khẩu thành công!");
+                                binding.tvMessage.setVisibility(View.VISIBLE);
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        controller.navigate(R.id.action_passwordFragment_to_profileFragment);
+                                    }
+                                }, 2000);
                             } else {
-                                Toast.makeText(getContext(), "Mật khẩu cũ không đúng", Toast.LENGTH_SHORT).show();
+                                binding.tvMessage.setText("Mật khẩu cũ không đúng!");
+                                binding.tvMessage.setVisibility(View.VISIBLE);
                             }
                         }
                     });

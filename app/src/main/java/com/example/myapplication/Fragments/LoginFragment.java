@@ -72,6 +72,7 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void onChanged(Boolean aBoolean) {
                         if (aBoolean){
+                            binding.tvMessage.setVisibility(View.GONE);
                             Toast.makeText(requireContext(), "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
@@ -79,9 +80,10 @@ public class LoginFragment extends Fragment {
                                 public void run() {
                                     changeActivity();
                                 }
-                            }, 1500);
+                            }, 2000);
                         }else {
-                            Toast.makeText(requireContext(), "Email hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
+                            binding.tvMessage.setText("Email hoặc mật khẩu không đúng!");
+                            binding.tvMessage.setVisibility(View.VISIBLE);
                         }
                     }
                 });

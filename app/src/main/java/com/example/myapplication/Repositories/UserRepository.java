@@ -170,31 +170,24 @@ public class UserRepository {
     public void changePassword(String oldPass, String newPass){
         FirebaseUser user = firebaseAuth.getCurrentUser();
         AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), oldPass);
-        user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+        user.reauthenticate(credential).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    firebaseAuth.getCurrentUser().updatePassword(newPass)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()){
-                                        updatePassword(newPass);
-                                    }else {
-                                        check.postValue(false);
-                                    }
-                                }
-                            }).addOnCanceledListener(new OnCanceledListener() {
-                                @Override
-                                public void onCanceled() {
-                                    check.postValue(false);
-                                }
-                            });
-                }
+            public void onSuccess(Void unused) {
+                user.updatePassword(newPass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        updatePassword(newPass);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        check.postValue(false);
+                    }
+                });
             }
-        }).addOnCanceledListener(new OnCanceledListener() {
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onCanceled() {
+            public void onFailure(@NonNull Exception e) {
                 check.postValue(false);
             }
         });
@@ -293,20 +286,5 @@ public class UserRepository {
                 }
             }
         });
-    }
-    public void checkPassword(String password){
-        db.collection("User").whereEqualTo("id", userId).whereEqualTo("password", password)
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            if (task.getResult() != null){
-                                check.postValue(true);
-                            } else {
-                                check.postValue(false);
-                            }
-                        }
-                    }
-                });
     }
 }

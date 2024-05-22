@@ -56,7 +56,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        binding.constraintLayout3.setOnClickListener(new View.OnClickListener() {
+        binding.tvChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 controller.navigate(R.id.action_profileFragment_to_passwordFragment);
