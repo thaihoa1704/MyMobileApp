@@ -56,6 +56,15 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        binding.tvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("userName", binding.tvName.getText().toString());
+                controller.navigate(R.id.action_profileFragment_to_changeNameFragment, bundle);
+            }
+        });
+
         binding.tvChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

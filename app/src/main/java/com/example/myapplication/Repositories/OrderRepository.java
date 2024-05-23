@@ -58,11 +58,12 @@ public class OrderRepository {
         return check;
     }
 
-    public void addOrder(List<CartProduct> list, String address, int total){
+    public void addOrder(List<CartProduct> list, String contact, String address, int total){
         long timestamp = System.currentTimeMillis();
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("dateTime", timestamp);
+        hashMap.put("contact", contact);
         hashMap.put("address", address);
         hashMap.put("listProduct", list);
         hashMap.put("total", total);

@@ -197,10 +197,11 @@ public class OrderFragment extends Fragment {
 
                 controller.navigate(R.id.action_orderFragment_to_handleOrderFragment);
 
+                String contact = binding.tvUserName.getText().toString().trim() + " " + binding.tvPhone.getText().toString().trim();
                 String address = binding.tvAddress.getText().toString().trim();
                 int tatol = Convert.ChuyenTien(binding.tvTotal.getText().toString().trim()) / 1000;
 
-                orderViewModel.addOrder(list, address, tatol);
+                orderViewModel.addOrder(list, contact, address, tatol);
                 orderViewModel.deleteProductInCart(list);
                 orderViewModel.updateQuantityProduct(list);
             }

@@ -85,4 +85,7 @@ public class UserViewModel extends ViewModel implements FireStoreCallbackUser, F
     public void changePassword(String oldPassword, String newPassword){
         repository.changePassword(oldPassword, newPassword);
     }
+    public void updateUserName(String newName){
+        repository.updateUserName(newName);
+    }
 }

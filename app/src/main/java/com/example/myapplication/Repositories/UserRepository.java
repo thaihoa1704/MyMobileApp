@@ -250,6 +250,18 @@ public class UserRepository {
             }
         });
     }
+    public void updateUserName(String newName){
+        documentReference.update("name", newName).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    check.postValue(true);
+                } else {
+                    check.postValue(false);
+                }
+            }
+        });
+    }
     public void addAddress(String string){
         String id = collectionReference.document().getId();
         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
