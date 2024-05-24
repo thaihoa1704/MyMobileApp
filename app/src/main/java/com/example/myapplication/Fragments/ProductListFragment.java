@@ -122,7 +122,7 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
             }
         });
 
-        binding.linearLayoutFilter.setOnClickListener(new View.OnClickListener() {
+        binding.imgFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

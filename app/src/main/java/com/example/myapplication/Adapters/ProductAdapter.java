@@ -61,7 +61,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             String image = product.getImages().get(0).toString();
             Glide.with(context).load(image).into(binding.image);
             binding.tvProductName.setText(product.getName());
-            binding.tvPrice.setText(" " + Convert.DinhDangTien(product.getPrice()) + "đ");
+            binding.tvPrice.setText( "đ " + Convert.DinhDangTien(product.getPrice()));
 
             binding.layoutItemProduct.setOnClickListener(new View.OnClickListener() {
                 @Override
