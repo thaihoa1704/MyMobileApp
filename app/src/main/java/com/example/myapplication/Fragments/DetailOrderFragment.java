@@ -56,21 +56,11 @@ public class DetailOrderFragment extends Fragment {
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
         controller = Navigation.findNavController(view);
 
-        userViewModel.userLogged();
-        userViewModel.getUserLogin().observe(getViewLifecycleOwner(), new Observer<User>() {
-            @Override
-            public void onChanged(User user) {
-                binding.tvUserName.setText(user.getName());
-                binding.tvPhone.setText(user.getPhone());
-            }
-        });
-
         Order order = (Order) getArguments().getSerializable("Order");
         String from = getArguments().getString("From");
 
-        binding.tvUserName.setText("");
+        binding.tvContact.setText(order.getContact().toString());
         binding.tvAddress.setText(order.getAddress().toString());
-
         binding.tvTime.setText(Convert.getDateTime(order.getDateTime()));
 
         adapter = new OrderProductAdapter();
@@ -91,8 +81,11 @@ public class DetailOrderFragment extends Fragment {
         binding.imgDropDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.constraintLayout.setVisibility(View.VISIBLE);
-                binding.imgDropDown.setVisibility(View.GONE);
+                binding.tvLabel.setVisibility(View.VISIBLE);
+                binding.tvLabel1.setVisibility(View.VISIBLE);
+                binding.tvPrice.setVisibility(View.VISIBLE);
+                binding.tvPriceShipping.setVisibility(View.VISIBLE);
+                binding.constraintLayout2.setVisibility(View.GONE);
             }
         });
 

@@ -119,10 +119,14 @@ public class OrderFragment extends Fragment {
                         String string = item.getString();
                         if (string != ""){
                             binding.tvAddress.setText(string);
-                            binding.linearLayoutAddAddress.setVisibility(View.GONE);
+                            binding.imgChangeAddress.setVisibility(View.VISIBLE);
+                            binding.imgAddAddress.setVisibility(View.GONE);
+                            binding.tvAddAddress.setVisibility(View.GONE);
                         }else {
-                            binding.tvAddress.setVisibility(View.INVISIBLE);
-                            binding.linearLayoutAddAddress.setVisibility(View.VISIBLE);
+                            binding.tvAddress.setVisibility(View.GONE);
+                            binding.imgChangeAddress.setVisibility(View.GONE);
+                            binding.imgAddAddress.setVisibility(View.VISIBLE);
+                            binding.tvAddAddress.setVisibility(View.VISIBLE);
                         }
                     }
                 }
@@ -133,9 +137,9 @@ public class OrderFragment extends Fragment {
     private void setCartProductAdapter() {
         adapter = new OrderProductAdapter();
 
-        binding.rcvCartProductList.setHasFixedSize(true);
-        binding.rcvCartProductList.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        binding.rcvCartProductList.setAdapter(adapter);
+        binding.rcvCart.setHasFixedSize(true);
+        binding.rcvCart.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        binding.rcvCart.setAdapter(adapter);
 
         cartViewModel.getProductSelected();
         cartViewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
@@ -197,7 +201,7 @@ public class OrderFragment extends Fragment {
 
                 controller.navigate(R.id.action_orderFragment_to_handleOrderFragment);
 
-                String contact = binding.tvUserName.getText().toString().trim() + " " + binding.tvPhone.getText().toString().trim();
+                String contact = binding.tvUserName.getText().toString().trim() + " - " + binding.tvPhone.getText().toString().trim();
                 String address = binding.tvAddress.getText().toString().trim();
                 int tatol = Convert.ChuyenTien(binding.tvTotal.getText().toString().trim()) / 1000;
 

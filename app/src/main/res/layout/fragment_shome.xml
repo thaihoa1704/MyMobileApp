@@ -67,10 +67,10 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Danh mục"
-                    android:textSize="25dp"
-                    android:textAlignment="center"
+                    android:layout_height="35dp"
+                    android:text="Danh mục sản phẩm"
+                    android:textSize="24dp"
+                    android:gravity="center"
                     android:textColor="@color/black"
                     android:layout_marginTop="10dp">
                 </TextView>

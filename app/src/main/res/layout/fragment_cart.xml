@@ -55,7 +55,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_layout"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="60dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +66,7 @@
             <TextView
                 android:id="@+id/label"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:textSize="20dp"
                 android:textColor="@color/black"
                 android:text="Tổng giá trị:"
