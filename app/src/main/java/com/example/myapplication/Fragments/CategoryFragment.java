@@ -42,22 +42,28 @@ public class CategoryFragment extends Fragment {
 
         controller = Navigation.findNavController(view);
 
-        binding.cardPhone.setOnClickListener(new View.OnClickListener() {
+        binding.imgPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 moveToNewFragment("Điện thoại");
             }
         });
-        binding.cardLaptop.setOnClickListener(new View.OnClickListener() {
+        binding.imgLaptop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 moveToNewFragment("Laptop");
             }
         });
-        binding.cardHeadphone.setOnClickListener(new View.OnClickListener() {
+        binding.imgHeadphone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 moveToNewFragment("Tai nghe");
+            }
+        });
+        binding.imgWatch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveToNewFragment("Đồng hồ");
             }
         });
     }

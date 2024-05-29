@@ -7,88 +7,180 @@
     android:background="@color/white"
     android:id="@+id/frame_layout_category"
     tools:context=".Fragments.CategoryFragment">
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="Danh mục loại sản phẩm "
-            android:textSize="25dp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:layout_marginTop="5dp"/>
+        android:layout_height="match_parent">
 
-        <ScrollView
+        <LinearLayout
+            android:id="@+id/constraint_layout1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/constraint_layout">
+
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="130dp"
-                    android:layout_marginTop="10dp"
-                    app:cardBackgroundColor="@color/button"
-                    android:theme="@style/Theme.MaterialComponents.Light">
-                    <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:theme="@style/Theme"
+                    app:cardCornerRadius="15dp"
+                    app:strokeColor="@color/gray"
+                    app:strokeWidth="2dp">
+
+                    <ImageView
+                        android:id="@+id/img_headphone"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Điện thoại"
-                        android:textSize="25dp"
-                        android:textAlignment="center"
-                        android:layout_gravity="center"
-                        android:textColor="@color/black" />
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_laptop"
-                    android:layout_width="match_parent"
-                    android:layout_height="130dp"
-                    android:layout_marginTop="10dp"
-                    app:cardBackgroundColor="@color/button"
-                    android:theme="@style/Theme.MaterialComponents.Light">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Laptop"
-                        android:textSize="25dp"
-                        android:textAlignment="center"
-                        android:layout_gravity="center"
-                        android:textColor="@color/black" />
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_headphone"
-                    android:layout_width="match_parent"
-                    android:layout_height="130dp"
-                    android:layout_marginTop="10dp"
-                    app:cardBackgroundColor="@color/button"
-                    android:theme="@style/Theme.MaterialComponents.Light">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Tai nghe"
-                        android:textSize="25dp"
-                        android:textAlignment="center"
-                        android:layout_gravity="center"
-                        android:textColor="@color/black" />
-
+                        android:layout_height="match_parent"
+                        android:src="@drawable/headphone" />
                 </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 
-        </ScrollView>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-    </LinearLayout>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:theme="@style/Theme"
+                    app:cardCornerRadius="15dp"
+                    app:strokeColor="@color/gray"
+                    app:strokeWidth="2dp">
 
+                    <ImageView
+                        android:id="@+id/img_watch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/watch" />
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_category"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Danh mục loại sản phẩm "
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:layout_marginTop="30dp"
+            android:textSize="28dp" />
+        <LinearLayout
+            android:id="@+id/constraint_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_category">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    app:strokeColor="@color/gray"
+                    app:strokeWidth="2dp"
+                    app:cardCornerRadius="15dp"
+                    android:layout_gravity="center"
+                    android:theme="@style/Theme">
+                    <ImageView
+                        android:id="@+id/img_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/phone"/>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    app:strokeColor="@color/gray"
+                    app:strokeWidth="2dp"
+                    app:cardCornerRadius="15dp"
+                    android:layout_gravity="center"
+
+                    android:theme="@style/Theme">
+                    <ImageView
+                        android:id="@+id/img_laptop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/laptop"/>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/constraint_layout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/constraint_layout1">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:theme="@style/Theme"
+                    app:cardCornerRadius="15dp"
+                    app:strokeColor="@color/gray"
+                    app:strokeWidth="2dp">
+
+                    <ImageView
+                        android:id="@+id/img_accessory"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/headphone" />
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
