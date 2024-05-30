@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.myapplication.Activities.MainActivity;
+import com.example.myapplication.Dialog.LogoutDialog;
+import com.example.myapplication.Listener.OnClickChoice;
 import com.example.myapplication.Models.Order;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
@@ -27,7 +29,7 @@ import com.example.myapplication.databinding.FragmentUserBinding;
 
 import java.util.List;
 
-public class UserFragment extends Fragment {
+public class UserFragment extends Fragment implements OnClickChoice {
     private UserViewModel userViewModel;
     private CartViewModel cartViewModel;
     private OrderViewModel orderViewModel;
@@ -118,18 +120,8 @@ public class UserFragment extends Fragment {
         binding.tvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userViewModel.userLogout();
-                userViewModel.getLoggedOutLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-                    @Override
-                    public void onChanged(Boolean loggedOut) {
-                        if (loggedOut) {
-                            Toast.makeText(requireContext(), "Tài khoản đã đăng xuất!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(requireActivity(), MainActivity.class);
-                            startActivity(intent);
-                            requireActivity().finish();
-                        }
-                    }
-                });
+                LogoutDialog logoutDialog = new LogoutDialog();
+                logoutDialog.show(requireActivity().getSupportFragmentManager(), "LogoutDialog");
             }
         });
     }
@@ -178,5 +170,23 @@ public class UserFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putInt("id", id);
         controller.navigate(R.id.action_userFragment_to_orderProcessFragment, bundle);
+    }
+
+    @Override
+    public void onClick(Boolean choice) {
+        if (choice){
+            userViewModel.userLogout();
+            userViewModel.getLoggedOutLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+                @Override
+                public void onChanged(Boolean loggedOut) {
+                    if (loggedOut) {
+                        Toast.makeText(requireContext(), "Tài khoản đã đăng xuất!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(requireActivity(), MainActivity.class);
+                        startActivity(intent);
+                        requireActivity().finish();
+                    }
+                }
+            });
+        }
     }
 }

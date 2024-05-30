@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,8 +30,8 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.card.MaterialCardView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
                     android:layout_gravity="center"
                     android:theme="@style/Theme"
                     app:cardCornerRadius="15dp"
@@ -54,8 +54,8 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.card.MaterialCardView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
                     android:layout_gravity="center"
                     android:theme="@style/Theme"
                     app:cardCornerRadius="15dp"
@@ -103,8 +103,8 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <com.google.android.material.card.MaterialCardView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
                     app:strokeColor="@color/gray"
                     app:strokeWidth="2dp"
                     app:cardCornerRadius="15dp"
@@ -125,8 +125,8 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <com.google.android.material.card.MaterialCardView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
                     app:strokeColor="@color/gray"
                     app:strokeWidth="2dp"
                     app:cardCornerRadius="15dp"
@@ -150,7 +150,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -163,8 +163,8 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.card.MaterialCardView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
                     android:layout_gravity="center"
                     android:theme="@style/Theme"
                     app:cardCornerRadius="15dp"
@@ -175,7 +175,7 @@
                         android:id="@+id/img_accessory"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/headphone" />
+                        android:src="@drawable/accessory" />
                 </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>

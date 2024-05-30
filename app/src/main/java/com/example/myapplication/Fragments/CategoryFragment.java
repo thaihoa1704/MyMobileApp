@@ -66,6 +66,12 @@ public class CategoryFragment extends Fragment {
                 moveToNewFragment("Đồng hồ");
             }
         });
+        binding.imgAccessory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveToNewFragment("Phụ kiện");
+            }
+        });
     }
 
     private void moveToNewFragment(String nameCategory){
