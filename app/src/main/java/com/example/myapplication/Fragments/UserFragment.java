@@ -29,7 +29,7 @@ import com.example.myapplication.databinding.FragmentUserBinding;
 
 import java.util.List;
 
-public class UserFragment extends Fragment implements OnClickChoice {
+public class UserFragment extends Fragment {
     private UserViewModel userViewModel;
     private CartViewModel cartViewModel;
     private OrderViewModel orderViewModel;
@@ -120,8 +120,30 @@ public class UserFragment extends Fragment implements OnClickChoice {
         binding.tvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LogoutDialog logoutDialog = new LogoutDialog();
+                LogoutDialog logoutDialog = new LogoutDialog(new OnClickChoice() {
+                    @Override
+                    public void onClick(Boolean choice) {
+                        if (choice){
+                            userLogout();
+                        }
+                    }
+                });
                 logoutDialog.show(requireActivity().getSupportFragmentManager(), "LogoutDialog");
+            }
+        });
+    }
+
+    private void userLogout() {
+        userViewModel.userLogout();
+        userViewModel.getLoggedOutLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean loggedOut) {
+                if (loggedOut) {
+                    Toast.makeText(requireContext(), "Tài khoản đã đăng xuất!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(requireActivity(), MainActivity.class);
+                    startActivity(intent);
+                    requireActivity().finish();
+                }
             }
         });
     }
@@ -170,23 +192,5 @@ public class UserFragment extends Fragment implements OnClickChoice {
         Bundle bundle = new Bundle();
         bundle.putInt("id", id);
         controller.navigate(R.id.action_userFragment_to_orderProcessFragment, bundle);
-    }
-
-    @Override
-    public void onClick(Boolean choice) {
-        if (choice){
-            userViewModel.userLogout();
-            userViewModel.getLoggedOutLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-                @Override
-                public void onChanged(Boolean loggedOut) {
-                    if (loggedOut) {
-                        Toast.makeText(requireContext(), "Tài khoản đã đăng xuất!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(requireActivity(), MainActivity.class);
-                        startActivity(intent);
-                        requireActivity().finish();
-                    }
-                }
-            });
-        }
     }
 }

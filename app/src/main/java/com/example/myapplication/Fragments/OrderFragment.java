@@ -29,12 +29,14 @@ import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.CartViewModel;
 import com.example.myapplication.ViewModels.OrderViewModel;
 import com.example.myapplication.ViewModels.UserViewModel;
+import com.example.myapplication.databinding.DialogOrderLayoutBinding;
 import com.example.myapplication.databinding.FragmentOrderBinding;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderFragment extends Fragment {
     private FragmentOrderBinding binding;
+    private DialogOrderLayoutBinding dialogBinding;
     private UserViewModel userViewModel;
     private CartViewModel cartViewModel;
     private OrderViewModel orderViewModel;
@@ -163,14 +165,16 @@ public class OrderFragment extends Fragment {
     }
 
     private void openDialog(int gravity, List<CartProduct> list){
-        final Dialog dialog = new Dialog(requireContext());
+        Dialog dialog = new Dialog(requireContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_order_layout);
+        dialogBinding = DialogOrderLayoutBinding.inflate(LayoutInflater.from(requireContext()));
+        dialog.setContentView(dialogBinding.getRoot());
 
         Window window = dialog.getWindow();
         if (window == null){
             return;
         }
+
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -184,17 +188,14 @@ public class OrderFragment extends Fragment {
             dialog.setCancelable(false);
         }
 
-        Button btnReturn = dialog.findViewById(R.id.btn_return);
-        Button btnOrder = dialog.findViewById(R.id.btn_order_dialog);
-
-        btnReturn.setOnClickListener(new View.OnClickListener() {
+        dialogBinding.btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
             }
         });
 
-        btnOrder.setOnClickListener(new View.OnClickListener() {
+        dialogBinding.btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
