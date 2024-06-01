@@ -38,11 +38,11 @@ public class PhoneVersionAdapter extends RecyclerView.Adapter<PhoneVersionAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PhoneVersionViewHolder holder, int position) {
-        PhoneVersion memory = list.get(position);
-        if (memory == null){
+        PhoneVersion phoneVersion = list.get(position);
+        if (phoneVersion == null){
             return;
         }
-        holder.bind(memory, position);
+        holder.bind(phoneVersion, position);
     }
 
     @Override
@@ -65,8 +65,12 @@ public class PhoneVersionAdapter extends RecyclerView.Adapter<PhoneVersionAdapte
             binding.tvMemory.setText(phoneVersion.getRam() + "-" + phoneVersion.getStorage());
 
             if (selectedPosition == position){
-                binding.tvMemory.setBackgroundColor(Color.parseColor("#FF968F"));
+                binding.card.setStrokeColor(Color.parseColor("#1835D6"));
+                binding.tvMemory.setTextColor(Color.parseColor("#1835D6"));
+                binding.tvMemory.setBackgroundColor(Color.parseColor("#DDEFFD"));
             }else {
+                binding.card.setStrokeColor(Color.parseColor("#FF000000"));
+                binding.tvMemory.setTextColor(Color.parseColor("#FF000000"));
                 binding.tvMemory.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
             }
 

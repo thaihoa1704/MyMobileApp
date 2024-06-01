@@ -20,6 +20,7 @@ import java.util.List;
 public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.BrandViewHolder>{
     private Context context;
     private List<Brand> brandList;
+    private int selectedPosition = -1;
     private ClickItemBrandListener clickItemBrandListener;
 
     public void setData(Context context, List<Brand> brandList){
@@ -42,7 +43,7 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.BrandViewHol
         if (brand == null){
             return;
         }
-        holder.bind(brand);
+        holder.bind(brand, position);
     }
 
     @Override
@@ -52,17 +53,8 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.BrandViewHol
         }
         return 0;
     }
-    public List<Brand> getListSelected(){
-        List<Brand> selectedList = new ArrayList<>();
-        for (Brand item : brandList){
-            if (item.isSelected()){
-                selectedList.add(item);
-            }
-        }
-        return selectedList;
-    }
 
-    public class BrandViewHolder extends RecyclerView.ViewHolder{
+    public class BrandViewHolder extends RecyclerView.ViewHolder {
         private ItemBrandBinding binding;
 
         public BrandViewHolder(ItemBrandBinding binding) {
@@ -70,28 +62,29 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.BrandViewHol
             this.binding = binding;
         }
 
-        public void bind(Brand brand) {
+        public void bind(Brand brand, int position) {
             Glide.with(context).load(brand.getImage()).into(binding.image);
 
-            if (brand.isSelected()){
-                binding.btnSelect.setSelected(true);
+            if (selectedPosition == position) {
+                binding.card.setStrokeColor(Color.parseColor("#1835D6"));
             } else {
-                binding.btnSelect.setSelected(false);
+                binding.card.setStrokeColor(Color.parseColor("#FF000000"));
             }
-            binding.btnSelect.setOnClickListener(new View.OnClickListener() {
+            binding.image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (binding.btnSelect.isSelected()){
-                        binding.image.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
-                        binding.btnSelect.setSelected(false);
-                        brand.setSelected(false);
-                    }else {
-                        binding.image.setBackgroundColor(Color.parseColor("#FF968F"));
-                        binding.btnSelect.setSelected(true);
-                        brand.setSelected(true);
-                    }
+                    clickItemBrandListener.onClickItemBrand(brand);
+                    setSingleSelection(getBindingAdapterPosition());
                 }
             });
+        }
+
+        private void setSingleSelection(int bindingAdapterPosition) {
+            if (bindingAdapterPosition == RecyclerView.NO_POSITION) return;
+
+            notifyItemChanged(selectedPosition);
+            selectedPosition = bindingAdapterPosition;
+            notifyItemChanged(selectedPosition);
         }
     }
 }
