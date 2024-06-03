@@ -67,8 +67,12 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.BrandViewHol
 
             if (selectedPosition == position) {
                 binding.card.setStrokeColor(Color.parseColor("#1835D6"));
+                binding.background.setBackgroundColor(Color.parseColor("#DDEFFD"));
+                binding.image.setBackgroundColor(Color.parseColor("#DDEFFD"));
             } else {
                 binding.card.setStrokeColor(Color.parseColor("#FF000000"));
+                binding.background.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+                binding.image.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
             }
             binding.image.setOnClickListener(new View.OnClickListener() {
                 @Override

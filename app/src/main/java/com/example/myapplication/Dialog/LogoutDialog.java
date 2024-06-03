@@ -32,8 +32,8 @@ public class LogoutDialog extends DialogFragment {
         Dialog dialog = new Dialog(getActivity());
         binding = LogoutDialogBinding.inflate(LayoutInflater.from(getActivity()));
         dialog.setContentView(binding.getRoot());
-        Window window = dialog.getWindow();
 
+        Window window = dialog.getWindow();
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 

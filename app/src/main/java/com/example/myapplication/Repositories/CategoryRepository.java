@@ -34,7 +34,7 @@ public class CategoryRepository {
                             for (Category category : list){
                                 List<Brand> brandList = category.getBrandList();
                                 for (Brand item : brandList){
-                                    Brand brand = new Brand(item.getBrandName(), item.getImage(), false);
+                                    Brand brand = new Brand(item.getBrandName(), item.getImage());
                                     list1.add(brand);
                                 }
                             }

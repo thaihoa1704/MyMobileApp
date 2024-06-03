@@ -18,26 +18,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.example.myapplication.Adapters.OrderPriceAdapter;
 import com.example.myapplication.Adapters.ProductAdapter;
+import com.example.myapplication.Dialog.FiltersDialog;
 import com.example.myapplication.Listener.ClickItemProductListener;
+import com.example.myapplication.Models.Brand;
 import com.example.myapplication.Models.Product;
 import com.example.myapplication.R;
+import com.example.myapplication.ViewModels.CategoryViewModel;
 import com.example.myapplication.ViewModels.ProductListViewModel;
 import com.example.myapplication.databinding.FragmentProductListBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductListFragment extends Fragment implements ClickItemProductListener {
+public class ProductListFragment extends Fragment implements ClickItemProductListener, FiltersDialog.GetBrand {
     private FragmentProductListBinding binding;
     private ProductListViewModel viewModel;
+    private CategoryViewModel categoryViewModel;
     private ProductAdapter adapter;
     private OrderPriceAdapter orderPriceAdapter;
     private List<Product> productList;
     private List<Product> productList1;
     private NavController controller;
+    private String category;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,12 +57,12 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
         super.onViewCreated(view, savedInstanceState);
 
         String startFragment = getArguments().getString("StartFragment");
-        String category = getArguments().getString("category");
+        category = getArguments().getString("category");
         binding.tvCategoryName.setText(category);
-        ArrayList<String> selectedList = getArguments().getStringArrayList("selectedBrand");
-        int price = getArguments().getInt("price");
 
         viewModel = new ViewModelProvider(this).get(ProductListViewModel.class);
+        categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+
         controller = Navigation.findNavController(view);
 
         adapter = new ProductAdapter(this);
@@ -68,32 +74,7 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
         productList = new ArrayList<>();
         productList1 = new ArrayList<>();
 
-        if (selectedList == null){
-            viewModel.getProductList(category);
-            viewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
-                @Override
-                public void onChanged(List<Product> list) {
-                    productList.addAll(list);
-                    productList1.addAll(list);
-                    adapter.setData(requireActivity(), productList);
-                    adapter.notifyDataSetChanged();
-                }
-            });
-        }else {
-            for (String string : selectedList){
-                viewModel.getProductList(category, string);
-                MutableLiveData<List<Product>> productMutableLiveData = viewModel.getListMutableLiveData();
-                productMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
-                    @Override
-                    public void onChanged(List<Product> list) {
-                        productList.addAll(list);
-                        productList1.addAll(list);
-                        adapter.setData(requireActivity(), productList);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        }
+        setProductAdapter(category);
 
         orderPriceAdapter = new OrderPriceAdapter(requireActivity(), R.layout.item_selected, getList());
         binding.spinner.setAdapter(orderPriceAdapter);
@@ -124,7 +105,7 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
         binding.imgFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                showDialog(category);
             }
         });
 
@@ -136,6 +117,54 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
                 }else if (startFragment == "categoryFragment"){
                     controller.navigate(R.id.action_productListFragment_to_categoryFragment);
                 }
+            }
+        });
+    }
+
+    private void setProductAdapter(String category) {
+        viewModel.getProductList(category);
+        MutableLiveData<List<Product>> productMutableLiveData = viewModel.getListMutableLiveData();
+        productMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> list) {
+                if (list != null){
+                    adapter.setData(requireActivity(), list);
+                    adapter.notifyDataSetChanged();
+                }
+                //productList.addAll(list);
+                //productList1.addAll(list);
+                //productMutableLiveData.removeObserver(this);
+            }
+        });
+    }
+    private void setProductWithBrandAdapter(String category, String brandName){
+        viewModel.getProductList(category, brandName);
+        MutableLiveData<List<Product>> productMutableLiveData = viewModel.getListMutableLiveData();
+        productMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> list) {
+                if (list != null){
+                    adapter.setData(requireActivity(), list);
+                    adapter.notifyDataSetChanged();
+                }
+                //productList.addAll(list);
+                //productList1.addAll(list);
+                //productMutableLiveData.removeObserver(this);
+            }
+        });
+    }
+
+    private void showDialog(String category) {
+        categoryViewModel.getCategoryData(category);
+        MutableLiveData<List<Brand>> brandMutableLiveData = categoryViewModel.getMutableLiveData();
+        categoryViewModel.getMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Brand>>() {
+            @Override
+            public void onChanged(List<Brand> brands) {
+                if (brands != null){
+                    FiltersDialog filtersDialog = new FiltersDialog(brands);
+                    filtersDialog.show(getChildFragmentManager(), "FiltersDialog");
+                }
+                brandMutableLiveData.removeObserver(this);
             }
         });
     }
@@ -165,5 +194,12 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
         fragmentTransaction.add(R.id.frame_layout_product_list, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void getData(Brand brand) {
+        if (brand != null){
+            setProductWithBrandAdapter(category, brand.getBrandName());
+        }
     }
 }

@@ -65,12 +65,12 @@ public class FiltersFragment extends Fragment implements ClickItemBrandListener 
         binding.btnApplyFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<Brand> selectedBrands = adapter.getListSelected();
+                /*List<Brand> selectedBrands = adapter.getListSelected();
                 ArrayList<String> listBrandName = new ArrayList<>();
                 for (Brand item : selectedBrands){
                     listBrandName.add(item.getBrandName());
                 }
-                replaceFragment(new ProductListFragment(), category, listBrandName);
+                replaceFragment(new ProductListFragment(), category, listBrandName);/*/
             }
         });
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
