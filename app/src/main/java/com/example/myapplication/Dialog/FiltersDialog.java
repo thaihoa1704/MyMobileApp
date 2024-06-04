@@ -29,13 +29,15 @@ public class FiltersDialog extends DialogFragment implements ClickItemBrandListe
     private FiltersDialogBinding binding;
     private BrandAdapter brandAdapter;
     private List<Brand> brands;
+    private int selectedPosition;
     private Brand brand;
     public interface GetBrand{
-        void getData(Brand brand);
+        void getData(Brand brand, int position);
     }
     public GetBrand getBrand;
-    public FiltersDialog(List<Brand> brands){
+    public FiltersDialog(List<Brand> brands, int position){
         this.brands = brands;
+        this.selectedPosition = position;
     }
     @NonNull
     @Override
@@ -48,9 +50,10 @@ public class FiltersDialog extends DialogFragment implements ClickItemBrandListe
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        binding.btnApply.setVisibility(View.GONE);
-        binding.tvBrandName.addTextChangedListener(textWatcher);
-        setBrandAdapter();
+        if (selectedPosition != -1){
+            binding.tvBrandName.setText(brands.get(selectedPosition).getBrandName());
+        }
+        setBrandAdapter(selectedPosition);
 
         binding.imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,9 +66,7 @@ public class FiltersDialog extends DialogFragment implements ClickItemBrandListe
             @Override
             public void onClick(View v) {
                 //send data to fragment
-                if (brand != null){
-                    getBrand.getData(brand);
-                }
+                getBrand.getData(brand, selectedPosition);
                 dialog.dismiss();
             }
         });
@@ -73,50 +74,31 @@ public class FiltersDialog extends DialogFragment implements ClickItemBrandListe
         binding.tvReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setBrandAdapter();
+                setBrandAdapter(-1);
                 binding.tvBrandName.setText("");
+                brand = null;
+                selectedPosition = -1;
             }
         });
         return dialog;
     }
 
-    private void setBrandAdapter() {
+    private void setBrandAdapter(int position) {
         brandAdapter = new BrandAdapter(this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(requireActivity(), 3);
         binding.rcvBrand.setHasFixedSize(true);
         binding.rcvBrand.setLayoutManager(gridLayoutManager);
         binding.rcvBrand.setAdapter(brandAdapter);
-        brandAdapter.setData(requireActivity(), brands);
+        brandAdapter.setData(requireActivity(), brands, position);
         brandAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onClickItemBrand(Brand brandSelected) {
+    public void onClickItemBrand(Brand brandSelected, int position) {
         binding.tvBrandName.setText(brandSelected.getBrandName());
         this.brand = brandSelected;
+        this.selectedPosition = position;
     }
-
-    private TextWatcher textWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String name = binding.tvBrandName.getText().toString().trim();
-            if (!name.equals("")){
-                binding.btnApply.setVisibility(View.VISIBLE);
-            } else {
-                binding.btnApply.setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-
-        }
-    };
 
     @Override
     public void onAttach(@NonNull Context context) {

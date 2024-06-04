@@ -29,6 +29,7 @@ public class FiltersFragment extends Fragment implements ClickItemBrandListener 
     private FragmentFiltersBinding binding;
     private CategoryViewModel viewModel;
     private BrandAdapter adapter;
+    private Brand brand;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +59,7 @@ public class FiltersFragment extends Fragment implements ClickItemBrandListener 
         viewModel.getMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Brand>>() {
             @Override
             public void onChanged(List<Brand> brands) {
-                adapter.setData(requireActivity(), brands);
+                adapter.setData(requireActivity(), brands, 1);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -87,7 +88,7 @@ public class FiltersFragment extends Fragment implements ClickItemBrandListener 
     }
 
     @Override
-    public void onClickItemBrand(Brand brandSelect) {
+    public void onClickItemBrand(Brand brandSelect, int position) {
     }
     private void replaceFragment(Fragment fragment, String category, ArrayList<String> brandList){
         Bundle bundle = new Bundle();

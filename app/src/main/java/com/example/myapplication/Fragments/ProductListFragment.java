@@ -44,6 +44,8 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
     private List<Product> productList1;
     private NavController controller;
     private String category;
+    private Brand brand;
+    private int selectedPosition = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -127,9 +129,12 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
         productMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
             @Override
             public void onChanged(List<Product> list) {
-                if (list != null){
-                    adapter.setData(requireActivity(), list);
-                    adapter.notifyDataSetChanged();
+                adapter.setData(requireActivity(), list);
+                adapter.notifyDataSetChanged();
+                if (list.isEmpty()){
+                    binding.tvEmpty.setVisibility(View.VISIBLE);
+                } else {
+                    binding.tvEmpty.setVisibility(View.GONE);
                 }
                 //productList.addAll(list);
                 //productList1.addAll(list);
@@ -143,9 +148,12 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
         productMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
             @Override
             public void onChanged(List<Product> list) {
-                if (list != null){
-                    adapter.setData(requireActivity(), list);
-                    adapter.notifyDataSetChanged();
+                adapter.setData(requireActivity(), list);
+                adapter.notifyDataSetChanged();
+                if (list.isEmpty()){
+                    binding.tvEmpty.setVisibility(View.VISIBLE);
+                } else {
+                    binding.tvEmpty.setVisibility(View.GONE);
                 }
                 //productList.addAll(list);
                 //productList1.addAll(list);
@@ -161,7 +169,7 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
             @Override
             public void onChanged(List<Brand> brands) {
                 if (brands != null){
-                    FiltersDialog filtersDialog = new FiltersDialog(brands);
+                    FiltersDialog filtersDialog = new FiltersDialog(brands, selectedPosition);
                     filtersDialog.show(getChildFragmentManager(), "FiltersDialog");
                 }
                 brandMutableLiveData.removeObserver(this);
@@ -197,9 +205,15 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
     }
 
     @Override
-    public void getData(Brand brand) {
-        if (brand != null){
-            setProductWithBrandAdapter(category, brand.getBrandName());
+    public void getData(Brand brandSelected, int position) {
+        if (brandSelected != null){
+            setProductWithBrandAdapter(category, brandSelected.getBrandName());
+            this.brand = brandSelected;
+            this.selectedPosition = position;
+        } else {
+            setProductAdapter(category);
+            this.brand = null;
+            this.selectedPosition = -1;
         }
     }
 }

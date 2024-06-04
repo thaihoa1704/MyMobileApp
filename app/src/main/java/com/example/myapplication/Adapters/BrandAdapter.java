@@ -20,12 +20,13 @@ import java.util.List;
 public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.BrandViewHolder>{
     private Context context;
     private List<Brand> brandList;
-    private int selectedPosition = -1;
+    private int selectedPosition;
     private ClickItemBrandListener clickItemBrandListener;
 
-    public void setData(Context context, List<Brand> brandList){
+    public void setData(Context context, List<Brand> brandList, int position){
         this.context = context;
         this.brandList = brandList;
+        this.selectedPosition = position;
     }
     public BrandAdapter(ClickItemBrandListener clickItemBrandListener){
         this.clickItemBrandListener = clickItemBrandListener;
@@ -77,7 +78,7 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.BrandViewHol
             binding.image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    clickItemBrandListener.onClickItemBrand(brand);
+                    clickItemBrandListener.onClickItemBrand(brand, position);
                     setSingleSelection(getBindingAdapterPosition());
                 }
             });

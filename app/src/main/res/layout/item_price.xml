@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="120dp"
-    android:layout_height="50dp"
+    android:layout_width="123dp"
+    android:layout_height="45dp"
+    android:layout_marginTop="8dp"
     android:id="@+id/layout_item_price">
 
     <com.google.android.material.card.MaterialCardView
@@ -21,8 +22,8 @@
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Dưới 5 triệu"
-            android:textSize="20dp"
+            android:text="Từ 10-15 triệu"
+            android:textSize="18dp"
             android:gravity="center"
             android:textColor="@color/black"/>
         <RadioButton
