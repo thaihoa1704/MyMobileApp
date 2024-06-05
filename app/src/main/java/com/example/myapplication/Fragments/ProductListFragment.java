@@ -135,10 +135,11 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
                     binding.tvEmpty.setVisibility(View.VISIBLE);
                 } else {
                     binding.tvEmpty.setVisibility(View.GONE);
+                    productList.clear();
+                    productList.addAll(list);
+                    productList1.clear();
+                    productList1.addAll(list);
                 }
-                //productList.addAll(list);
-                //productList1.addAll(list);
-                //productMutableLiveData.removeObserver(this);
             }
         });
     }
@@ -154,9 +155,11 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
                     binding.tvEmpty.setVisibility(View.VISIBLE);
                 } else {
                     binding.tvEmpty.setVisibility(View.GONE);
+                    productList.clear();
+                    productList.addAll(list);
+                    productList1.clear();
+                    productList1.addAll(list);
                 }
-                //productList.addAll(list);
-                //productList1.addAll(list);
                 //productMutableLiveData.removeObserver(this);
             }
         });
@@ -210,10 +213,12 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
             setProductWithBrandAdapter(category, brandSelected.getBrandName());
             this.brand = brandSelected;
             this.selectedPosition = position;
+            binding.spinner.setAdapter(orderPriceAdapter);
         } else {
             setProductAdapter(category);
             this.brand = null;
             this.selectedPosition = -1;
+            binding.spinner.setAdapter(orderPriceAdapter);
         }
     }
 }
