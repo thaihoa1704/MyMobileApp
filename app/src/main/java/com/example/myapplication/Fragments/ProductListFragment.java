@@ -97,7 +97,6 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
                     adapter.notifyDataSetChanged();
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -209,16 +208,21 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
 
     @Override
     public void getData(Brand brandSelected, int position) {
-        if (brandSelected != null){
-            setProductWithBrandAdapter(category, brandSelected.getBrandName());
-            this.brand = brandSelected;
-            this.selectedPosition = position;
-            binding.spinner.setAdapter(orderPriceAdapter);
+        if (position != -1){
+            if (position != this.selectedPosition){
+                setProductWithBrandAdapter(category, brandSelected.getBrandName());
+                this.brand = brandSelected;
+                this.selectedPosition = position;
+                //setupSpinnerLikeBegin
+                binding.spinner.setAdapter(orderPriceAdapter);
+                binding.imgFilter.setImageResource(R.drawable.filter_filtering_icon);
+            }
         } else {
             setProductAdapter(category);
             this.brand = null;
             this.selectedPosition = -1;
             binding.spinner.setAdapter(orderPriceAdapter);
+            binding.imgFilter.setImageResource(R.drawable.filter_outline_icon);
         }
     }
 }
