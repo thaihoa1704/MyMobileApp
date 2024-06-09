@@ -275,7 +275,7 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
             binding.spinner.setAdapter(orderPriceAdapter);
         } else //only choose brand
             if (brandPosition != -1 && pricePosition == -1){
-                if (brandPosition == this.selectedBrandPosition){
+                if (brandPosition == this.selectedBrandPosition && pricePosition == this.selectedPricePosition){
                     return;
                 }
                 binding.imgFilter1.setVisibility(View.VISIBLE);
@@ -283,11 +283,12 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
                 this.brand = brandSelected;
                 this.selectedBrandPosition = brandPosition;
                 this.price = null;
+                this.selectedPricePosition = pricePosition;
                 //setupSpinnerLikeBegin
                 binding.spinner.setAdapter(orderPriceAdapter);
         } else //only choose price
             if (brandPosition == -1 && pricePosition != -1){
-                if (pricePosition == this.selectedPricePosition){
+                if (pricePosition == this.selectedPricePosition && brandPosition == this.selectedBrandPosition){
                     return;
                 }
                 binding.imgFilter1.setVisibility(View.VISIBLE);
@@ -295,6 +296,7 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
                 this.price = price;
                 this.selectedPricePosition = pricePosition;
                 this.brand = null;
+                this.selectedBrandPosition = brandPosition;
                 //setupSpinnerLikeBegin
                 binding.spinner.setAdapter(orderPriceAdapter);
         }
