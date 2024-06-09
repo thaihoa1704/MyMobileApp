@@ -42,6 +42,7 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
     private ProductAdapter adapter;
     private OrderPriceAdapter orderPriceAdapter;
     private List<Product> productList;
+    private List<Product> productListWithoutOrder;
     private List<Brand> brandList;
     private List<Price> priceList;
     private NavController controller;
@@ -78,6 +79,7 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
         binding.rvProduct.setAdapter(adapter);
 
         productList = new ArrayList<>();
+        productListWithoutOrder = new ArrayList<>();
         brandList = new ArrayList<>();
         priceList = new ArrayList<>();
 
@@ -92,8 +94,8 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String choice = orderPriceAdapter.getItem(i).toString();
                 if (choice == "Ngẫu nhiên"){
-                    if (!productList.isEmpty()){
-                        adapter.setData(requireActivity(), productList);
+                    if (!productListWithoutOrder.isEmpty()){
+                        adapter.setData(requireActivity(), productListWithoutOrder);
                         adapter.notifyDataSetChanged();
                     }
                 }else if (choice == "Giá tăng dần"){
@@ -141,7 +143,7 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
         productMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
             @Override
             public void onChanged(List<Product> list) {
-                adapter.setData(requireActivity(), productList);
+                adapter.setData(requireActivity(), list);
                 adapter.notifyDataSetChanged();
                 if (list.isEmpty()){
                     binding.tvEmpty.setVisibility(View.VISIBLE);
@@ -149,7 +151,52 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
                     binding.tvEmpty.setVisibility(View.GONE);
                     productList.clear();
                     productList.addAll(list);
+                    productListWithoutOrder.clear();
+                    productListWithoutOrder.addAll(list);
                 }
+                //productMutableLiveData.removeObserver(this);
+            }
+        });
+    }
+    private void setProductWithPriceAdapter(String category, Price price) {
+        viewModel.getProductListWithPrice(category, price);
+        MutableLiveData<List<Product>> productMutableLiveData = viewModel.getListMutableLiveData();
+        productMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> list) {
+                adapter.setData(requireActivity(), list);
+                adapter.notifyDataSetChanged();
+                if (list.isEmpty()){
+                    binding.tvEmpty.setVisibility(View.VISIBLE);
+                } else {
+                    binding.tvEmpty.setVisibility(View.GONE);
+                    productList.clear();
+                    productList.addAll(list);
+                    productListWithoutOrder.clear();
+                    productListWithoutOrder.addAll(list);
+                }
+                //productMutableLiveData.removeObserver(this);
+            }
+        });
+    }
+    private void setProductWithBrandAndPriceAdapter(String category, Brand brand, Price price){
+        viewModel.getProductListWithBrandAndPrice(category, brand, price);
+        MutableLiveData<List<Product>> productMutableLiveData = viewModel.getListMutableLiveData();
+        productMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> list) {
+                adapter.setData(requireActivity(), list);
+                adapter.notifyDataSetChanged();
+                if (list.isEmpty()){
+                    binding.tvEmpty.setVisibility(View.VISIBLE);
+                } else {
+                    binding.tvEmpty.setVisibility(View.GONE);
+                    productList.clear();
+                    productList.addAll(list);
+                    productListWithoutOrder.clear();
+                    productListWithoutOrder.addAll(list);
+                }
+                //productMutableLiveData.removeObserver(this);
             }
         });
     }
@@ -167,6 +214,8 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
                     binding.tvEmpty.setVisibility(View.GONE);
                     productList.clear();
                     productList.addAll(list);
+                    productListWithoutOrder.clear();
+                    productListWithoutOrder.addAll(list);
                 }
                 //productMutableLiveData.removeObserver(this);
             }
@@ -212,30 +261,40 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
     public void getData(Brand brandSelected, int brandPosition, Price price, int pricePosition) {
         // choose brand and price
         if (brandPosition != -1 && pricePosition != -1){
-            binding.imgFilter.setImageResource(R.drawable.filter_filtering_icon);
-            if (brandPosition != this.selectedBrandPosition && pricePosition != this.selectedPricePosition){
-                setProductWithBrandAndPriceAdapter(category, brandSelected, price);
-                this.brand = brandSelected;
-                this.selectedBrandPosition = brandPosition;
-                this.price = price;
-                this.selectedPricePosition = pricePosition;
-                //setupSpinnerLikeBegin
-                binding.spinner.setAdapter(orderPriceAdapter);
+            binding.imgFilter1.setVisibility(View.VISIBLE);
+            if (brandPosition == this.selectedBrandPosition && pricePosition == this.selectedPricePosition){
+                Toast.makeText(requireActivity(), "Bạn đã chọn rồi", Toast.LENGTH_SHORT).show();
+                return;
             }
+            setProductWithBrandAndPriceAdapter(category, brandSelected, price);
+            this.brand = brandSelected;
+            this.selectedBrandPosition = brandPosition;
+            this.price = price;
+            this.selectedPricePosition = pricePosition;
+            //setupSpinnerLikeBegin
+            binding.spinner.setAdapter(orderPriceAdapter);
         } else //only choose brand
             if (brandPosition != -1 && pricePosition == -1){
-                binding.imgFilter.setImageResource(R.drawable.filter_filtering_icon);
+                if (brandPosition == this.selectedBrandPosition){
+                    return;
+                }
+                binding.imgFilter1.setVisibility(View.VISIBLE);
                 setProductWithBrandAdapter(category, brandSelected);
                 this.brand = brandSelected;
                 this.selectedBrandPosition = brandPosition;
+                this.price = null;
                 //setupSpinnerLikeBegin
                 binding.spinner.setAdapter(orderPriceAdapter);
         } else //only choose price
             if (brandPosition == -1 && pricePosition != -1){
-                binding.imgFilter.setImageResource(R.drawable.filter_filtering_icon);
+                if (pricePosition == this.selectedPricePosition){
+                    return;
+                }
+                binding.imgFilter1.setVisibility(View.VISIBLE);
                 setProductWithPriceAdapter(category, price);
                 this.price = price;
                 this.selectedPricePosition = pricePosition;
+                this.brand = null;
                 //setupSpinnerLikeBegin
                 binding.spinner.setAdapter(orderPriceAdapter);
         }
@@ -246,47 +305,8 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
             this.price = null;
             this.selectedPricePosition = -1;
             binding.spinner.setAdapter(orderPriceAdapter);
-            binding.imgFilter.setImageResource(R.drawable.filter_outline_icon);
+            binding.imgFilter1.setVisibility(View.GONE);
         }
-    }
-
-    private void setProductWithPriceAdapter(String category, Price price) {
-        viewModel.getProductListWithPrice(category, price);
-        MutableLiveData<List<Product>> productMutableLiveData = viewModel.getListMutableLiveData();
-        productMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
-            @Override
-            public void onChanged(List<Product> list) {
-                adapter.setData(requireActivity(), list);
-                adapter.notifyDataSetChanged();
-                if (list.isEmpty()){
-                    binding.tvEmpty.setVisibility(View.VISIBLE);
-                } else {
-                    binding.tvEmpty.setVisibility(View.GONE);
-                    productList.clear();
-                    productList.addAll(list);
-                }
-                //productMutableLiveData.removeObserver(this);
-            }
-        });
-    }
-    private void setProductWithBrandAndPriceAdapter(String category, Brand brand, Price price){
-        viewModel.getProductListWithBrandAndPrice(category, brand, price);
-        MutableLiveData<List<Product>> productMutableLiveData = viewModel.getListMutableLiveData();
-        productMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
-            @Override
-            public void onChanged(List<Product> list) {
-                adapter.setData(requireActivity(), list);
-                adapter.notifyDataSetChanged();
-                if (list.isEmpty()){
-                    binding.tvEmpty.setVisibility(View.VISIBLE);
-                } else {
-                    binding.tvEmpty.setVisibility(View.GONE);
-                    productList.clear();
-                    productList.addAll(list);
-                }
-                //productMutableLiveData.removeObserver(this);
-            }
-        });
     }
     private void getPriceList(String category){
         categoryViewModel.getPriceList(changeName(category));

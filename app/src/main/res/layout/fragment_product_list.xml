@@ -60,6 +60,16 @@
             app:layout_constraintStart_toEndOf="@+id/tv_sort_by"
             app:layout_constraintTop_toBottomOf="@+id/line"/>
         <ImageView
+            android:id="@+id/img_filter1"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:visibility="gone"
+            android:foregroundGravity="right"
+            android:src="@drawable/filter_filtering_icon"
+            app:layout_constraintBottom_toTopOf="@+id/line1"
+            app:layout_constraintEnd_toStartOf="@+id/tv_filter"
+            app:layout_constraintTop_toBottomOf="@+id/line" />
+        <ImageView
             android:id="@+id/img_filter"
             android:layout_width="30dp"
             android:layout_height="25dp"

@@ -63,6 +63,17 @@ public class FiltersDialog extends DialogFragment implements ClickItemBrandListe
         setBrandAdapter(selectedBrandPosition);
         setPriceAdapter(selectedPricePosition);
 
+        if (selectedBrandPosition != -1){
+            brandSelected = brands.get(selectedBrandPosition);
+        } else {
+            brandSelected = null;
+        }
+        if (selectedPricePosition != -1){
+            priceSelected = price.get(selectedPricePosition);
+        } else {
+            priceSelected = null;
+        }
+
         binding.imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
