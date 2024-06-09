@@ -7,10 +7,11 @@
     android:id="@+id/layout_item_price">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:theme="@style/Theme"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,18 +20,13 @@
         app:strokeWidth="1dp">
 
         <TextView
-            android:id="@+id/image"
+            android:id="@+id/tv_price"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Từ 10-15 triệu"
             android:textSize="18dp"
             android:gravity="center"
             android:textColor="@color/black"/>
-        <RadioButton
-            android:id="@+id/btn_select"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:button="@color/white"/>
 
     </com.google.android.material.card.MaterialCardView>
 

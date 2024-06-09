@@ -6,12 +6,11 @@ import androidx.lifecycle.ViewModel;
 import com.example.myapplication.Helper.ComparatorPrice;
 import com.example.myapplication.Listener.FireStoreCallbackProductList;
 import com.example.myapplication.Models.Brand;
+import com.example.myapplication.Models.Price;
 import com.example.myapplication.Models.Product;
 import com.example.myapplication.Repositories.ProductListRepository;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class ProductListViewModel extends ViewModel implements FireStoreCallbackProductList {
@@ -24,9 +23,14 @@ public class ProductListViewModel extends ViewModel implements FireStoreCallback
     public void getProductList(String categoryName){
         repository.getProductData(categoryName);
     }
-
-    public void getProductList(String categoryName, String brandname){
-        repository.getProductData(categoryName, brandname);
+    public void getProductListWithBrand(String categoryName, Brand brand){
+        repository.getProductListWithBrand(categoryName, brand);
+    }
+    public void getProductListWithPrice(String categoryName, Price price){
+        repository.getProductListWithPrice(categoryName, price);
+    }
+    public void getProductListWithBrandAndPrice(String categoryName, Brand brand, Price price){
+        repository.getProductListWithBrandAndPrice(categoryName, brand, price);
     }
     public void getAllProduct(){
         repository.getAllProductData();

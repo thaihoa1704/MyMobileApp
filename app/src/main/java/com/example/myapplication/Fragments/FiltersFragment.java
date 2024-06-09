@@ -55,8 +55,8 @@ public class FiltersFragment extends Fragment implements ClickItemBrandListener 
         String category = getArguments().getString("category");
 
         viewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
-        viewModel.getCategoryData(category);
-        viewModel.getMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Brand>>() {
+        viewModel.getBrandList(category);
+        viewModel.getMutableLiveDataBrand().observe(getViewLifecycleOwner(), new Observer<List<Brand>>() {
             @Override
             public void onChanged(List<Brand> brands) {
                 adapter.setData(requireActivity(), brands, 1);

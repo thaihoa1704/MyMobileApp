@@ -15,7 +15,6 @@ import java.util.List;
 
 public class OrderViewModel extends ViewModel implements FireStoreCallbackConfirmOrder, FireStoreCallbackShippingOrder, FireStoreCallbackRateOrder, FireStoreCallbackPurchaseHistory {
     private OrderRepository repository;
-    private MutableLiveData<List<CartProduct>> listMutableLiveData;
     private MutableLiveData<Boolean> checkOrder;
     private MutableLiveData<List<Order>> confirmOrder;
     private MutableLiveData<List<Order>> shippingOrder;
@@ -24,7 +23,6 @@ public class OrderViewModel extends ViewModel implements FireStoreCallbackConfir
 
     public OrderViewModel(){
         this.repository = new OrderRepository(this, this, this, this);
-        this.listMutableLiveData = new MutableLiveData<>();
         this.checkOrder = repository.getCheck();
         this.confirmOrder = new MutableLiveData<>();
         this.shippingOrder = new MutableLiveData<>();

@@ -1,31 +1,29 @@
 package com.example.myapplication.Models;
 
-import java.io.Serializable;
-
-public class Brand implements Serializable {
-    private String brandName;
-    private String image;
+public class Brand {
+    private String name;
+    private String logo;
     public Brand() {
     }
 
-    public Brand(String brandName, String image) {
-        this.brandName = brandName;
-        this.image = image;
+    public Brand(String name, String logo) {
+        this.name = name;
+        this.logo = logo;
     }
 
-    public String getBrandName() {
-        return brandName;
+    public String getName() {
+        return name;
     }
 
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getImage() {
-        return image;
+    public String getLogo() {
+        return logo;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 }

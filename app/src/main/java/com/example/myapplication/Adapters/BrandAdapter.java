@@ -64,7 +64,7 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.BrandViewHol
         }
 
         public void bind(Brand brand, int position) {
-            Glide.with(context).load(brand.getImage()).into(binding.image);
+            Glide.with(context).load(brand.getLogo()).into(binding.image);
 
             if (selectedPosition == position) {
                 binding.card.setStrokeColor(Color.parseColor("#1835D6"));

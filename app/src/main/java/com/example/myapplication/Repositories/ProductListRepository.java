@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.example.myapplication.Listener.FireStoreCallbackProductList;
 import com.example.myapplication.Models.Brand;
+import com.example.myapplication.Models.Price;
 import com.example.myapplication.Models.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,15 +20,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductListRepository {
-    private Application application;
     private FirebaseFirestore db;
     private CollectionReference collectionProduct;
+    private CollectionReference collectionCategory;
+
     private FireStoreCallbackProductList fireStoreCallbackListProduct;
     public ProductListRepository(FireStoreCallbackProductList fireStoreCallbackListProduct){
         this.fireStoreCallbackListProduct = fireStoreCallbackListProduct;
-        this.application = new Application();
         this.db = FirebaseFirestore.getInstance();
         this.collectionProduct = db.collection("Product");
+        this.collectionCategory = db.collection("Category");
     }
     public void getProductData(String category){
         collectionProduct.whereEqualTo("category", category)
@@ -36,8 +38,6 @@ public class ProductListRepository {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()){
                             fireStoreCallbackListProduct.onProductListLoad(task.getResult().toObjects(Product.class));
-                        }else {
-                            Toast.makeText(application.getApplicationContext(), "Lỗi hiển thị dữ liệu sản phẩm", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -48,41 +48,47 @@ public class ProductListRepository {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()){
                             fireStoreCallbackListProduct.onProductListLoad(task.getResult().toObjects(Product.class));
-                        }else {
-                            Toast.makeText(application.getApplicationContext(), "Lỗi hiển thị dữ liệu sản phẩm", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
-    public void getProductData(String category, String brandName){
-        collectionProduct.whereEqualTo("category", category).whereEqualTo("brand", brandName)
+    public void getProductListWithBrand(String category, Brand brand){
+        collectionProduct.whereEqualTo("category", category).whereEqualTo("brand", brand.getName())
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()){
                             fireStoreCallbackListProduct.onProductListLoad(task.getResult().toObjects(Product.class));
-                        }else {
-                            Toast.makeText(application.getApplicationContext(), "Lỗi hiển thị dữ liệu sản phẩm", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
-    public void getProductData(String category, ArrayList<String> list){
-        List<Product> productList = new ArrayList<>();
-        for (String brandName : list){
-            collectionProduct.whereEqualTo("category", category).whereEqualTo("brand", brandName)
-                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()){
-                                productList.addAll(task.getResult().toObjects(Product.class));
-                            }else {
-                                Toast.makeText(application.getApplicationContext(), "Lỗi hiển thị dữ liệu sản phẩm", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-        }
-        fireStoreCallbackListProduct.onProductListLoad(productList);
+    public void getProductListWithPrice(String category, Price price){
+        Query query = collectionProduct.whereEqualTo("category", category)
+                                        .whereGreaterThanOrEqualTo("price", price.getMin())
+                                        .whereLessThanOrEqualTo("price", price.getMax());
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    fireStoreCallbackListProduct.onProductListLoad(task.getResult().toObjects(Product.class));
+                }
+            }
+        });
+    }
+    public void getProductListWithBrandAndPrice(String category, Brand brand, Price price){
+        Query query = collectionProduct.whereEqualTo("category", category)
+                .whereEqualTo("brand", brand.getName())
+                .whereGreaterThanOrEqualTo("price", price.getMin())
+                .whereLessThanOrEqualTo("price", price.getMax());
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    fireStoreCallbackListProduct.onProductListLoad(task.getResult().toObjects(Product.class));
+                }
+            }
+        });
     }
 }
