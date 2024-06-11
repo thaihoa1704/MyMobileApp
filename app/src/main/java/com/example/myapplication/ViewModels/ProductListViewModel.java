@@ -32,6 +32,9 @@ public class ProductListViewModel extends ViewModel implements FireStoreCallback
     public void getProductListWithBrandAndPrice(String categoryName, Brand brand, Price price){
         repository.getProductListWithBrandAndPrice(categoryName, brand, price);
     }
+    public void getSpecialProductList(){
+        repository.getSpecialProductList();
+    }
     public void getAllProduct(){
         repository.getAllProductData();
     }

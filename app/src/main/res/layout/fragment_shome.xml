@@ -59,7 +59,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="155dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="18dp"
                     android:layout_marginRight="18dp">
@@ -248,6 +248,20 @@
                             android:layout_marginTop="5dp"></TextView>
                     </LinearLayout>
                 </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:text="Sản phẩm nổi bật"
+                    android:textSize="23dp"
+                    android:gravity="center|left"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_product"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp" />
             </LinearLayout>
         </ScrollView>
 </FrameLayout>

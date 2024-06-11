@@ -87,7 +87,8 @@ public class SearchFragment extends Fragment implements ClickItemProductListener
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.navigate(R.id.action_searchFragment_to_SHomeFragment);
+                controller.popBackStack();
+                //controller.navigate(R.id.action_searchFragment_to_SHomeFragment);
             }
         });
     }
@@ -113,8 +114,6 @@ public class SearchFragment extends Fragment implements ClickItemProductListener
         bundle.putSerializable("ProductModel", product);
         String nameFragment = "searchFragment";
         bundle.putString("StartFragment", nameFragment);
-        //controller.navigate(R.id.action_searchFragment_to_detailProductFragment);
-        //NavDirections action = SearchFragmentDirections.actionSearchFragmentToDetailProductFragment();
         Navigation.findNavController(binding.getRoot()).navigate(R.id.action_searchFragment_to_detailProductFragment, bundle);
     }
 }

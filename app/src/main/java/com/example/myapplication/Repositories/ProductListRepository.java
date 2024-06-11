@@ -91,4 +91,15 @@ public class ProductListRepository {
             }
         });
     }
+    public void getSpecialProductList(){
+        collectionProduct.whereEqualTo("special", true)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            fireStoreCallbackListProduct.onProductListLoad(task.getResult().toObjects(Product.class));
+                        }
+                    }
+                });
+    }
 }

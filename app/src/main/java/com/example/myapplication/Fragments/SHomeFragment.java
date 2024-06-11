@@ -10,22 +10,32 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.myapplication.Adapters.ProductAdapter;
+import com.example.myapplication.Listener.ClickItemProductListener;
+import com.example.myapplication.Models.Product;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.CartViewModel;
+import com.example.myapplication.ViewModels.ProductListViewModel;
 import com.example.myapplication.ViewModels.UserViewModel;
 import com.example.myapplication.databinding.FragmentShomeBinding;
 
-public class SHomeFragment extends Fragment {
+import java.util.List;
+
+public class SHomeFragment extends Fragment implements ClickItemProductListener {
     private UserViewModel viewModel;
     private CartViewModel cartViewModel;
+    private ProductListViewModel productViewModel;
     private FragmentShomeBinding binding;
     private NavController controller;
+    private ProductAdapter adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +52,15 @@ public class SHomeFragment extends Fragment {
 
         controller = Navigation.findNavController(view);
 
+        productViewModel = new ViewModelProvider(this).get(ProductListViewModel.class);
         cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
         cartViewModel.selectNoneAllProduct();
+
+        adapter = new ProductAdapter(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+        binding.rcvProduct.setLayoutManager(layoutManager);
+        binding.rcvProduct.setAdapter(adapter);
+        setSpecialProductList();
 
         viewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
         viewModel.userLogged();
@@ -91,6 +108,22 @@ public class SHomeFragment extends Fragment {
             }
         });
     }
+
+    private void setSpecialProductList(){
+        productViewModel.getSpecialProductList();
+        productViewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> products) {
+                if (!products.isEmpty()){
+                    adapter.setData(requireActivity(), products);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(requireContext(), "Không có sản phẩm", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     private void moveToNewFragment(String nameCategory){
         Bundle bundle = new Bundle();
         String nameFragment = "homeFragment";
@@ -98,9 +131,9 @@ public class SHomeFragment extends Fragment {
         bundle.putString("category", nameCategory);
         controller.navigate(R.id.action_SHomeFragment_to_productListFragment, bundle);
     }
-    private void addFragment(Fragment fragment, String category){
+    private void addFragment(Fragment fragment, Product product){
         Bundle bundle = new Bundle();
-        bundle.putString("category", category);
+        bundle.putSerializable("ProductModel", product);
         fragment.setArguments(bundle);
 
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -108,5 +141,10 @@ public class SHomeFragment extends Fragment {
         fragmentTransaction.add(R.id.frame_layout_shome, fragment);
         fragmentTransaction.addToBackStack(fragment.getClass().getName());
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onClickItemProduct(Product product) {
+        addFragment(new DetailProductFragment(), product);
     }
 }

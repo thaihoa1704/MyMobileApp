@@ -12,10 +12,11 @@ public class Product implements Serializable {
     private String brand;
     private String description;
     private List<ProductColor> colors;
+    private boolean special;
     public Product() {
     }
 
-    public Product(String id, String name, List<String> images, int price, String category, String brand, String description, List<ProductColor> colors) {
+    public Product(String id, String name, List<String> images, int price, String category, String brand, String description, List<ProductColor> colors, boolean special) {
         this.id = id;
         this.name = name;
         this.images = images;
@@ -24,6 +25,7 @@ public class Product implements Serializable {
         this.brand = brand;
         this.description = description;
         this.colors = colors;
+        this.special = special;
     }
 
     public String getId() {
@@ -92,5 +94,13 @@ public class Product implements Serializable {
 
     public void setColors(List<ProductColor> colors) {
         this.colors = colors;
+    }
+
+    public boolean isSpecial() {
+        return special;
+    }
+
+    public void setSpecial(boolean special) {
+        this.special = special;
     }
 }
