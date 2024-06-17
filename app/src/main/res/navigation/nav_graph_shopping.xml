@@ -62,27 +62,12 @@
         android:name="com.example.myapplication.Fragments.ProductListFragment"
         android:label="fragment_product_list"
         tools:layout="@layout/fragment_product_list" >
-        <action
-            android:id="@+id/action_productListFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
-        <action
-            android:id="@+id/action_productListFragment_to_SHomeFragment"
-            app:destination="@id/SHomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailProductFragment"
         android:name="com.example.myapplication.Fragments.DetailProductFragment"
         android:label="fragment_detail_product"
         tools:layout="@layout/fragment_detail_product" >
-        <action
-            android:id="@+id/action_detailProductFragment_to_cartFragment"
-            app:destination="@id/cartFragment" />
-        <action
-            android:id="@+id/action_detailProductFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-        <action
-            android:id="@+id/action_detailProductFragment_to_productListFragment"
-            app:destination="@id/productListFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderFragment"
@@ -92,9 +77,6 @@
         <action
             android:id="@+id/action_orderFragment_to_handleOrderFragment"
             app:destination="@id/handleOrderFragment" />
-        <action
-            android:id="@+id/action_orderFragment_to_cartFragment"
-            app:destination="@id/cartFragment" />
         <action
             android:id="@+id/action_orderFragment_to_addressFragment"
             app:destination="@id/addressFragment" />
@@ -123,9 +105,6 @@
         android:label="fragment_order_process"
         tools:layout="@layout/fragment_order_process" >
         <action
-            android:id="@+id/action_orderProcessFragment_to_userFragment"
-            app:destination="@id/userFragment" />
-        <action
             android:id="@+id/action_orderProcessFragment_to_detailOrderFragment"
             app:destination="@id/detailOrderFragment" />
     </fragment>
@@ -134,12 +113,6 @@
         android:name="com.example.myapplication.Fragments.DetailOrderFragment"
         android:label="fragment_detail_order"
         tools:layout="@layout/fragment_detail_order" >
-        <action
-            android:id="@+id/action_detailOrderFragment_to_orderProcessFragment"
-            app:destination="@id/orderProcessFragment" />
-        <action
-            android:id="@+id/action_detailOrderFragment_to_purchaseHistoryFragment"
-            app:destination="@id/purchaseHistoryFragment" />
         <action
             android:id="@+id/action_detailOrderFragment_to_rateOrderFragment"
             app:destination="@id/rateOrderFragment" />
@@ -150,9 +123,6 @@
         android:label="fragment_purchase_history"
         tools:layout="@layout/fragment_purchase_history" >
         <action
-            android:id="@+id/action_purchaseHistoryFragment_to_userFragment"
-            app:destination="@id/userFragment" />
-        <action
             android:id="@+id/action_purchaseHistoryFragment_to_detailOrderFragment"
             app:destination="@id/detailOrderFragment" />
     </fragment>
@@ -162,12 +132,6 @@
         android:label="fragment_address"
         tools:layout="@layout/fragment_address" >
         <action
-            android:id="@+id/action_addressFragment_to_orderFragment"
-            app:destination="@id/orderFragment" />
-        <action
-            android:id="@+id/action_addressFragment_to_userFragment"
-            app:destination="@id/userFragment" />
-        <action
             android:id="@+id/action_addressFragment_to_addAddressFragment"
             app:destination="@id/addAddressFragment" />
     </fragment>
@@ -176,27 +140,18 @@
         android:name="com.example.myapplication.Fragments.AddAddressFragment"
         android:label="fragment_add_address"
         tools:layout="@layout/fragment_add_address" >
-        <action
-            android:id="@+id/action_addAddressFragment_to_addressFragment"
-            app:destination="@id/addressFragment" />
     </fragment>
     <fragment
         android:id="@+id/rateOrderFragment"
         android:name="com.example.myapplication.Fragments.RateOrderFragment"
         android:label="fragment_rate_order"
         tools:layout="@layout/fragment_rate_order" >
-        <action
-            android:id="@+id/action_rateOrderFragment_to_detailOrderFragment"
-            app:destination="@id/detailOrderFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.myapplication.Fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_profileFragment_to_userFragment"
-            app:destination="@id/userFragment" />
         <action
             android:id="@+id/action_profileFragment_to_passwordFragment"
             app:destination="@id/passwordFragment" />
@@ -209,17 +164,11 @@
         android:name="com.example.myapplication.Fragments.PasswordFragment"
         android:label="fragment_password"
         tools:layout="@layout/fragment_password" >
-        <action
-            android:id="@+id/action_passwordFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/changeNameFragment"
         android:name="com.example.myapplication.Fragments.ChangeNameFragment"
         android:label="fragment_change_name"
         tools:layout="@layout/fragment_change_name" >
-        <action
-            android:id="@+id/action_changeNameFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
     </fragment>
 </navigation>
