@@ -46,7 +46,7 @@ public class AddAddressFragment extends Fragment {
         controller = Navigation.findNavController(view);
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
-        String fragmentName = getArguments().getString("fragmentName");
+        //String fragmentName = getArguments().getString("fragmentName");
 
         binding.btnAdd.setEnabled(false);
         binding.edtAddress1.addTextChangedListener(textWatcher);
@@ -66,9 +66,9 @@ public class AddAddressFragment extends Fragment {
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("fragmentName", fragmentName);
-                                    controller.navigate(R.id.action_addAddressFragment_to_addressFragment, bundle);
+                                    //Bundle bundle = new Bundle();
+                                    //bundle.putString("fragmentName", fragmentName);
+                                    controller.popBackStack();
                                 }
                             }, 2000);
                         }else {
@@ -82,9 +82,9 @@ public class AddAddressFragment extends Fragment {
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString("fragmentName", fragmentName);
-                controller.navigate(R.id.action_addAddressFragment_to_addressFragment, bundle);
+                //Bundle bundle = new Bundle();
+                //bundle.putString("fragmentName", fragmentName);
+                controller.popBackStack();
             }
         });
     }

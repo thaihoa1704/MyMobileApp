@@ -56,7 +56,7 @@ public class PasswordFragment extends Fragment {
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.navigate(R.id.action_passwordFragment_to_profileFragment);
+                controller.popBackStack();
             }
         });
 
@@ -81,7 +81,7 @@ public class PasswordFragment extends Fragment {
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        controller.navigate(R.id.action_passwordFragment_to_profileFragment);
+                                        controller.popBackStack();
                                     }
                                 }, 2000);
                             } else {

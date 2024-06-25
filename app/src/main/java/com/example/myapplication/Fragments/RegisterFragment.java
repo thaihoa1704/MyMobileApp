@@ -77,7 +77,7 @@ public class RegisterFragment extends Fragment {
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        navController.navigate(R.id.action_registerFragment_to_loginFragment);
+                                        navController.popBackStack();
                                     }
                                 }, 1500);
                             } else {
@@ -92,7 +92,7 @@ public class RegisterFragment extends Fragment {
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navController.navigate(R.id.action_registerFragment_to_loginFragment);
+                navController.popBackStack();
             }
         });
     }

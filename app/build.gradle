@@ -17,6 +17,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled = true
     }
 
     buildTypes {
@@ -53,6 +54,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
     implementation "androidx.navigation:navigation-compose:$nav_version"
+    //implementation "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
     def lifecycle_version = "2.6.2"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
@@ -73,9 +75,8 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
     //Material
     implementation 'com.google.android.material:material:1.12.0-alpha02'
-    //Swipe Item in RecycleView
-    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
-    implementation group: 'com.apachat', name: 'swipereveallayout-android', version: '1.1.2'
     //Circle Indicator
     implementation 'me.relex:circleindicator:2.1.6'
+    def multidex_version = "2.0.1"
+    implementation "androidx.multidex:multidex:$multidex_version"
 }

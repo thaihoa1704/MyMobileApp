@@ -63,7 +63,7 @@ public class PurchaseHistoryFragment extends Fragment implements ClickItemOrderL
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.navigate(R.id.action_purchaseHistoryFragment_to_userFragment);
+                controller.popBackStack();
             }
         });
     }

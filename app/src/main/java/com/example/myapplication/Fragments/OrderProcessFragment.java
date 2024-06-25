@@ -87,7 +87,7 @@ public class OrderProcessFragment extends Fragment implements ClickItemOrderList
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.navigate(R.id.action_orderProcessFragment_to_userFragment);
+                controller.popBackStack();
             }
         });
 

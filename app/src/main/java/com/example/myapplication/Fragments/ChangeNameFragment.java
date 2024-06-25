@@ -65,7 +65,7 @@ public class ChangeNameFragment extends Fragment {
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    controller.navigate(R.id.action_changeNameFragment_to_profileFragment);
+                                    controller.popBackStack();
                                 }
                             }, 2000);
                         } else {
@@ -79,7 +79,7 @@ public class ChangeNameFragment extends Fragment {
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.navigate(R.id.action_changeNameFragment_to_profileFragment);
+                controller.popBackStack();
             }
         });
     }

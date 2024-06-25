@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.myapplication.Activities.MainActivity;
-import com.example.myapplication.Dialog.LogoutDialog;
+import com.example.myapplication.Dialog.ChoiceDialog;
 import com.example.myapplication.Listener.OnClickChoice;
 import com.example.myapplication.Models.Order;
 import com.example.myapplication.Models.User;
@@ -120,7 +120,7 @@ public class UserFragment extends Fragment {
         binding.tvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LogoutDialog logoutDialog = new LogoutDialog(new OnClickChoice() {
+                ChoiceDialog logoutDialog = new ChoiceDialog("UserFragment", new OnClickChoice() {
                     @Override
                     public void onClick(Boolean choice) {
                         if (choice){
@@ -128,7 +128,7 @@ public class UserFragment extends Fragment {
                         }
                     }
                 });
-                logoutDialog.show(requireActivity().getSupportFragmentManager(), "LogoutDialog");
+                logoutDialog.show(requireActivity().getSupportFragmentManager(), null);
             }
         });
     }

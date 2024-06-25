@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_user"
+    app:startDestination="@id/userFragment">
+
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.example.myapplication.Fragments.UserFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user">
+        <action
+            android:id="@+id/action_userFragment_to_orderProcessFragment"
+            app:destination="@id/orderProcessFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_purchaseHistoryFragment"
+            app:destination="@id/purchaseHistoryFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.myapplication.Fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_passwordFragment"
+            app:destination="@id/passwordFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_changeNameFragment"
+            app:destination="@id/changeNameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeNameFragment"
+        android:name="com.example.myapplication.Fragments.ChangeNameFragment"
+        android:label="fragment_change_name"
+        tools:layout="@layout/fragment_change_name"></fragment>
+    <fragment
+        android:id="@+id/passwordFragment"
+        android:name="com.example.myapplication.Fragments.PasswordFragment"
+        android:label="fragment_password"
+        tools:layout="@layout/fragment_password"></fragment>
+    <fragment
+        android:id="@+id/orderProcessFragment"
+        android:name="com.example.myapplication.Fragments.OrderProcessFragment"
+        android:label="fragment_order_process"
+        tools:layout="@layout/fragment_order_process">
+        <action
+            android:id="@+id/action_orderProcessFragment_to_detailOrderFragment"
+            app:destination="@id/detailOrderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rateOrderFragment"
+        android:name="com.example.myapplication.Fragments.RateOrderFragment"
+        android:label="fragment_rate_order"
+        tools:layout="@layout/fragment_rate_order"></fragment>
+    <fragment
+        android:id="@+id/detailOrderFragment"
+        android:name="com.example.myapplication.Fragments.DetailOrderFragment"
+        android:label="fragment_detail_order"
+        tools:layout="@layout/fragment_detail_order">
+        <action
+            android:id="@+id/action_detailOrderFragment_to_rateOrderFragment"
+            app:destination="@id/rateOrderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/purchaseHistoryFragment"
+        android:name="com.example.myapplication.Fragments.PurchaseHistoryFragment"
+        android:label="fragment_purchase_history"
+        tools:layout="@layout/fragment_purchase_history">
+        <action
+            android:id="@+id/action_purchaseHistoryFragment_to_detailOrderFragment"
+            app:destination="@id/detailOrderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="com.example.myapplication.Fragments.AddressFragment"
+        android:label="fragment_address"
+        tools:layout="@layout/fragment_address">
+        <action
+            android:id="@+id/action_addressFragment_to_addAddressFragment"
+            app:destination="@id/addAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addAddressFragment"
+        android:name="com.example.myapplication.Fragments.AddAddressFragment"
+        android:label="fragment_add_address"
+        tools:layout="@layout/fragment_add_address"></fragment>
+</navigation>

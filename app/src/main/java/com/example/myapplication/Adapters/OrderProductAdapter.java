@@ -1,6 +1,7 @@
 package com.example.myapplication.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -54,6 +55,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
 
         public void bind(CartProduct cartProduct) {
             binding.tvProductName.setText(cartProduct.getProduct().getName());
+            binding.imageProduct.setBackgroundColor(Color.parseColor("#ECEFEF"));
             Glide.with(context).load(cartProduct.getProduct().getImages().get(0)).into(binding.imageProduct);
             binding.tvQuantity.setText(String.valueOf(cartProduct.getQuantity()));
             String price = Convert.DinhDangTien(cartProduct.getVersion().getPrice()) + " đ";

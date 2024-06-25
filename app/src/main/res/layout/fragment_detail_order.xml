@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:layout_marginRight="8dp"
     android:layout_marginLeft="8dp"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="15dp"
     tools:context=".Fragments.DetailOrderFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -261,7 +261,8 @@
         android:text="Đã nhận được hàng"
         android:textAllCaps="false"
         android:textSize="20dp"
-        android:background="@color/main"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:background="@drawable/bg_button_order"
         android:textColor="#333333"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Dialog.ChoiceDialog">
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:gravity="center"
-                android:text="Bạn có muốn đăng xuất không?"
+                android:text="Xoá sản phẩm khỏi giỏ hàng?"
                 android:textSize="22dp"
                 android:layout_marginTop="20dp"
                 android:textColor="@color/black" />
@@ -55,5 +56,4 @@
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
 </LinearLayout>

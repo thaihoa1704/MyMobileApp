@@ -97,7 +97,7 @@ public class OrderFragment extends Fragment {
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.navigate(R.id.action_orderFragment_to_cartFragment);
+                controller.popBackStack();
             }
         });
     }

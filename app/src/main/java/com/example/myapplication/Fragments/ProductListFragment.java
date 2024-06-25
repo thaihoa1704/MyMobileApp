@@ -128,11 +128,12 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (startFragment == "homeFragment"){
+                controller.popBackStack();
+                /*if (startFragment == "homeFragment"){
                     controller.navigate(R.id.action_productListFragment_to_SHomeFragment);
                 }else if (startFragment == "categoryFragment"){
                     controller.navigate(R.id.action_productListFragment_to_categoryFragment);
-                }
+                }*/
             }
         });
     }
@@ -234,7 +235,10 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
     public void onClickItemProduct(Product product) {
         //Creat DetailProductFragment overlaps this fragment
         //Purpose: Don't reload view of this fragment when close DetailProductFragmen
-        addFragment(new DetailProductFragment(), product, "productListFragment");
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("ProductModel", product);
+//        controller.navigate(R.id.action_productListFragment_to_detailProductFragment, bundle);
+        addFragment(new DetailProductFragment(), product);
     }
 
     private List<String> getList(){
@@ -244,10 +248,10 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
         list.add("Giá giảm dần");
         return list;
     }
-    private void addFragment(Fragment fragment, Product product, String nameFragment){
+    private void addFragment(Fragment fragment, Product product){
         Bundle bundle = new Bundle();
         bundle.putSerializable("ProductModel", product);
-        bundle.putString("StartFragment", nameFragment);
+        //bundle.putString("StartFragment", nameFragment);
         fragment.setArguments(bundle);
 
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -320,7 +324,7 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
                     Toast.makeText(requireActivity(), "Không có dữ liệu về giá", Toast.LENGTH_SHORT).show();
                 }
                 priceList.addAll(price);
-                priceMutableLiveData.removeObserver(this);
+                //priceMutableLiveData.removeObserver(this);
             }
         });
     }
@@ -334,7 +338,7 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
                     Toast.makeText(requireActivity(), "Không có dữ liệu về thương hiệu", Toast.LENGTH_SHORT).show();
                 }
                 brandList.addAll(brands);
-                brandMutableLiveData.removeObserver(this);
+                //brandMutableLiveData.removeObserver(this);
             }
         });
     }

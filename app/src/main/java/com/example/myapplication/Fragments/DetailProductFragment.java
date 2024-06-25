@@ -2,6 +2,7 @@ package com.example.myapplication.Fragments;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -32,6 +33,7 @@ import com.example.myapplication.Models.ProductVersion.PhoneVersion;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.PhoneViewModel;
 import com.example.myapplication.databinding.FragmentDetailProductBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -47,6 +49,8 @@ public class DetailProductFragment extends Fragment implements ClickItemColorLis
     private ImageAdapter imageAdapter;
     private Product product;
     private ProductColor productColorSelected;
+    private BottomNavigationView bottomNavigationView;
+    private View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +70,7 @@ public class DetailProductFragment extends Fragment implements ClickItemColorLis
 
         controller = Navigation.findNavController(view);
 
-        String startFragment = getArguments().getString("StartFragment");
+        //String startFragment = getArguments().getString("StartFragment");
         product = (Product) getArguments().getSerializable("ProductModel");
         binding.tvProductName.setText(product.getName());
         binding.tvDescription.setText(product.getDescription());
@@ -96,15 +100,26 @@ public class DetailProductFragment extends Fragment implements ClickItemColorLis
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (startFragment == "searchFragment"){
+                //controller.popBackStack();
+                removeFragment();
+                //controller.popBackStack();
+                /*if (startFragment == "searchFragment"){
                     controller.navigate(R.id.action_detailProductFragment_to_searchFragment);
                 }else if (startFragment == "productListFragment"){
                     removeFragment();
                 }else {
                     controller.navigate(R.id.action_detailProductFragment_to_cartFragment);
-                }
+                }*/
             }
         });
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                removeFragment();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
 
     private void setSlideImage() {
@@ -120,6 +135,11 @@ public class DetailProductFragment extends Fragment implements ClickItemColorLis
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.remove(this);
         fragmentTransaction.commit();
+
+        bottomNavigationView = getActivity().findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setVisibility(View.VISIBLE);
+        view = getActivity().findViewById(R.id.line_activity);
+        view.setVisibility(View.VISIBLE);
     }
 
     @Override

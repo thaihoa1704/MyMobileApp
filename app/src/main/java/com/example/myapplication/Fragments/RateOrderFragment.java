@@ -100,7 +100,8 @@ public class RateOrderFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     order.setStatus("Đã đánh giá");
-                                    removeFragment(order, from);
+                                    controller.popBackStack();
+                                    //removeFragment(order, from);
                                 }
                             }, 2000);
                         } else {
@@ -114,15 +115,9 @@ public class RateOrderFragment extends Fragment {
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeFragment(order, from);
+                controller.popBackStack();
             }
         });
-    }
-    private void removeFragment(Order order, String from) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("Order", order);
-        bundle.putString("From", from);
-        controller.navigate(R.id.action_rateOrderFragment_to_detailOrderFragment, bundle);
     }
     private TextWatcher textWatcher = new TextWatcher() {
         @Override

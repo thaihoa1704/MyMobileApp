@@ -1,6 +1,8 @@
 package com.example.myapplication.Fragments;
 
 import android.os.Bundle;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -26,6 +28,7 @@ import com.example.myapplication.ViewModels.CartViewModel;
 import com.example.myapplication.ViewModels.ProductListViewModel;
 import com.example.myapplication.ViewModels.UserViewModel;
 import com.example.myapplication.databinding.FragmentShomeBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -36,6 +39,10 @@ public class SHomeFragment extends Fragment implements ClickItemProductListener 
     private FragmentShomeBinding binding;
     private NavController controller;
     private ProductAdapter adapter;
+    private BottomNavigationView bottomNavigationView;
+    private View view;
+    private int count = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +114,24 @@ public class SHomeFragment extends Fragment implements ClickItemProductListener 
                 moveToNewFragment("Phụ kiện");
             }
         });
+
+
+        //if back stack null => back press
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                int backStackCount = requireActivity().getSupportFragmentManager().getBackStackEntryCount();
+                if (backStackCount == 0){
+                    count++;
+                    if (count == 2){
+                        getActivity().finishAndRemoveTask();
+                    }
+                } else {
+                    controller.popBackStack();
+                }
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
 
     private void setSpecialProductList(){
@@ -146,5 +171,9 @@ public class SHomeFragment extends Fragment implements ClickItemProductListener 
     @Override
     public void onClickItemProduct(Product product) {
         addFragment(new DetailProductFragment(), product);
+        bottomNavigationView = getActivity().findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setVisibility(View.GONE);
+        view = getActivity().findViewById(R.id.line_activity);
+        view.setVisibility(View.GONE);
     }
 }

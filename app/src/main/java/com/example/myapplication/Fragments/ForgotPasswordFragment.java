@@ -51,7 +51,7 @@ public class ForgotPasswordFragment extends Fragment {
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navController.navigate(R.id.action_forgotPasswordFragment_to_loginFragment);
+                navController.popBackStack();
             }
         });
         
@@ -69,7 +69,7 @@ public class ForgotPasswordFragment extends Fragment {
             @Override
             public void run() {
                 viewModel.resetPassword(binding.textEmail.getText().toString().trim());
-                navController.navigate(R.id.action_forgotPasswordFragment_to_loginFragment);
+                navController.popBackStack();
             }
         }, 2000);
     }

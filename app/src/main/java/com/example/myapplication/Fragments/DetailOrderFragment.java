@@ -121,13 +121,7 @@ public class DetailOrderFragment extends Fragment {
         binding.imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (from.equals("OrderProcessFragment")){
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("id", id);
-                    controller.navigate(R.id.action_detailOrderFragment_to_orderProcessFragment, bundle);
-                } else if (from.equals("PurchaseHistoryFragment")){
-                    controller.navigate(R.id.action_detailOrderFragment_to_purchaseHistoryFragment);
-                }
+                controller.popBackStack();
             }
         });
     }

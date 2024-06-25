@@ -5,7 +5,6 @@
     android:layout_height="65dp"
     android:layout_marginBottom="15dp"
     android:orientation="vertical"
-    app:clickToClose="true"
     android:id="@+id/layout_item_search_product">
 
     <com.google.android.material.card.MaterialCardView
