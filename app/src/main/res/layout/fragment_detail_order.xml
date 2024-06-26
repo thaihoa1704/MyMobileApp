@@ -261,8 +261,8 @@
         android:text="Đã nhận được hàng"
         android:textAllCaps="false"
         android:textSize="20dp"
+        android:textColor="@color/white"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:background="@drawable/bg_button_order"
-        android:textColor="#333333"/>
+        android:background="@drawable/bg_button_order" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

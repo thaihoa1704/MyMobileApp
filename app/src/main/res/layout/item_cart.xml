@@ -3,19 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="120dp"
-    android:layout_marginBottom="10dp"
-    android:orientation="vertical"
+    android:layout_marginBottom="15dp"
+    android:elevation="2dp"
+    android:background="@drawable/bg_item_cart"
     android:id="@+id/layout_item_cart">
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:theme="@style/Theme.MaterialComponents.Light"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@color/black"
-            app:strokeWidth="2dp"
-            app:cardCornerRadius="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -33,7 +24,8 @@
                     android:layout_marginLeft="8dp"
                     android:checked="false"
                     android:scaleX="1.5"
-                    android:scaleY="1.5" />
+                    android:scaleY="1.5"
+                    android:buttonTint="@color/black" />
 
                 <ImageView
                     android:id="@+id/img_product"
@@ -138,6 +130,5 @@
 
             </LinearLayout>
 
-        </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

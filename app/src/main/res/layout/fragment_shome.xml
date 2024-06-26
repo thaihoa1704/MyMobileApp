@@ -97,8 +97,8 @@
 
                             <ImageView
                                 android:id="@+id/img_phone"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
                                 android:src="@drawable/smartphone_icon"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -130,8 +130,8 @@
 
                             <ImageView
                                 android:id="@+id/img_laptop"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
                                 android:src="@drawable/computer_icon"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -163,8 +163,8 @@
 
                             <ImageView
                                 android:id="@+id/img_headPhone"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="39dp"
+                                android:layout_height="39dp"
                                 android:src="@drawable/headphones_icon"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -196,8 +196,8 @@
 
                             <ImageView
                                 android:id="@+id/img_watch"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
                                 android:src="@drawable/watch_icon"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -229,8 +229,8 @@
 
                             <ImageView
                                 android:id="@+id/image_accessory"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="33dp"
+                                android:layout_height="33dp"
                                 android:src="@drawable/cable_icon"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
