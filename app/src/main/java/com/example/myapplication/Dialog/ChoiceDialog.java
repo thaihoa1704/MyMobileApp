@@ -33,9 +33,15 @@ public class ChoiceDialog extends DialogFragment {
         dialog.setContentView(binding.getRoot());
 
         if (fragmentName.equals("CartFragment")){
+            binding.label.setVisibility(View.GONE);
             binding.tvTitle.setText("Xoá sản phẩm khỏi giỏ hàng?");
             binding.btnYes.setText("Xoá");
+        } else if (fragmentName.equals("OrderFragment")){
+            binding.label.setVisibility(View.VISIBLE);
+            binding.tvTitle.setText("Bạn có chắc chắn muốn đặt hàng");
+            binding.btnYes.setText("Thanh toán");
         } else {
+            binding.label.setVisibility(View.GONE);
             binding.tvTitle.setText("Bạn có muốn đăng xuất không?");
             binding.btnYes.setText("Đăng xuất");
         }

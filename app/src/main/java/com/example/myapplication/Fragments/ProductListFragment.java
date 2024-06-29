@@ -92,23 +92,29 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
         binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String choice = orderPriceAdapter.getItem(i).toString();
-                if (choice == "Ngẫu nhiên"){
-                    if (!productListWithoutOrder.isEmpty()){
-                        adapter.setData(requireActivity(), productListWithoutOrder);
-                        adapter.notifyDataSetChanged();
-                    }
-                }else if (choice == "Giá tăng dần"){
-                    if (!productList.isEmpty()){
-                        viewModel.orderByPriceAscending(productList);
-                        adapter.setData(requireActivity(), productList);
-                        adapter.notifyDataSetChanged();
-                    }
-                }else if (choice == "Giá giảm dần"){
-                    if (!productList.isEmpty()){
-                        viewModel.orderByPriceDescending(productList);
-                        adapter.setData(requireActivity(), productList);
-                        adapter.notifyDataSetChanged();
+                String choice = orderPriceAdapter.getItem(i);
+                if (choice != null) {
+                    switch (choice) {
+                        case "Ngẫu nhiên":
+                            if (!productListWithoutOrder.isEmpty()) {
+                                adapter.setData(requireActivity(), productListWithoutOrder);
+                                adapter.notifyDataSetChanged();
+                            }
+                            break;
+                        case "Giá tăng dần":
+                            if (!productList.isEmpty()) {
+                                viewModel.orderByPriceAscending(productList);
+                                adapter.setData(requireActivity(), productList);
+                                adapter.notifyDataSetChanged();
+                            }
+                            break;
+                        case "Giá giảm dần":
+                            if (!productList.isEmpty()) {
+                                viewModel.orderByPriceDescending(productList);
+                                adapter.setData(requireActivity(), productList);
+                                adapter.notifyDataSetChanged();
+                            }
+                            break;
                     }
                 }
             }
@@ -119,6 +125,13 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
         });
 
         binding.imgFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog();
+            }
+        });
+
+        binding.imgFilter1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showDialog();
@@ -265,6 +278,7 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
     public void getData(Brand brandSelected, int brandPosition, Price price, int pricePosition) {
         // choose brand and price
         if (brandPosition != -1 && pricePosition != -1){
+            binding.imgFilter.setVisibility(View.GONE);
             binding.imgFilter1.setVisibility(View.VISIBLE);
             if (brandPosition == this.selectedBrandPosition && pricePosition == this.selectedPricePosition){
                 Toast.makeText(requireActivity(), "Bạn đã chọn rồi", Toast.LENGTH_SHORT).show();
@@ -278,10 +292,11 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
             //setupSpinnerLikeBegin
             binding.spinner.setAdapter(orderPriceAdapter);
         } else //only choose brand
-            if (brandPosition != -1 && pricePosition == -1){
+            if (brandPosition != -1){
                 if (brandPosition == this.selectedBrandPosition && pricePosition == this.selectedPricePosition){
                     return;
                 }
+                binding.imgFilter.setVisibility(View.GONE);
                 binding.imgFilter1.setVisibility(View.VISIBLE);
                 setProductWithBrandAdapter(category, brandSelected);
                 this.brand = brandSelected;
@@ -291,10 +306,11 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
                 //setupSpinnerLikeBegin
                 binding.spinner.setAdapter(orderPriceAdapter);
         } else //only choose price
-            if (brandPosition == -1 && pricePosition != -1){
+            if (pricePosition != -1){
                 if (pricePosition == this.selectedPricePosition && brandPosition == this.selectedBrandPosition){
                     return;
                 }
+                binding.imgFilter.setVisibility(View.GONE);
                 binding.imgFilter1.setVisibility(View.VISIBLE);
                 setProductWithPriceAdapter(category, price);
                 this.price = price;
@@ -304,13 +320,14 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
                 //setupSpinnerLikeBegin
                 binding.spinner.setAdapter(orderPriceAdapter);
         }
-        else if (brandPosition == -1 && pricePosition == -1){
+        else {
             setProductAdapter(category);
             this.brand = null;
             this.selectedBrandPosition = -1;
             this.price = null;
             this.selectedPricePosition = -1;
             binding.spinner.setAdapter(orderPriceAdapter);
+            binding.imgFilter.setVisibility(View.VISIBLE);
             binding.imgFilter1.setVisibility(View.GONE);
         }
     }
@@ -344,16 +361,22 @@ public class ProductListFragment extends Fragment implements ClickItemProductLis
     }
     private String changeName(String string){
         String name;
-        if (string.equals("Điện thoại")){
-            name = "Phone";
-        }else if (string.equals("Laptop")){
-            name = "Laptop";
-        }else if (string.equals("Đồng hồ")){
-            name = "Watch";
-        }else if (string.equals("Tai nghe")){
-            name = "Headphone";
-        }else {
-            name = "Accessory";
+        switch (string) {
+            case "Điện thoại":
+                name = "Phone";
+                break;
+            case "Laptop":
+                name = "Laptop";
+                break;
+            case "Đồng hồ":
+                name = "Watch";
+                break;
+            case "Tai nghe":
+                name = "Headphone";
+                break;
+            default:
+                name = "Accessory";
+                break;
         }
         return name.trim();
     }

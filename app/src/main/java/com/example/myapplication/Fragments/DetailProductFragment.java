@@ -38,6 +38,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 public class DetailProductFragment extends Fragment implements ClickItemColorListener, ClickItemPhoneVersionListener {
     private FragmentDetailProductBinding binding;
@@ -71,9 +72,13 @@ public class DetailProductFragment extends Fragment implements ClickItemColorLis
         controller = Navigation.findNavController(view);
 
         //String startFragment = getArguments().getString("StartFragment");
-        product = (Product) getArguments().getSerializable("ProductModel");
-        binding.tvProductName.setText(product.getName());
-        binding.tvDescription.setText(product.getDescription());
+        if (getArguments() != null) {
+            product = (Product) getArguments().getSerializable("ProductModel");
+        }
+        if (product != null) {
+            binding.tvProductName.setText(product.getName());
+            binding.tvDescription.setText(product.getDescription());
+        }
 
         //Slide image
         setSlideImage();
@@ -89,10 +94,22 @@ public class DetailProductFragment extends Fragment implements ClickItemColorLis
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (product.getCategory().equals("Điện thoại")){
-                    addPhoneToCart();
-                }else if (product.getCategory().equals("Laptop")){
+                switch (product.getCategory()) {
+                    case "Điện thoại":
+                        addPhoneToCart();
+                        break;
+                    case "Laptop":
 
+                        break;
+                    case "Tai nghe":
+
+                        break;
+                    case "Đồng hồ":
+
+                        break;
+                    case "Phụ kiện":
+
+                        break;
                 }
             }
         });
@@ -136,16 +153,16 @@ public class DetailProductFragment extends Fragment implements ClickItemColorLis
         fragmentTransaction.remove(this);
         fragmentTransaction.commit();
 
-        bottomNavigationView = getActivity().findViewById(R.id.bottomNavigationView);
+        bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setVisibility(View.VISIBLE);
-        view = getActivity().findViewById(R.id.line_activity);
+        view = requireActivity().findViewById(R.id.line_activity);
         view.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onClickColor(ProductColor color) {
         productColorSelected = color;
-        binding.tvColor.setText(color.getColor().toString());
+        binding.tvColor.setText(color.getColor());
         setPriceAndQuantity();
     }
     @Override
@@ -194,8 +211,8 @@ public class DetailProductFragment extends Fragment implements ClickItemColorLis
     }
     private void setPriceAndQuantity(){
         if (productColorSelected != null && phoneVersionSelected != null){
-            phoneViewModel.getPhonePrice(product.getId().toString(), productColorSelected.getColor().toString(),
-                                        phoneVersionSelected.getRam().toString(), phoneVersionSelected.getStorage().toString());
+            phoneViewModel.getPhonePrice(product.getId(), productColorSelected.getColor(),
+                    phoneVersionSelected.getRam(), phoneVersionSelected.getStorage());
             phoneViewModel.getPhoneVersion().observe(getViewLifecycleOwner(), new Observer<PhoneVersion>() {
                 @Override
                 public void onChanged(PhoneVersion phoneVersion) {
@@ -215,12 +232,9 @@ public class DetailProductFragment extends Fragment implements ClickItemColorLis
                     }
                 }
             });
-        }else if (productColorSelected == null || phoneVersionSelected == null){
-            binding.tvPrice.setText(null);
-            binding.btnAdd.setVisibility(View.GONE);
         }else {
             binding.tvPrice.setText(null);
-            setAddButtonOff();
+            binding.btnAdd.setVisibility(View.GONE);
         }
     }
     private void setAddButtonOn(){
@@ -235,8 +249,8 @@ public class DetailProductFragment extends Fragment implements ClickItemColorLis
     }
     private void addPhoneToCart(){
         if (productColorSelected != null && phoneVersionSelected != null){
-            phoneViewModel.getPhonePrice(product.getId().toString(), productColorSelected.getColor().toString(),
-                    phoneVersionSelected.getRam().toString(), phoneVersionSelected.getStorage().toString());
+            phoneViewModel.getPhonePrice(product.getId(), productColorSelected.getColor(),
+                    phoneVersionSelected.getRam(), phoneVersionSelected.getStorage());
             MutableLiveData<PhoneVersion> mutableLiveData = phoneViewModel.getPhoneVersion();
             mutableLiveData.observe(getViewLifecycleOwner(), new Observer<PhoneVersion>() {
                 @Override
@@ -249,7 +263,7 @@ public class DetailProductFragment extends Fragment implements ClickItemColorLis
                             @Override
                             public void onChanged(Boolean aBoolean) {
                                 if (aBoolean){
-                                    Toast.makeText(requireContext(), "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(requireContext(), "Sản phẩm đã được thêm vào giỏ hàng!", Toast.LENGTH_SHORT).show();
                                     check.removeObserver(this);
                                 }else {
                                     Toast.makeText(requireContext(), "Không thêm vào được giỏ hàng!", Toast.LENGTH_SHORT).show();

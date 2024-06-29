@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -84,6 +85,7 @@ public class CartFragment extends Fragment implements ChangeQuantityCartProduct,
                     public void onClick(Boolean choice) {
                         if (choice){
                             deleteProduct();
+                            setCartAdapter();
                         }
                     }
                 });
@@ -93,21 +95,22 @@ public class CartFragment extends Fragment implements ChangeQuantityCartProduct,
     }
 
     private void deleteProduct() {
-        cartViewModel.getProductSelected();
         cartViewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
             @Override
             public void onChanged(List<CartProduct> list) {
                 for (CartProduct item : list){
-                    cartViewModel.deleteProductInCart(item.getVersion().getId());
+                    if (item.isSelect()){
+                        cartViewModel.deleteProductInCart(item.getVersion().getId());
+                    }
                 }
             }
         });
-        setCartAdapter();
     }
 
     private void setCartAdapter() {
         cartViewModel.getAllProductsInCart();
-        cartViewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
+        MutableLiveData<List<CartProduct>> listMutableLiveData = cartViewModel.getListMutableLiveData();
+        listMutableLiveData.observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
             @Override
             public void onChanged(List<CartProduct> cartProducts) {
                 cartAdapter.setData(requireActivity(), cartProducts);
@@ -137,6 +140,7 @@ public class CartFragment extends Fragment implements ChangeQuantityCartProduct,
                         binding.tvTotal.setText(Convert.DinhDangTien(total) + " đ");
                     }
                 }
+                //listMutableLiveData.removeObserver(this);
             }
         });
     }

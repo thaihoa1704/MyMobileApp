@@ -31,15 +31,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="25dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_marginRight="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:src="@drawable/delete_icon"
                 android:id="@+id/img_delete"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -112,7 +112,7 @@
                 android:textAllCaps="false"
                 android:gravity="center"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:background="@drawable/bg_button_order"
+                android:background="@drawable/bg_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

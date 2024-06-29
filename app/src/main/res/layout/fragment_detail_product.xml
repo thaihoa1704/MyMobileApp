@@ -10,12 +10,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
+        android:background="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager_image"
@@ -27,21 +29,9 @@
             android:contentDescription="null"
             android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <me.relex.circleindicator.CircleIndicator
-            android:id="@+id/circle_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginBottom="8dp"
-            app:ci_drawable="@drawable/circle_selected"
-            app:ci_drawable_unselected="@drawable/circle_unselected"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
         <ImageView
             android:id="@+id/img_back"
             android:layout_width="25dp"
@@ -53,6 +43,16 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/circle_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_marginBottom="8dp"
+        app:ci_drawable="@drawable/circle_selected"
+        app:ci_drawable_unselected="@drawable/circle_unselected"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
     <TextView
         android:id="@+id/tv_product_name"
         android:layout_width="match_parent"
@@ -64,7 +64,8 @@
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/constraintLayout" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/circle_indicator" />
 
     <TextView
         android:id="@+id/tv_price"
@@ -72,8 +73,10 @@
         android:layout_height="wrap_content"
         android:textColor="@color/orange"
         android:textSize="23dp"
+        android:textStyle="bold"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_product_name"/>
     <LinearLayout
         android:id="@+id/linearLayout_color"
@@ -104,6 +107,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="5dp"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
@@ -125,6 +129,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="5dp"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
@@ -159,6 +164,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_add"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_information"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="8dp"
@@ -186,7 +192,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:background="@drawable/bg_button_order"
+        android:background="@drawable/bg_button"
         android:textAllCaps="false"
         android:visibility="gone"/>
 
