@@ -183,4 +183,15 @@ public class OrderRepository {
                     }
                 });
     }
+
+    public void updateCanceleOrder(Order order) {
+        collectionReferenceOrder.document(String.valueOf(order.getDateTime()))
+                .update("status", "Đơn hàng đã huỷ")
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                    }
+                });
+    }
 }

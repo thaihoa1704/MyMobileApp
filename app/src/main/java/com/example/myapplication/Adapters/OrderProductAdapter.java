@@ -55,7 +55,6 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
 
         public void bind(CartProduct cartProduct) {
             binding.tvProductName.setText(cartProduct.getProduct().getName());
-            binding.imageProduct.setBackgroundColor(Color.parseColor("#ECEFEF"));
             Glide.with(context).load(cartProduct.getProduct().getImages().get(0)).into(binding.imageProduct);
             binding.tvQuantity.setText(String.valueOf(cartProduct.getQuantity()));
             String price = Convert.DinhDangTien(cartProduct.getVersion().getPrice()) + " đ";
@@ -74,9 +73,9 @@ public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapte
             }
         }
         private void setPhoneVersionData(CartProduct cartProduct) {
-            String version = cartProduct.getVersion().getColor().toString() + " - "
-                    + cartProduct.getVersion().getRam().toString() + " - "
-                    + cartProduct.getVersion().getStorage().toString();
+            String version = cartProduct.getVersion().getColor() + " - "
+                    + cartProduct.getVersion().getRam() + " - "
+                    + cartProduct.getVersion().getStorage();
             binding.tvVersion.setText(version);
         }
         private void setLaptopVersionData(CartProduct cartProduct) {

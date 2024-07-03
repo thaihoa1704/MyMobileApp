@@ -65,13 +65,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         }
         public void bind(Order order) {
             Product product = order.getListProduct().get(0).getProduct();
-            String img = product.getImages().get(0).toString();
+            String img = product.getImages().get(0);
             Glide.with(context).load(img).into(binding.imgProduct);
 
-            String productName = product.getName().toString();
+            String productName = product.getName();
             binding.tvProductName.setText(productName);
 
-            String category = product.getCategory().toString();
+            String category = product.getCategory();
             CartProduct cartProduct = order.getListProduct().get(0);
             if (category.equals("Điện thoại")){
                 setPhoneVersionData(cartProduct);
@@ -108,24 +108,24 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             String totalPrice = Convert.DinhDangTien(order.getTotal()) + " đ";
             binding.tvTatolPrice.setText(totalPrice);
 
-            String process = order.getStatus().toString();
+            String process = order.getStatus();
             if (process.equals("Chờ xác nhận")){
                 binding.btnProcess.setText("Đang xử lý");
                 binding.tvStatus.setVisibility(View.GONE);
-                binding.btnProcess.setBackgroundColor(Color.parseColor("#CECFCF"));
+                //binding.btnProcess.setBackgroundColor(Color.parseColor("#CECFCF"));
             } else if (process.equals("Đơn hàng đang trên đường giao đến bạn")){
                 binding.tvStatus.setText(process);
                 binding.tvStatus.setVisibility(View.VISIBLE);
                 binding.btnProcess.setText("Đã nhận được hàng");
-                binding.btnProcess.setBackgroundColor(Color.parseColor("#49d7c8"));
+                //binding.btnProcess.setBackgroundColor(Color.parseColor("#49d7c8"));
             } else if (process.equals("Chưa đánh giá")) {
                 binding.tvStatus.setVisibility(View.GONE);
                 binding.btnProcess.setText("Đánh giá");
-                binding.btnProcess.setBackgroundColor(Color.parseColor("#49d7c8"));
+                //binding.btnProcess.setBackgroundColor(Color.parseColor("#49d7c8"));
             } else if (process.equals("Đã đánh giá")){
                 binding.tvStatus.setVisibility(View.GONE);
                 binding.btnProcess.setText(process);
-                binding.btnProcess.setBackgroundColor(Color.parseColor("#49d7c8"));
+                //binding.btnProcess.setBackgroundColor(Color.parseColor("#49d7c8"));
             }
 
             binding.layoutItemOrder.setOnClickListener(new View.OnClickListener() {
@@ -142,9 +142,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             });
         }
         private void setPhoneVersionData(CartProduct cartProduct) {
-            String version = cartProduct.getVersion().getColor().toString() + " - "
-                    + cartProduct.getVersion().getRam().toString() + " - "
-                    + cartProduct.getVersion().getStorage().toString();
+            String version = cartProduct.getVersion().getColor() + " - "
+                    + cartProduct.getVersion().getRam() + " - "
+                    + cartProduct.getVersion().getStorage();
             binding.tvVersion.setText(version);
         }
         private void setLaptopVersionData(CartProduct cartProduct) {

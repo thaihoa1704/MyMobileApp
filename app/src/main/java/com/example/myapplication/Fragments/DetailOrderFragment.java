@@ -5,9 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -18,21 +15,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.myapplication.Adapters.OrderProductAdapter;
+import com.example.myapplication.Dialog.ChoiceDialog;
 import com.example.myapplication.Helper.Convert;
+import com.example.myapplication.Listener.OnClickChoice;
 import com.example.myapplication.Models.CartProduct;
 import com.example.myapplication.Models.Order;
-import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.OrderViewModel;
-import com.example.myapplication.ViewModels.UserViewModel;
 import com.example.myapplication.databinding.FragmentDetailOrderBinding;
 
 public class DetailOrderFragment extends Fragment {
     private FragmentDetailOrderBinding binding;
     private OrderProductAdapter adapter;
-    private UserViewModel userViewModel;
     private OrderViewModel orderViewModel;
     private NavController controller;
+    private Order order;
     private int id;
 
     @Override
@@ -52,16 +49,18 @@ public class DetailOrderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
         controller = Navigation.findNavController(view);
 
-        Order order = (Order) getArguments().getSerializable("Order");
+        if (getArguments() != null) {
+            order = (Order) getArguments().getSerializable("Order");
+            if (order != null) {
+                binding.tvContact.setText(order.getContact());
+                binding.tvAddress.setText(order.getAddress());
+                binding.tvTime.setText(Convert.getDateTime(order.getDateTime()));
+            }
+        }
         String from = getArguments().getString("From");
-
-        binding.tvContact.setText(order.getContact().toString());
-        binding.tvAddress.setText(order.getAddress().toString());
-        binding.tvTime.setText(Convert.getDateTime(order.getDateTime()));
 
         adapter = new OrderProductAdapter();
         binding.rcvOrder.setHasFixedSize(true);
@@ -89,25 +88,48 @@ public class DetailOrderFragment extends Fragment {
             }
         });
 
-        String status = order.getStatus().toString();
-        if (status.equals("Chờ xác nhận")){
-            this.id = 1;
-            binding.btnProcess.setText("Đơn hàng đang được xử lý");
-        } else if (status.equals("Đơn hàng đang trên đường giao đến bạn")) {
-            this.id = 2;
-            binding.btnProcess.setText("Đã nhận được hàng");
-        } else if (status.equals("Chưa đánh giá")){
-            this.id = 3;
-            binding.btnProcess.setText("Đánh giá");
-        } else if (status.equals("Đã đánh giá")){
-            binding.btnProcess.setText(status);
+        binding.btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChoiceDialog cancelDialog = new ChoiceDialog("DetailOrderFragment", new OnClickChoice() {
+                    @Override
+                    public void onClick(Boolean choice) {
+                        if (choice){
+                            cancelOrder();
+                        }
+                    }
+                });
+                cancelDialog.show(requireActivity().getSupportFragmentManager(), null);
+            }
+        });
+
+        String status = order.getStatus();
+        switch (status) {
+            case "Chờ xác nhận":
+                this.id = 1;
+                binding.btnCancel.setVisibility(View.VISIBLE);
+                binding.btnProcess.setText("Đơn hàng đang được xử lý");
+                break;
+            case "Đơn hàng đang trên đường giao đến bạn":
+                this.id = 2;
+                binding.btnCancel.setVisibility(View.GONE);
+                binding.btnProcess.setText("Đã nhận được hàng");
+                break;
+            case "Chưa đánh giá":
+                this.id = 3;
+                binding.btnCancel.setVisibility(View.GONE);
+                binding.btnProcess.setText("Đánh giá");
+                break;
+            case "Đã đánh giá":
+                binding.btnCancel.setVisibility(View.GONE);
+                binding.btnProcess.setText(status);
+                break;
         }
 
         binding.btnProcess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (status.equals("Đơn hàng đang trên đường giao đến bạn")){
-
                     orderViewModel.updateReceiveOrder(order);
                 } else if (status.equals("Chưa đánh giá")) {
                     Bundle bundle = new Bundle();
@@ -124,5 +146,10 @@ public class DetailOrderFragment extends Fragment {
                 controller.popBackStack();
             }
         });
+    }
+
+    private void cancelOrder() {
+        orderViewModel.updateCanceleOrder(order);
+        controller.popBackStack();
     }
 }

@@ -51,7 +51,7 @@ public class HandleOrderFragment extends Fragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                controller.popBackStack();
+                controller.navigate(R.id.action_handleOrderFragment_to_cartFragment);
             }
         }, 7000);
     }

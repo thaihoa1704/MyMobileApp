@@ -57,7 +57,10 @@ public class OrderProcessFragment extends Fragment implements ClickItemOrderList
         controller = Navigation.findNavController(view);
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
-        int id = getArguments().getInt("id");
+        int id = 0;
+        if (getArguments() != null) {
+            id = getArguments().getInt("id");
+        }
         if (id == 1){
             confirm();
         } else if (id == 2) {

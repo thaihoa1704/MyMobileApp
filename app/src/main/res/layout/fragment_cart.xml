@@ -39,7 +39,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:src="@drawable/delete_icon"
                 android:id="@+id/img_delete"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView

@@ -87,6 +87,11 @@
         android:name="com.example.myapplication.Fragments.HandleOrderFragment"
         android:label="fragment_handle_order"
         tools:layout="@layout/fragment_handle_order" >
+        <action
+            android:id="@+id/action_handleOrderFragment_to_cartFragment"
+            app:destination="@id/cartFragment"
+            app:popUpTo="@id/handleOrderFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

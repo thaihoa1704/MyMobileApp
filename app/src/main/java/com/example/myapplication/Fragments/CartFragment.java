@@ -32,6 +32,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.ViewModels.CartViewModel;
 import com.example.myapplication.databinding.FragmentCartBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -40,6 +41,7 @@ public class CartFragment extends Fragment implements ChangeQuantityCartProduct,
     private CartAdapter cartAdapter;
     private CartViewModel cartViewModel;
     private NavController controller;
+    private List<CartProduct> list = new ArrayList<>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +86,7 @@ public class CartFragment extends Fragment implements ChangeQuantityCartProduct,
                     @Override
                     public void onClick(Boolean choice) {
                         if (choice){
-                            deleteProduct();
+                            delete();
                             setCartAdapter();
                         }
                     }
@@ -94,17 +96,12 @@ public class CartFragment extends Fragment implements ChangeQuantityCartProduct,
         });
     }
 
-    private void deleteProduct() {
-        cartViewModel.getListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<CartProduct>>() {
-            @Override
-            public void onChanged(List<CartProduct> list) {
-                for (CartProduct item : list){
-                    if (item.isSelect()){
-                        cartViewModel.deleteProductInCart(item.getVersion().getId());
-                    }
-                }
+    private void delete() {
+        for(CartProduct item : list){
+            if (item.isSelect()){
+                cartViewModel.deleteProductInCart(item.getVersion().getId());
             }
-        });
+        }
     }
 
     private void setCartAdapter() {
@@ -117,11 +114,14 @@ public class CartFragment extends Fragment implements ChangeQuantityCartProduct,
                 cartAdapter.notifyDataSetChanged();
 
                 if (cartProducts.isEmpty()){
+                    list.clear();
                     binding.rcvCartProductList.setVisibility(View.GONE);
                     binding.tvEmpty.setVisibility(View.VISIBLE);
                     binding.tvTotal.setText("0 đ");
                     binding.imgDelete.setVisibility(View.GONE);
                 }else {
+                    list.clear();
+                    list.addAll(cartProducts);
                     binding.tvEmpty.setVisibility(View.GONE);
                     binding.rcvCartProductList.setVisibility(View.VISIBLE);
                     int total = 0;
