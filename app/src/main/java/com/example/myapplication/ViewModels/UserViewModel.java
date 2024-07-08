@@ -20,14 +20,12 @@ public class UserViewModel extends ViewModel implements FireStoreCallbackUser, F
     private MutableLiveData<User> userlogin;
     private MutableLiveData<List<Address>> addressMutableLiveData;
     private MutableLiveData<Boolean> check;
-    private User userLogged;
     public UserViewModel() {
         this.repository = new UserRepository(this, this);
         this.currentUser = repository.getCurrentUser();
         this.userLiveData = repository.getUserLiveData();
         this.loggedOutLiveData = repository.getLoggedOutLiveData();
         this.userlogin = repository.getUserLogin();
-        this.userLogged = new User();
         this.addressMutableLiveData = new MutableLiveData<>();
         this.check = repository.getCheck();
     }
@@ -56,7 +54,6 @@ public class UserViewModel extends ViewModel implements FireStoreCallbackUser, F
     public void userLogged(){
         repository.userLogged();
     }
-    public User getUserLogged(){return userLogged;}
     @Override
     public void onCallback(User user) {
         userlogin.postValue(user);

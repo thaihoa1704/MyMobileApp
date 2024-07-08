@@ -35,7 +35,6 @@ import com.example.myapplication.databinding.FragmentCartBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class CartFragment extends Fragment implements ChangeQuantityCartProduct, ChangeSelectProductListener, ClickItemProductListener {
     private FragmentCartBinding binding;
     private CartAdapter cartAdapter;
@@ -87,7 +86,7 @@ public class CartFragment extends Fragment implements ChangeQuantityCartProduct,
                     public void onClick(Boolean choice) {
                         if (choice){
                             delete();
-                            setCartAdapter();
+                            cartViewModel.getAllProductsInCart();
                         }
                     }
                 });
@@ -140,7 +139,6 @@ public class CartFragment extends Fragment implements ChangeQuantityCartProduct,
                         binding.tvTotal.setText(Convert.DinhDangTien(total) + " đ");
                     }
                 }
-                //listMutableLiveData.removeObserver(this);
             }
         });
     }
@@ -148,25 +146,29 @@ public class CartFragment extends Fragment implements ChangeQuantityCartProduct,
     @Override
     public void incrementQuantity(String documentId) {
         cartViewModel.incrementQuantity(documentId);
-        setCartAdapter();
+        cartViewModel.getAllProductsInCart();
+        //setCartAdapter();
     }
 
     @Override
     public void decrementQuantity(String documentId) {
         cartViewModel.decrementQuantity(documentId);
-        setCartAdapter();
+        cartViewModel.getAllProductsInCart();
+        //setCartAdapter();
     }
 
     @Override
     public void deleteProduct(String documentId) {
         cartViewModel.deleteProductInCart(documentId);
-        setCartAdapter();
+        cartViewModel.getAllProductsInCart();
+        //setCartAdapter();
     }
 
     @Override
     public void onChangeSelect(String documentId, boolean aBoolean) {
         cartViewModel.selectProduct(documentId, aBoolean);
-        setCartAdapter();
+        cartViewModel.getAllProductsInCart();
+        //setCartAdapter();
     }
 
     @Override
